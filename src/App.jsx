@@ -2,7 +2,7 @@ import "./App.css";
 import Contact from "./sections/ContactSection/Contact";
 import Footer from "./sections/FooterSection/Footer";
 import Hero from "./sections/Hero/Hero";
-import Projects from "./sections/ProjectSection/projects";
+import Projects from "./sections/ProjectSection/Projects";
 import Skills from "./sections/SkillsSection/Skills";
 function App() {
   return (
