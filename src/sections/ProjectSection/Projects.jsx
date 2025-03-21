@@ -6,11 +6,18 @@ import RoomEase from "../../assets/RoomEaseNb.png";
 import Nwitat from "../../assets/NwitatNb.png";
 import More from "../../assets/more.png";
 import ProjectCard from "../../common/ProjectCard";
+import NomadAI from "../../assets/NomadAI.png";
 function Projects() {
   return (
     <section id="projects" className={styles.container}>
       <h1 className="sectionTitle">Projects</h1>
       <div className={styles.projectsContainer}>
+      <ProjectCard
+          src={NomadAI}
+          link="https://github.com/ashurafu04/NomadAI"
+          h3="NomadAI"
+          p="Moroccan Intelligent Travel Guide"
+        />
         <ProjectCard
           src={EchoHive}
           link="https://github.com/ashurafu04"
