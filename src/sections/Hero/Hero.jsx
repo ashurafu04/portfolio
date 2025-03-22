@@ -53,7 +53,8 @@ function Hero() {
           </a>
         </span>
         <p className={styles.description} >
-          Computer engineering student and aspiring full-stack developer,
+          Computer engineering student and aspiring full-stack developer. <br />
+          HarvardX, Meta, IBM Certified,
           passionate about building innovative software solutions.
         </p>
         <a href={CV} download>
