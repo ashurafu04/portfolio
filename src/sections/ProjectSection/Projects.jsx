@@ -1,5 +1,6 @@
 import styles from "./ProjectsStyles.module.css";
-import EchoHive from "../../assets/EchoHiveNb.png";
+import Listo from "../../assets/listoLogo.png";
+import Journeo from "../../assets/journeoLogo.png";
 import LybroSync from "../../assets/LybroSyncNb.png";
 import CashAura from "../../assets/CashAuraNb.png";
 import RoomEase from "../../assets/RoomEaseNb.png";
@@ -12,29 +13,35 @@ function Projects() {
     <section id="projects" className={styles.container}>
       <h1 className="sectionTitle">Projects</h1>
       <div className={styles.projectsContainer}>
-      <ProjectCard
+        <ProjectCard
           src={NomadAI}
           link="https://github.com/ashurafu04/NomadAI"
           h3="NomadAI"
-          p="Moroccan Intelligent Travel Guide"
-        />
-        <ProjectCard
-          src={EchoHive}
-          link="https://github.com/ashurafu04"
-          h3="EchoHive"
-          p="Blog Web App"
-        />
-        <ProjectCard
-          src={LybroSync}
-          link="https://github.com/ashurafu04"
-          h3="LybroSync"
-          p="Book Reviews Web App"
+          p="Intelligent Travel Guide"
         />
         <ProjectCard
           src={CashAura}
-          link="https://github.com/ashurafu04"
+          link="https://github.com/ashurafu04/cashaura"
           h3="CashAura"
           p="Banking App"
+        />
+        <ProjectCard
+          src={Listo}
+          link="https://github.com/bilal-essafrioui/Gestion-Des-Annonces-App"
+          h3="Listo"
+          p="Classified ads platform"
+        />
+        <ProjectCard
+          src={Journeo}
+          link="https://github.com/ashurafu04/mgvc"
+          h3="Journeo"
+          p="Journey planner"
+        />
+        <ProjectCard
+          src={LybroSync}
+          link="https://github.com/ashurafu04/lybrosync"
+          h3="LybroSync"
+          p="Book Reviews Web App"
         />
         <ProjectCard
           src={RoomEase}
