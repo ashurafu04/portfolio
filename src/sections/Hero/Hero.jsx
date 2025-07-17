@@ -52,14 +52,19 @@ function Hero() {
             <img src={linkedinIcon} alt="LinkedIn icon" />
           </a>
         </span>
-        <p className={styles.description} >
+        <p className={styles.description}>
           Computer engineering student and aspiring full-stack developer. <br />
           HarvardX, Meta, IBM Certified,
           passionate about building innovative software solutions.
         </p>
-        <a href={CV} download>
-          <button className="hover">Resume</button>
-        </a>
+        <div className={styles.cvButtons}>
+          <a href={CV} target="_blank" rel="noopener noreferrer">
+            <button className="hover">View Resume</button>
+          </a>
+          <a href={CV} download>
+            <button className={`hover ${styles.downloadBtn}`}>Download Resume</button>
+          </a>
+        </div>
       </div>
     </section>
   );

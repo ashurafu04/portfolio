@@ -1,0 +1,136 @@
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 2rem 1rem;
+  width: 100%;
+  background: var(--background-color);
+}
+
+[data-theme="dark"] .navbar {
+  background: var(--background-color);
+}
+
+.navLinks {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.navLinks button {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-family: "Roboto Mono", monospace;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  opacity: 1;
+  white-space: nowrap;
+  border-radius: 6px;
+}
+
+.navLinks button:hover {
+  background: rgba(var(--text-rgb), 0.05);
+}
+
+.navLinks button::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+.navLinks button:hover::after {
+  width: calc(100% - 2rem);
+}
+
+/* Mobile devices */
+@media screen and (max-width: 480px) {
+  .navbar {
+    padding: 1rem 0.5rem;
+  }
+
+  .navLinks {
+    gap: 1rem;
+  }
+
+  .navLinks button {
+    font-size: 13px;
+    padding: 0.3rem 0.8rem;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .navbar {
+    padding: 1.5rem 1rem;
+  }
+
+  .navLinks {
+    gap: 1.5rem;
+  }
+
+  .navLinks button {
+    font-size: 14px;
+  }
+}
+
+/* Small laptops */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .navbar {
+    padding: 1.75rem;
+  }
+
+  .navLinks {
+    gap: 2rem;
+  }
+
+  .navLinks button {
+    font-size: 16px;
+  }
+}
+
+/* Desktops */
+@media screen and (min-width: 1025px) and (max-width: 1399px) {
+  .navbar {
+    padding: 2rem;
+  }
+
+  .navLinks {
+    gap: 3rem;
+  }
+
+  .navLinks button {
+    font-size: 17px;
+  }
+}
+
+/* Large screens */
+@media screen and (min-width: 1400px) {
+  .navbar {
+    padding: 2.5rem;
+  }
+
+  .navLinks {
+    gap: 4rem;
+  }
+
+  .navLinks button {
+    font-size: 18px;
+  }
+} 

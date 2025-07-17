@@ -4,11 +4,15 @@
   justify-content: center;
   gap: 20px;
   text-align: center;
-  height: 100dvh;
-  min-height: 500px;
+  min-height: 100vh;
+  padding-top: 80px; /* Add space for navbar */
+  padding-bottom: 20px;
 
   .hero {
     max-width: 200px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 
   span {
@@ -23,33 +27,6 @@
         width: 30px;
       }
     }
-  }
-
-  a {
-    width: fit-content;
-    align-self: center;
-  }
-
-  button {
-    background-color: var(--btn-color);
-    color: var(--btn-text-color);
-    border: none;
-    border-radius: 20px;
-    width: 126px;
-    height: 50px;
-    font-size: 20px;
-    font-weight: bold;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
-  }
-
-  button:hover {
-    transform: scale(1.05);
-  }
-
-  button:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -68,13 +45,89 @@
 }
 
 .description {
-  max-width: 40ch;
+  margin: 1rem auto;
+  max-width: 600px;
+  line-height: 1.6;
+  text-align: center;
 }
 
 .info {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: center;
+  text-align: center;
+}
+
+.cvButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.cvButtons a {
+  text-decoration: none;
+}
+
+.cvButtons button {
+  background-color: var(--btn-color);
+  color: var(--btn-text-color);
+  border: none;
+  border-radius: 20px;
+  min-width: 160px;
+  height: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 0 1.5rem;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.cvButtons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cvButtons button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.downloadBtn {
+  background: transparent !important;
+  border: 2px solid var(--accent-color) !important;
+  color: var(--text-color) !important;
+}
+
+.downloadBtn:hover {
+  background: var(--accent-color) !important;
+  color: white !important;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-top: 60px;
+    min-height: auto;
+    height: auto;
+    margin-bottom: 40px;
+  }
+
+  .cvButtons {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: stretch;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cvButtons button {
+    width: 100%;
+    min-width: unset;
+  }
 }
 
 @media (width >= 800px) {
@@ -82,11 +135,29 @@
     flex-direction: row-reverse;
     align-items: center;
     justify-content: space-evenly;
+    text-align: left;
+    padding-top: 100px;
+    height: 100vh;
 
     .hero {
       max-width: 350px;
       width: 350px;
     }
+  }
+
+  .info {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .description {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .cvButtons {
+    justify-content: flex-start;
   }
 }
 
