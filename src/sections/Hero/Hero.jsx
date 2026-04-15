@@ -53,9 +53,8 @@ function Hero() {
           </a>
         </span>
         <p className={styles.description}>
-          Computer engineering student and aspiring full-stack developer. <br />
-          HarvardX, Meta, IBM Certified,
-          passionate about building innovative software solutions.
+          I engineer backend systems that don't break under pressure, and architectures that drive tangible business autonomy. <br />
+          Specialized in multi-tenant AI orchestration, Hybrid Headless architectures, and secure B2B integrations.
         </p>
         <div className={styles.cvButtons}>
           <a href={CV} target="_blank" rel="noopener noreferrer">
