@@ -5,38 +5,64 @@ import SkillList from "../../common/SkillList";
 import { useTheme } from "../../common/ThemeContext";
 
 function Skills() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const checkMarkIcon =
-    theme == "dark" ? checkMarkIconDark : checkMarkIconLight;
+    theme === "dark" ? checkMarkIconDark : checkMarkIconLight;
+
+  const skillPillars = [
+    {
+      title: "Backend",
+      items: [
+        "Microservices",
+        "Java (JEE)",
+        "C# (ASP.NET Core)",
+        "Node.js",
+        "Python (FastAPI, Django)",
+        "Laravel",
+      ],
+    },
+    {
+      title: "Frontend",
+      items: ["React / Next.js", "TypeScript", "React Native (Expo)"],
+    },
+    {
+      title: "Data & ERP",
+      items: [
+        "Odoo (Tech & Functional)",
+        "PostgreSQL (RLS, Tuning)",
+        "SQL Server",
+        "Oracle",
+        "Redis",
+        "MongoDB",
+      ],
+    },
+    {
+      title: "Cloud & AI",
+      items: [
+        "AWS (Certified)",
+        "CI/CD (GitHub Actions)",
+        "Docker",
+        "LLM/RAG Pipelines",
+        "n8n",
+        "k6",
+      ],
+    },
+  ];
+
   return (
     <section id="skills" className={styles.container}>
       <h1 className="sectionTitle">Skills</h1>
-      <div className={styles.skillList}>
-        <SkillList src={checkMarkIcon} skill="Java" />
-        <SkillList src={checkMarkIcon} skill="Python" />
-        <SkillList src={checkMarkIcon} skill="C, C++" />
-      </div>
-      <hr />
-      <div className={styles.skillList}>
-        <SkillList src={checkMarkIcon} skill="MySQL (SQL)" />
-        <SkillList src={checkMarkIcon} skill="Oracle (PL/SQL)" />
-        <SkillList src={checkMarkIcon} skill="SQL Server (T-SQL)" />
-        <SkillList src={checkMarkIcon} skill="PostgreSQL (SQL)" />
-      </div>
-      <hr />
-      <div className={styles.skillList}>
-        <SkillList src={checkMarkIcon} skill="HTML, CSS" />
-        <SkillList src={checkMarkIcon} skill="JavaScript, TypeScript" />
-        <SkillList src={checkMarkIcon} skill="PHP" />
-      </div>
-      <hr />
-      <div className={styles.skillList}>
-        <SkillList
-          src={checkMarkIcon}
-          skill="React, Node.js, Express, MongoDB"
-        />
-        <SkillList src={checkMarkIcon} skill="Laravel, Django" />
-        <SkillList src={checkMarkIcon} skill="Git, Linux" />
+      <div className={styles.pillarGrid}>
+        {skillPillars.map((pillar) => (
+          <article key={pillar.title} className={styles.pillar}>
+            <h2 className={styles.pillarTitle}>{pillar.title}</h2>
+            <div className={styles.skillList}>
+              {pillar.items.map((skill) => (
+                <SkillList key={skill} src={checkMarkIcon} skill={skill} />
+              ))}
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

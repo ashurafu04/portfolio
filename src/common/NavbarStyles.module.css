@@ -9,18 +9,33 @@
   background: var(--background-color);
 }
 
-[data-theme="dark"] .navbar {
-  background: var(--background-color);
+.scrolled {
+  backdrop-filter: blur(8px);
 }
 
-.navLinks {
+.menuOpen {
+  z-index: 1100;
+}
+
+.navInner {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+[data-theme="dark"] .navbar {
+  background: var(--background-color);
+}
+
+.navLinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 2rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .navLinks button {
@@ -39,12 +54,21 @@
   border-radius: 6px;
 }
 
+.mobileThemeButton {
+  display: none;
+}
+
+.mobileThemeButton img {
+  width: 16px;
+  height: 16px;
+}
+
 .navLinks button:hover {
   background: rgba(var(--text-rgb), 0.05);
 }
 
 .navLinks button::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 0;
   height: 2px;
@@ -59,38 +83,140 @@
   width: calc(100% - 2rem);
 }
 
-/* Mobile devices */
-@media screen and (max-width: 480px) {
-  .navbar {
-    padding: 1rem 0.5rem;
+.menuToggle {
+  display: none;
+  border: 1px solid rgba(var(--text-rgb), 0.2);
+  background: rgba(var(--text-rgb), 0.03);
+  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menuBar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: var(--text-color);
+  transition:
+    transform 0.28s ease,
+    opacity 0.2s ease;
+}
+
+.menuBarOpenTop {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menuBarOpenMiddle {
+  opacity: 0;
+}
+
+.menuBarOpenBottom {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.navLinksOpen {
+  display: flex;
+}
+
+@keyframes menuDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
   }
 
-  .navLinks {
-    gap: 1rem;
-  }
-
-  .navLinks button {
-    font-size: 13px;
-    padding: 0.3rem 0.8rem;
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Tablets */
-@media screen and (min-width: 481px) and (max-width: 768px) {
+/* Mobile + small tablets */
+@media screen and (max-width: 768px) {
   .navbar {
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.75rem;
+  }
+
+  .navInner {
+    justify-content: flex-end;
   }
 
   .navLinks {
-    gap: 1.5rem;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 6rem 1.25rem 2rem;
+    border: none;
+    border-radius: 0;
+    background: rgba(var(--background-rgb), 0.96);
+    box-shadow: none;
+    backdrop-filter: blur(12px);
+    z-index: 1200;
+  }
+
+  .navLinks.navLinksOpen {
+    display: flex;
+    animation: menuDrop 240ms ease-out;
   }
 
   .navLinks button {
-    font-size: 14px;
+    width: min(90vw, 420px);
+    text-align: center;
+    font-size: 20px;
+    padding: 0.95rem 1rem;
+    border-radius: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .navLinks button:hover::after {
+    width: 0;
+  }
+
+  .mobileThemeButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .mobileThemeButton::after {
+    display: none;
+  }
+
+  .mobileThemeButton span {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .mobileThemeButton img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .menuToggle {
+    display: flex;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 1300;
   }
 }
 
-/* Small laptops */
+/* Tablets landscape and up */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .navbar {
     padding: 1.75rem;
@@ -105,18 +231,32 @@
   }
 }
 
+@media screen and (min-width: 769px) {
+  .navLinks {
+    display: flex !important;
+  }
+
+  .navInner {
+    justify-content: center;
+  }
+
+  .menuToggle {
+    display: none;
+  }
+
+  .mobileThemeButton {
+    display: none !important;
+  }
+}
+
 /* Desktops */
 @media screen and (min-width: 1025px) and (max-width: 1399px) {
-  .navbar {
-    padding: 2rem;
+  .navLinks button {
+    font-size: 17px;
   }
 
   .navLinks {
     gap: 3rem;
-  }
-
-  .navLinks button {
-    font-size: 17px;
   }
 }
 
@@ -133,4 +273,4 @@
   .navLinks button {
     font-size: 18px;
   }
-} 
+}

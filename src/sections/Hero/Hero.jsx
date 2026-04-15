@@ -35,33 +35,48 @@ function Hero() {
         />
       </div>
       <div className={styles.info}>
-        <h1>
-          Achraf
-          <br />
-          Malki
-        </h1>
-        <h2>Computer Engineering Student</h2>
+        <h1>ACHRAF MALKI</h1>
+        <h2>Solutions Architect & Tech Lead</h2>
+        <p className={styles.tagline}>
+          Enterprise AI | Headless Commerce | Cloud Infrastructure
+        </p>
         <span>
-          <a href="https://x.com/AchrafMalkiEng" target="_blank">
+          <a
+            href="https://x.com/AchrafMalkiEng"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src={xIcon} alt="X icon" />
           </a>
-          <a href="https://github.com/ashurafu04" target="_blank">
+          <a
+            href="https://github.com/ashurafu04"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src={githubIcon} alt="Github icon" />
           </a>
-          <a href="https://www.linkedin.com/in/achraf-malki/" target="_blank">
+          <a
+            href="https://www.linkedin.com/in/achraf-malki/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src={linkedinIcon} alt="LinkedIn icon" />
           </a>
         </span>
         <p className={styles.description}>
-          I engineer backend systems that don't break under pressure, and architectures that drive tangible business autonomy. <br />
-          Specialized in multi-tenant AI orchestration, Hybrid Headless architectures, and secure B2B integrations.
+          I engineer backend systems that don't break under pressure, and
+          architectures that drive tangible business autonomy. Specialized in
+          multi-tenant AI orchestration, Hybrid Headless architectures, and
+          secure B2B integrations.
         </p>
         <div className={styles.cvButtons}>
           <a href={CV} target="_blank" rel="noopener noreferrer">
             <button className="hover">View Resume</button>
           </a>
           <a href={CV} download>
-            <button className={`hover ${styles.downloadBtn}`}>Download Resume</button>
+            <button className={`hover ${styles.downloadBtn}`}>
+              Download Resume
+            </button>
           </a>
         </div>
       </div>

@@ -1,66 +1,39 @@
 import styles from "./ProjectsStyles.module.css";
-import Listo from "../../assets/listoLogo.png";
-import Journeo from "../../assets/journeoLogo.png";
-import LybroSync from "../../assets/LybroSyncNb.png";
-import CashAura from "../../assets/CashAuraNb.png";
-import RoomEase from "../../assets/RoomEaseNb.png";
-import Nwitat from "../../assets/NwitatNb.png";
-import More from "../../assets/more.png";
+import magmaLogo from "../../assets/nortis_logo.jpg";
+import chamiongLogo from "../../assets/logo-chamiong-desktop.png";
 import ProjectCard from "../../common/ProjectCard";
-import NomadAI from "../../assets/NomadAI.png";
+
 function Projects() {
+  const engineeringCases = [
+    {
+      src: magmaLogo,
+      h3: "MAGMA (Nortis Studio)",
+      subtitle: "Enterprise AI Orchestration & Anti-Hallucination Engine",
+      description:
+        "Architected the core AI engine for a B2B intelligence Business Unit. Designed a highly concurrent Portier/Worker architecture with strict idempotence guarantees and Zero-PII data compliance.",
+    },
+    {
+      src: chamiongLogo,
+      h3: "CHAMIONG",
+      subtitle: "Hybrid Headless B2B E-commerce & ERP Decoupling",
+      description:
+        "Led the digital transformation for an industrial leader. Engineered a decoupled Next.js + Odoo architecture via resilient JSON-RPC connectors, delivering 95% operational autonomy to the client.",
+    },
+  ];
+
   return (
     <section id="projects" className={styles.container}>
-      <h1 className="sectionTitle">Projects</h1>
+      <h1 className="sectionTitle">Engineering Cases</h1>
       <div className={styles.projectsContainer}>
-        <ProjectCard
-          src={NomadAI}
-          link="https://github.com/ashurafu04/NomadAI"
-          h3="NomadAI"
-          p="Intelligent Travel Guide"
-        />
-        <ProjectCard
-          src={CashAura}
-          link="https://github.com/ashurafu04/cashaura"
-          h3="CashAura"
-          p="Banking App"
-        />
-        <ProjectCard
-          src={Listo}
-          link="https://github.com/bilal-essafrioui/Gestion-Des-Annonces-App"
-          h3="Listo"
-          p="Classified ads platform"
-        />
-        <ProjectCard
-          src={Journeo}
-          link="https://github.com/ashurafu04/mgvc"
-          h3="Journeo"
-          p="Journey planner"
-        />
-        <ProjectCard
-          src={LybroSync}
-          link="https://github.com/ashurafu04/lybrosync"
-          h3="LybroSync"
-          p="Book Reviews Web App"
-        />
-        <ProjectCard
-          src={RoomEase}
-          link="https://github.com/ashurafu04"
-          h3="RoomEase"
-          p="Conference Room Reservation"
-        />
-        <ProjectCard
-          src={Nwitat}
-          link="https://github.com/ashurafu04"
-          h3="Nwitat"
-          p="Note Managing Web App"
-        />
-        <ProjectCard
-          src={More}
-          link="https://github.com/ashurafu04"
-          h3="More Projects"
-          p="Explore more remarkable projects..."
-        />
+        {engineeringCases.map((item) => (
+          <ProjectCard
+            key={item.h3}
+            src={item.src}
+            h3={item.h3}
+            subtitle={item.subtitle}
+            description={item.description}
+          />
+        ))}
       </div>
     </section>
   );
