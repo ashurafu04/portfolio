@@ -12,6 +12,10 @@
     <meta name="theme-color" content="#0987f2" />
     <meta name="color-scheme" content="light dark" />
     <link rel="canonical" href="https://achrafmalki.dev" />
+    <link rel="author" href="https://www.linkedin.com/in/achraf-malki/" />
+
+    <!-- Google Search Console verification — replace YOUR_CODE with the content= value from GSC -->
+    <meta name="google-site-verification" content="YOUR_CODE" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -44,19 +48,28 @@
           "@id": "https://achrafmalki.dev/#person",
           "name": "Achraf Malki",
           "url": "https://achrafmalki.dev",
-          "image": "https://achrafmalki.dev/og.png",
+          "image": {
+            "@type": "ImageObject",
+            "url": "https://achrafmalki.dev/og.png",
+            "width": 1200,
+            "height": 630
+          },
           "jobTitle": "Software Engineer & IT Consultant",
           "description": "I engineer backend systems that don't break under pressure, and architectures that drive tangible business autonomy. Specialized in multi-tenant AI orchestration, Hybrid Headless architectures, and secure B2B integrations.",
           "email": "achrafmalki1404@gmail.com",
           "knowsAbout": [
             "Enterprise AI Orchestration",
-            "Headless Commerce",
+            "Hybrid Headless Commerce",
             "Cloud Infrastructure",
             "B2B Software Integration",
             "Backend Engineering",
             "ERP Systems",
             "Multi-tenant Architecture",
-            "Zero-PII Data Compliance"
+            "Zero-PII Data Compliance",
+            "Odoo",
+            "Next.js",
+            "Python",
+            "Node.js"
           ],
           "sameAs": [
             "https://x.com/AchrafMalkiEng",
@@ -69,8 +82,9 @@
           "@id": "https://achrafmalki.dev/#website",
           "url": "https://achrafmalki.dev",
           "name": "Achraf Malki",
-          "description": "Portfolio of Achraf Malki — Software Engineer & IT Consultant",
-          "author": { "@id": "https://achrafmalki.dev/#person" }
+          "description": "Portfolio of Achraf Malki — Software Engineer & IT Consultant specializing in Enterprise AI and Headless Commerce.",
+          "author": { "@id": "https://achrafmalki.dev/#person" },
+          "inLanguage": "en-US"
         },
         {
           "@type": "WebPage",
@@ -79,6 +93,8 @@
           "name": "Achraf Malki | Software Engineer & IT Consultant",
           "isPartOf": { "@id": "https://achrafmalki.dev/#website" },
           "about": { "@id": "https://achrafmalki.dev/#person" },
+          "dateModified": "2026-06-25",
+          "inLanguage": "en-US",
           "breadcrumb": {
             "@type": "BreadcrumbList",
             "itemListElement": [
@@ -90,6 +106,43 @@
               }
             ]
           }
+        },
+        {
+          "@type": "CreativeWork",
+          "@id": "https://achrafmalki.dev/#magma",
+          "name": "MAGMA — Enterprise AI Orchestration & Anti-Hallucination Engine",
+          "description": "Architected the core AI engine for a B2B intelligence Business Unit at Nortis Studio. Designed a highly concurrent Portier/Worker architecture with strict idempotence guarantees and Zero-PII data compliance.",
+          "creator": { "@id": "https://achrafmalki.dev/#person" },
+          "keywords": "Enterprise AI, B2B Intelligence, Anti-Hallucination Engine, Zero-PII, Multi-tenant Architecture, AI Orchestration",
+          "url": "https://achrafmalki.dev/#projects"
+        },
+        {
+          "@type": "CreativeWork",
+          "@id": "https://achrafmalki.dev/#chamiong",
+          "name": "CHAMIONG — Hybrid Headless B2B E-commerce & ERP Decoupling",
+          "description": "Led the digital transformation for an industrial leader. Engineered a decoupled Next.js + Odoo architecture via resilient JSON-RPC connectors, delivering 95% operational autonomy to the client.",
+          "creator": { "@id": "https://achrafmalki.dev/#person" },
+          "keywords": "Headless Commerce, ERP Decoupling, Odoo, Next.js, B2B E-commerce, JSON-RPC, Digital Transformation",
+          "url": "https://achrafmalki.dev/#projects"
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://achrafmalki.dev/#projects",
+          "name": "Engineering Cases",
+          "description": "Key engineering projects delivered by Achraf Malki",
+          "numberOfItems": 2,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": { "@id": "https://achrafmalki.dev/#magma" }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": { "@id": "https://achrafmalki.dev/#chamiong" }
+            }
+          ]
         }
       ]
     }
