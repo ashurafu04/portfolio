@@ -1,6 +1,8 @@
 .card {
+  display: block;
   width: 100%;
   max-width: 1000px;
+  margin: 0 auto;
   border: 1px solid rgba(var(--text-rgb), 0.2);
   border-radius: 24px;
   padding: 24px;
@@ -13,9 +15,18 @@
   text-align: left;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@media (hover: none) {
+  .card:active {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
 }
 
 .card img {
@@ -41,6 +52,7 @@
 
 .description {
   line-height: 1.65;
+  max-width: 65ch;
 }
 
 @media (width >= 800px) {

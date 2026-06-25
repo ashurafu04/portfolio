@@ -2,8 +2,11 @@ import styles from "./ProjectsStyles.module.css";
 import magmaLogo from "../../assets/nortis_logo.jpg";
 import chamiongLogo from "../../assets/logo-chamiong-desktop.png";
 import ProjectCard from "../../common/ProjectCard";
+import { useReveal } from "../../hooks/useReveal";
 
 function Projects() {
+  const ref = useReveal();
+
   const engineeringCases = [
     {
       src: magmaLogo,
@@ -22,17 +25,28 @@ function Projects() {
   ];
 
   return (
-    <section id="projects" className={styles.container}>
-      <h1 className="sectionTitle">Engineering Cases</h1>
+    <section id="projects" ref={ref} data-stagger-parent className={styles.container}>
+      <h1
+        className="sectionTitle"
+        data-reveal-item
+        style={{ "--reveal-delay": "0ms" }}
+      >
+        Engineering Cases
+      </h1>
       <div className={styles.projectsContainer}>
-        {engineeringCases.map((item) => (
-          <ProjectCard
+        {engineeringCases.map((item, index) => (
+          <div
             key={item.h3}
-            src={item.src}
-            h3={item.h3}
-            subtitle={item.subtitle}
-            description={item.description}
-          />
+            data-reveal-item
+            style={{ "--reveal-delay": `${(index + 1) * 130}ms` }}
+          >
+            <ProjectCard
+              src={item.src}
+              h3={item.h3}
+              subtitle={item.subtitle}
+              description={item.description}
+            />
+          </div>
         ))}
       </div>
     </section>

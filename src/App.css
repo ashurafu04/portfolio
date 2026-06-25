@@ -9,6 +9,8 @@
   --text-color: #222;
   --form-text-color: #555;
   --footer-text-color: #888;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 [data-theme="dark"] {
@@ -35,6 +37,47 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
+}
+
+/* ── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Scroll-reveal (JS-progressive; only fires when data-animate-ready is set) ── */
+@media (prefers-reduced-motion: no-preference) {
+  /* Whole-section reveal */
+  [data-animate-ready] [data-will-reveal] {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 700ms var(--ease-out-expo),
+                transform 700ms var(--ease-out-expo);
+  }
+
+  [data-animate-ready] [data-will-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered-children reveal */
+  [data-animate-ready] [data-stagger-parent] [data-reveal-item] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 600ms var(--ease-out-expo),
+                transform 600ms var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-animate-ready] [data-stagger-parent].revealed [data-reveal-item] {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 body {
@@ -64,6 +107,12 @@ p {
   padding: 0;
 }
 
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
 h2,
 h3,
 p {
@@ -86,6 +135,7 @@ h1 {
 p {
     font-size: 16px;
     font-weight: 300;
+    text-wrap: pretty;
 }
 
 .sectionTitle {
@@ -94,6 +144,22 @@ p {
 
 .hover {
     cursor: pointer;
+}
+
+button, a, [role="button"] {
+    touch-action: manipulation;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (width >= 800px) {

@@ -1,12 +1,15 @@
 import styles from "./ContactStyles.module.css";
+import { useReveal } from "../../hooks/useReveal";
 
 function Contact() {
+  const ref = useReveal({ threshold: 0.08 });
+
   return (
-    <section id="contact" className={styles.container}>
+    <section id="contact" ref={ref} data-will-reveal className={styles.container}>
       <h1 className="sectionTitle">Contact</h1>
       <form action="https://formspree.io/f/mwplkrol" method="post">
         <div className="formGroup">
-          <label htmlFor="name" hidden>
+          <label htmlFor="name" className="sr-only">
             Name
           </label>
           <input
@@ -18,11 +21,11 @@ function Contact() {
           />
         </div>
         <div className="formGroup">
-          <label htmlFor="email" hidden>
+          <label htmlFor="email" className="sr-only">
             Email
           </label>
           <input
-            type="text"
+            type="email"
             name="email"
             id="email"
             placeholder="Email"
@@ -30,7 +33,7 @@ function Contact() {
           />
         </div>
         <div className="formGroup">
-          <label htmlFor="message" hidden>
+          <label htmlFor="message" className="sr-only">
             Message
           </label>
           <textarea

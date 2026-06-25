@@ -17,11 +17,14 @@
 
   span {
     display: flex;
-    gap: 25px;
+    gap: 10px;
     justify-content: center;
 
     a {
-      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px;
 
       img {
         width: 30px;
@@ -45,7 +48,7 @@
 }
 
 .description {
-  margin: 1rem auto;
+  margin: 28px auto 0;
   max-width: 600px;
   line-height: 1.6;
   text-align: center;
@@ -55,12 +58,13 @@
   color: var(--accent-color);
   font-weight: 500;
   letter-spacing: 0.04em;
+  margin-top: 18px;
 }
 
 .info {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 6px;
   align-items: center;
   text-align: center;
 }
@@ -87,14 +91,23 @@
   height: 50px;
   font-size: 18px;
   font-weight: 600;
+  font-family: 'Roboto Mono', monospace;
   padding: 0 1.5rem;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
+  touch-action: manipulation;
 }
 
-.cvButtons button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+@media (hover: hover) {
+  .cvButtons button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .downloadBtn:hover {
+    background: var(--accent-color) !important;
+    color: white !important;
+  }
 }
 
 .cvButtons button:active {
@@ -108,9 +121,22 @@
   color: var(--text-color) !important;
 }
 
-.downloadBtn:hover {
-  background: var(--accent-color) !important;
-  color: white !important;
+/* ── Hero entrance (CSS-only, no JS, fires on first paint) ────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .colorModeContainer {
+    animation: fadeIn 700ms var(--ease-out-quart) both;
+  }
+
+  .info > * {
+    animation: slideUpFade 700ms var(--ease-out-expo) both;
+  }
+
+  .info > *:nth-child(1) { animation-delay: 80ms; }
+  .info > *:nth-child(2) { animation-delay: 210ms; }
+  .info > *:nth-child(3) { animation-delay: 330ms; }
+  .info > *:nth-child(4) { animation-delay: 440ms; }
+  .info > *:nth-child(5) { animation-delay: 530ms; }
+  .info > *:nth-child(6) { animation-delay: 620ms; }
 }
 
 @media (max-width: 768px) {
@@ -128,6 +154,11 @@
     max-width: 300px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .cvButtons a {
+    display: block;
+    width: 100%;
   }
 
   .cvButtons button {

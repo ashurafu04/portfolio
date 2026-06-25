@@ -2,7 +2,6 @@
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  background: var(--background-color);
   color: var(--text-color);
   width: 3.5rem;
   height: 3.5rem;
@@ -12,10 +11,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
   backdrop-filter: blur(8px);
   background: rgba(var(--background-rgb), 0.8);
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 280ms var(--ease-out-expo),
+              transform 280ms var(--ease-out-expo),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .scrollTop svg {
@@ -40,7 +51,6 @@
 
 [data-theme="dark"] .scrollTop {
   background: rgba(var(--background-rgb), 0.9);
-  border-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -55,7 +65,7 @@
     right: 1.5rem;
     width: 3rem;
     height: 3rem;
-    border-radius: 10px;
+    border-radius: 12px;
   }
 
   .scrollTop svg {

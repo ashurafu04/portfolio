@@ -2,33 +2,48 @@
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: center;
 }
 
 form {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 textarea, input:not([type='submit']) {
     height: 50px;
-    padding-left: 16px;
-    width: 250px;
+    padding: 0 16px;
+    width: 100%;
+    font-size: 16px;
+    font-family: 'Roboto Mono', monospace;
 }
 
 textarea {
     padding: 16px;
     resize: none;
     height: 250px;
+    font-size: 16px;
+    font-family: 'Roboto Mono', monospace;
 }
 
 input, textarea {
     border-radius: 20px;
     border: #888 1px solid;
     box-sizing: border-box;
-    justify-self: center;
     background-color: var(--background-color);
     color: var(--form-text-color);
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+input:focus-visible,
+textarea:focus-visible {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(9, 135, 242, 0.15);
 }
 
 ::placeholder {
@@ -40,20 +55,36 @@ input[type='submit'] {
     color: var(--btn-text-color);
     border: none;
     border-radius: 20px;
-    width: 126px;
+    min-width: 160px;
     height: 50px;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Roboto Mono', monospace;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
     margin: auto;
+    cursor: pointer;
+    touch-action: manipulation;
 }
 
-input[type='submit']:hover {
-    transform: scale(1.05);
+@media (hover: hover) {
+    input[type='submit']:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    }
 }
 
 input[type='submit']:active {
     transform: translateY(2px);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+@media (width >= 800px) {
+    textarea, input:not([type='submit']) {
+        font-size: 20px;
+    }
+
+    form {
+        gap: 40px;
+    }
 }

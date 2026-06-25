@@ -3,9 +3,11 @@ import checkMarkIconDark from "../../assets/checkmark-dark.svg";
 import checkMarkIconLight from "../../assets/checkmark-light.svg";
 import SkillList from "../../common/SkillList";
 import { useTheme } from "../../common/ThemeContext";
+import { useReveal } from "../../hooks/useReveal";
 
 function Skills() {
   const { theme } = useTheme();
+  const ref = useReveal();
   const checkMarkIcon =
     theme === "dark" ? checkMarkIconDark : checkMarkIconLight;
 
@@ -14,7 +16,7 @@ function Skills() {
       title: "Backend",
       items: [
         "Microservices",
-        "Java (JEE)",
+        "Java (Spring, JEE)",
         "C# (ASP.NET Core)",
         "Node.js",
         "Python (FastAPI, Django)",
@@ -23,7 +25,7 @@ function Skills() {
     },
     {
       title: "Frontend",
-      items: ["React / Next.js", "TypeScript", "React Native (Expo)"],
+      items: ["Angular", "React / Next.js", "TypeScript", "React Native (Expo)"],
     },
     {
       title: "Data & ERP",
@@ -50,11 +52,22 @@ function Skills() {
   ];
 
   return (
-    <section id="skills" className={styles.container}>
-      <h1 className="sectionTitle">Skills</h1>
+    <section id="skills" ref={ref} data-stagger-parent className={styles.container}>
+      <h1
+        className="sectionTitle"
+        data-reveal-item
+        style={{ "--reveal-delay": "0ms" }}
+      >
+        Skills
+      </h1>
       <div className={styles.pillarGrid}>
-        {skillPillars.map((pillar) => (
-          <article key={pillar.title} className={styles.pillar}>
+        {skillPillars.map((pillar, index) => (
+          <article
+            key={pillar.title}
+            className={styles.pillar}
+            data-reveal-item
+            style={{ "--reveal-delay": `${(index + 1) * 80}ms` }}
+          >
             <h2 className={styles.pillarTitle}>{pillar.title}</h2>
             <div className={styles.skillList}>
               {pillar.items.map((skill) => (
