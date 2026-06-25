@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://achrafmalki.netlify.app/*"
+  to = "https://achrafmalki.dev/:splat"
+  status = 301
+  force = true
