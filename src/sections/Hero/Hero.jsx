@@ -36,7 +36,7 @@ function Hero() {
       </div>
       <div className={styles.info}>
         <h1>ACHRAF MALKI</h1>
-        <h2>Solutions Architect & Tech Lead</h2>
+        <h2>Software Engineer & IT Consultant</h2>
         <p className={styles.tagline}>
           Enterprise AI | Headless Commerce | Cloud Infrastructure
         </p>
