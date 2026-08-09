@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://achrafmalki.dev/</loc>
+    <lastmod>2026-08-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://achrafmalki.dev/og.png</image:loc>
+      <image:title>Achraf Malki — Software Engineer &amp; IT Consultant</image:title>
+      <image:caption>Portfolio of Achraf Malki, specializing in Enterprise AI orchestration, Hybrid Headless Commerce, and secure B2B integrations.</image:caption>
+    </image:image>
+  </url>
+</urlset>

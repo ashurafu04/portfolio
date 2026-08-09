@@ -11,10 +11,12 @@ function App() {
   return (
     <>
       <Navbar />
-      <Hero />
-      <Projects />
-      <Skills />
-      <Contact />
+      <main className="siteMain">
+        <Hero />
+        <Projects />
+        <Skills />
+        <Contact />
+      </main>
       <Footer />
       <ScrollToTop />
     </>

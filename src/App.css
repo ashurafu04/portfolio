@@ -39,6 +39,10 @@ html, body {
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ── Keyframes ─────────────────────────────────────────────────────────── */
 @keyframes slideUpFade {
   from { opacity: 0; transform: translateY(24px); }
@@ -98,6 +102,38 @@ body {
   padding: 0 20px;
 }
 
+.siteMain {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+/* Initial crawl/no-JS shell; React replaces this with the interactive app. */
+.seo-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  padding-top: 100px;
+}
+
+.seo-shell section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 70ch;
+}
+
+.seo-shell article {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seo-shell a {
+  color: var(--accent-color);
+  margin-right: 20px;
+}
+
 h1,
 h2,
 h3,
@@ -140,6 +176,9 @@ p {
 
 .sectionTitle {
     margin-bottom: 30px;
+    font-family: "Rubik", sans-serif;
+    font-size: 32px;
+    text-transform: uppercase;
 }
 
 .hover {
@@ -178,6 +217,11 @@ button, a, [role="button"] {
 
   .sectionTitle {
     margin-bottom: 60px;
+    font-size: 40px;
+  }
+
+  .siteMain {
+    gap: 100px;
   }
 }
 
@@ -191,5 +235,16 @@ button, a, [role="button"] {
 
   .sectionTitle {
     margin-bottom: 75px;
+    font-size: 48px;
+  }
+
+  .siteMain {
+    gap: 200px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }

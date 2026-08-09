@@ -6,7 +6,7 @@ function Contact() {
 
   return (
     <section id="contact" ref={ref} data-will-reveal className={styles.container}>
-      <h1 className="sectionTitle">Contact</h1>
+      <h2 className="sectionTitle">Contact</h2>
       <form action="https://formspree.io/f/mwplkrol" method="post">
         <div className="formGroup">
           <label htmlFor="name" className="sr-only">

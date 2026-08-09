@@ -38,6 +38,7 @@
   flex-wrap: nowrap;
 }
 
+.navLinks a,
 .navLinks button {
   background: none;
   border: none;
@@ -52,6 +53,7 @@
   opacity: 1;
   white-space: nowrap;
   border-radius: 6px;
+  text-decoration: none;
 }
 
 .mobileThemeButton {
@@ -63,10 +65,12 @@
   height: 16px;
 }
 
+.navLinks a:hover,
 .navLinks button:hover {
   background: rgba(var(--text-rgb), 0.05);
 }
 
+.navLinks a::after,
 .navLinks button::after {
   content: "";
   position: absolute;
@@ -80,6 +84,7 @@
   transition: transform 0.3s var(--ease-out-expo);
 }
 
+.navLinks a:hover::after,
 .navLinks button:hover::after {
   transform: scaleX(1);
 }
@@ -182,6 +187,7 @@
     animation: menuDrop 240ms ease-out;
   }
 
+  .navLinks a,
   .navLinks button {
     width: min(90vw, 420px);
     text-align: center;
@@ -191,6 +197,7 @@
     letter-spacing: 0.02em;
   }
 
+  .navLinks a:hover::after,
   .navLinks button:hover::after {
     width: 0;
   }
@@ -239,6 +246,7 @@
     gap: 2rem;
   }
 
+  .navLinks a,
   .navLinks button {
     font-size: 16px;
   }
@@ -264,6 +272,7 @@
 
 /* Desktops */
 @media screen and (min-width: 1025px) and (max-width: 1399px) {
+  .navLinks a,
   .navLinks button {
     font-size: 17px;
   }
@@ -283,6 +292,7 @@
     gap: 4rem;
   }
 
+  .navLinks a,
   .navLinks button {
     font-size: 18px;
   }

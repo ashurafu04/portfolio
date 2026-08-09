@@ -58,15 +58,7 @@ function Navbar() {
     };
   }, [isMenuOpen]);
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleNavClick = (sectionId) => {
-    scrollToSection(sectionId);
+  const handleNavClick = () => {
     setIsMenuOpen(false);
   };
 
@@ -111,12 +103,12 @@ function Navbar() {
             }
           }}
         >
-          <button onClick={() => handleNavClick("hero")}>Home</button>
-          <button onClick={() => handleNavClick("projects")}>
+          <a href="#hero" onClick={handleNavClick}>Home</a>
+          <a href="#projects" onClick={handleNavClick}>
             Engineering Cases
-          </button>
-          <button onClick={() => handleNavClick("skills")}>Skills</button>
-          <button onClick={() => handleNavClick("contact")}>Contact</button>
+          </a>
+          <a href="#skills" onClick={handleNavClick}>Skills</a>
+          <a href="#contact" onClick={handleNavClick}>Contact</a>
           <button
             type="button"
             className={styles.mobileThemeButton}
@@ -125,7 +117,7 @@ function Navbar() {
               setIsMenuOpen(false);
             }}
           >
-            <img src={themeIcon} alt="Theme icon" />
+            <img src={themeIcon} alt="" />
             <span>{theme === "light" ? "Dark Mode" : "Light Mode"}</span>
           </button>
         </div>

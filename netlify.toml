@@ -15,12 +15,6 @@
   status = 301
   force = true
 
-# SPA fallback — ensures deep links resolve to index.html
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 # Security & trust headers (also influence SEO scores)
 [[headers]]
   for = "/*"
@@ -30,7 +24,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none';"
 
 # Long-term cache for Vite-hashed assets
 [[headers]]
@@ -56,3 +50,16 @@
   [headers.values]
     Content-Type = "application/xml; charset=utf-8"
     Cache-Control = "public, max-age=86400"
+
+# Stable, crawlable identity assets referenced by metadata and structured data
+[[headers]]
+  for = "/og.png"
+  [headers.values]
+    Content-Type = "image/png"
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/profile.png"
+  [headers.values]
+    Content-Type = "image/png"
+    Cache-Control = "public, max-age=604800"

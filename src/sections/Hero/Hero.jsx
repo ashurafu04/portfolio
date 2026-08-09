@@ -25,18 +25,24 @@ function Hero() {
         <img
           className={styles.hero}
           src={heroImg}
-          alt="Picture of Achraf MALKI"
+          alt="Portrait of Achraf Malki"
+          width="500"
+          height="500"
+          fetchPriority="high"
+          decoding="async"
         />
-        <img
+        <button
+          type="button"
           className={styles.colorMode}
-          src={themeIcon}
-          alt="Color mode icon"
           onClick={toggleTheme}
-        />
+          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+        >
+          <img src={themeIcon} alt="" />
+        </button>
       </div>
       <div className={styles.info}>
         <h1>ACHRAF MALKI</h1>
-        <h2>Software Engineer & IT Consultant</h2>
+        <p className={styles.role}>Software Engineer & IT Consultant</p>
         <p className={styles.tagline}>
           Enterprise AI | Headless Commerce | Cloud Infrastructure
         </p>
@@ -45,22 +51,25 @@ function Hero() {
             href="https://x.com/AchrafMalkiEng"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Achraf Malki on X"
           >
-            <img src={xIcon} alt="X icon" />
+            <img src={xIcon} alt="" />
           </a>
           <a
             href="https://github.com/ashurafu04"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Achraf Malki on GitHub"
           >
-            <img src={githubIcon} alt="Github icon" />
+            <img src={githubIcon} alt="" />
           </a>
           <a
             href="https://www.linkedin.com/in/achraf-malki/"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Achraf Malki on LinkedIn"
           >
-            <img src={linkedinIcon} alt="LinkedIn icon" />
+            <img src={linkedinIcon} alt="" />
           </a>
         </span>
         <p className={styles.description}>
@@ -70,13 +79,11 @@ function Hero() {
           secure B2B integrations.
         </p>
         <div className={styles.cvButtons}>
-          <a href={CV} target="_blank" rel="noopener noreferrer">
-            <button className="hover">View Resume</button>
+          <a className="hover" href={CV} target="_blank" rel="noopener noreferrer">
+            View Resume
           </a>
-          <a href={CV} download>
-            <button className={`hover ${styles.downloadBtn}`}>
-              Download Resume
-            </button>
+          <a className={`hover ${styles.downloadBtn}`} href={CV} download>
+            Download Resume
           </a>
         </div>
       </div>

@@ -40,7 +40,20 @@
 .colorMode {
   position: absolute;
   right: 0;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: var(--text-color);
+}
+
+.colorMode img {
   width: 25px;
+  height: 25px;
 }
 
 .colorMode:hover {
@@ -61,6 +74,14 @@
   margin-top: 18px;
 }
 
+.role {
+  font-family: "Roboto Mono", monospace;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
 .info {
   display: flex;
   flex-direction: column;
@@ -79,10 +100,10 @@
 }
 
 .cvButtons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
-}
-
-.cvButtons button {
   background-color: var(--btn-color);
   color: var(--btn-text-color);
   border: none;
@@ -99,7 +120,7 @@
 }
 
 @media (hover: hover) {
-  .cvButtons button:hover {
+  .cvButtons a:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
   }
@@ -110,7 +131,7 @@
   }
 }
 
-.cvButtons button:active {
+.cvButtons a:active {
   transform: translateY(1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 }
@@ -157,11 +178,11 @@
   }
 
   .cvButtons a {
-    display: block;
+    display: flex;
     width: 100%;
   }
 
-  .cvButtons button {
+  .cvButtons a {
     width: 100%;
     min-width: unset;
   }
@@ -189,6 +210,10 @@
   .info {
     align-items: flex-start;
     text-align: left;
+  }
+
+  .role {
+    font-size: 24px;
   }
 
   .description {

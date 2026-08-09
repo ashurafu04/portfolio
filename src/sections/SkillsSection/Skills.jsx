@@ -53,13 +53,13 @@ function Skills() {
 
   return (
     <section id="skills" ref={ref} data-stagger-parent className={styles.container}>
-      <h1
+      <h2
         className="sectionTitle"
         data-reveal-item
         style={{ "--reveal-delay": "0ms" }}
       >
         Skills
-      </h1>
+      </h2>
       <div className={styles.pillarGrid}>
         {skillPillars.map((pillar, index) => (
           <article
@@ -68,7 +68,7 @@ function Skills() {
             data-reveal-item
             style={{ "--reveal-delay": `${(index + 1) * 80}ms` }}
           >
-            <h2 className={styles.pillarTitle}>{pillar.title}</h2>
+            <h3 className={styles.pillarTitle}>{pillar.title}</h3>
             <div className={styles.skillList}>
               {pillar.items.map((skill) => (
                 <SkillList key={skill} src={checkMarkIcon} skill={skill} />

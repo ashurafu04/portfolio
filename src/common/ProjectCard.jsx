@@ -1,10 +1,18 @@
 import React from "react";
 import styles from "./ProjectCardStyles.module.css";
 
-function ProjectCard({ src, link, h3, subtitle, description }) {
+function ProjectCard({ src, alt, width, height, link, h3, subtitle, description }) {
   const cardContent = (
     <>
-      <img className="hover" src={src} alt={`${h3} visual`} />
+      <img
+        className="hover"
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading="lazy"
+        decoding="async"
+      />
       <h3>{h3}</h3>
       {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
       {description && <p className={styles.description}>{description}</p>}
