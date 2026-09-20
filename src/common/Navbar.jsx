@@ -6,7 +6,6 @@ import styles from "./NavbarStyles.module.css";
 
 const NAV_ITEMS = [
   { id: "hero", label: "Home" },
-  { id: "experience", label: "Experience" },
   { id: "projects", label: "Engineering Cases" },
   { id: "skills", label: "Skills" },
   { id: "contact", label: "Contact" },
