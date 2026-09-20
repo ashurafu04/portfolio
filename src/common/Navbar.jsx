@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import moon from "../assets/moon.svg";
 import sun from "../assets/sun.svg";
 import { useTheme } from "./ThemeContext";
@@ -15,12 +15,28 @@ function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+  const [isVisible, setIsVisible] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+  const hideTimerRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
   const themeIcon = theme === "light" ? sun : moon;
 
-  // Scroll spy to detect active section dynamically
+  // Show navbar when scrolling, hide when scrolling stops after delay
   useEffect(() => {
     const handleScroll = () => {
+      setIsVisible(true);
+
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current);
+      }
+
+      // Hide after 1.6s of no scrolling (unless hovered or mobile menu open)
+      hideTimerRef.current = setTimeout(() => {
+        if (!isHovered && !isMenuOpen) {
+          setIsVisible(false);
+        }
+      }, 1600);
+
       setIsScrolled(window.scrollY > 30);
 
       // Top of the page
@@ -52,7 +68,22 @@ function Navbar() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    };
+  }, [isHovered, isMenuOpen]);
+
+  // Reveal navbar if mouse moves near the top edge of the viewport
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      if (event.clientY <= 60) {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   // Handle escape key and window resize
@@ -101,8 +132,32 @@ function Navbar() {
     setIsMenuOpen(false);
   };
 
+  const isBarShown = isVisible || isHovered || isMenuOpen;
+
   return (
-    <header className={styles.navbarWrapper}>
+    <header
+      className={`${styles.navbarWrapper} ${
+        isBarShown ? styles.visible : styles.hidden
+      }`}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        setIsVisible(true);
+        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+        hideTimerRef.current = setTimeout(() => {
+          if (!isMenuOpen) {
+            setIsVisible(false);
+          }
+        }, 1200);
+      }}
+      onFocusCapture={() => {
+        setIsVisible(true);
+        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      }}
+    >
       <nav
         className={`${styles.navbar} ${isScrolled ? styles.scrolled : ""}`}
         aria-label="Main Navigation"

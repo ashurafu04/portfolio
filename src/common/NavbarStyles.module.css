@@ -8,12 +8,37 @@
   z-index: 1000;
   padding: 0 1rem;
   pointer-events: none;
+  transition: opacity 350ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(-24px);
+  pointer-events: none !important;
+}
+
+.hidden * {
+  pointer-events: none !important;
 }
 
 .navbar {
   pointer-events: auto;
   transition: transform 300ms var(--ease-out-expo),
               box-shadow 300ms var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbarWrapper {
+    transition: opacity 200ms ease;
+    transform: none !important;
+  }
 }
 
 /* ── Desktop Floating Navigation Dock ─────────────────────────────────── */
