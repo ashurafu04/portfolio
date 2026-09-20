@@ -159,7 +159,40 @@
       rel="stylesheet"
     />
 
-    <script>document.documentElement.setAttribute('data-animate-ready','');</script>
+    <!-- Synchronous Theme & Critical Styling Engine (Eliminates FOUC & white flash) -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme');
+          var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = saved ? saved : (systemDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.setAttribute('data-animate-ready', '');
+          document.documentElement.classList.add('js-ready');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        --background-color: #f3fffe;
+        --background-rgb: 243, 255, 254;
+        --text-color: #222222;
+      }
+      [data-theme="dark"] {
+        --background-color: #313131;
+        --background-rgb: 49, 49, 49;
+        --text-color: #ffffff;
+      }
+      html, body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
+      .js-ready .seo-shell {
+        display: none !important;
+      }
+    </style>
   </head>
   <body>
     <div id="root">
@@ -167,7 +200,8 @@
         Crawlable first response for search engines and no-JavaScript visitors.
         React replaces this shell with the interactive portfolio at startup.
       -->
-      <main class="seo-shell">
+      <noscript>
+        <main class="seo-shell">
         <section aria-labelledby="profile-name">
           <h1 id="profile-name">Achraf Malki</h1>
           <h2>Software Engineer &amp; IT Consultant</h2>
@@ -213,6 +247,7 @@
           <p>Use the contact form to discuss enterprise engineering work.</p>
         </section>
       </main>
+      </noscript>
     </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

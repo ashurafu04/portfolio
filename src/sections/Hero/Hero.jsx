@@ -1,7 +1,5 @@
 import styles from "./HeroStyles.module.css";
 import heroImg from "../../assets/hero-img.png";
-import sun from "../../assets/sun.svg";
-import moon from "../../assets/moon.svg";
 import xLight from "../../assets/twitter-light.svg";
 import xDark from "../../assets/twitter-dark.svg";
 import githubLight from "../../assets/github-light.svg";
@@ -12,9 +10,8 @@ import CV from "../../assets/cv.pdf";
 import { useTheme } from "../../common/ThemeContext";
 
 function Hero() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
 
-  const themeIcon = theme === "light" ? sun : moon;
   const xIcon = theme === "light" ? xLight : xDark;
   const githubIcon = theme === "light" ? githubLight : githubDark;
   const linkedinIcon = theme === "light" ? linkedinLight : linkedinDark;
@@ -31,14 +28,6 @@ function Hero() {
           fetchPriority="high"
           decoding="async"
         />
-        <button
-          type="button"
-          className={styles.colorMode}
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-        >
-          <img src={themeIcon} alt="" />
-        </button>
       </div>
       <div className={styles.info}>
         <h1>ACHRAF MALKI</h1>
