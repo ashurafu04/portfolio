@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
+  <rect width="400" height="120" rx="16" fill="rgba(34,34,34,0.04)"/>
+  <!-- Hexagon Node Geometry -->
+  <path d="M60 30L85 45V75L60 90L35 75V45L60 30Z" stroke="#6db33f" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="60" cy="60" r="10" fill="#0987f2"/>
+  <path d="M60 30V60M85 75L60 60M35 75L60 60" stroke="#0987f2" stroke-width="4" stroke-linecap="round"/>
+  <!-- Typography -->
+  <text x="110" y="68" font-family="'Rubik', sans-serif" font-size="32" font-weight="700" fill="currentColor" letter-spacing="1">PREVIZMA</text>
+  <text x="112" y="88" font-family="'Roboto Mono', monospace" font-size="12" font-weight="500" fill="#6db33f" letter-spacing="2">JAVA 17 · MICROSERVICES</text>
+</svg>

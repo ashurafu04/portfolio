@@ -46,6 +46,7 @@ html {
 
 /* Ensure smooth section landing under floating navbar */
 #hero,
+#experience,
 #projects,
 #skills,
 #contact {
