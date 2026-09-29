@@ -1,15 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import moon from "../assets/moon.svg";
 import sun from "../assets/sun.svg";
 import { useTheme } from "./ThemeContext";
+import { useTranslation } from "../i18n";
+import LanguageToggle from "./LanguageToggle";
 import styles from "./NavbarStyles.module.css";
 
-const NAV_ITEMS = [
-  { id: "hero", label: "Home" },
-  { id: "projects", label: "Engineering Cases" },
-  { id: "skills", label: "Skills" },
-  { id: "contact", label: "Contact" },
-];
+const SECTION_IDS = ["hero", "projects", "skills", "contact"];
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,10 +18,23 @@ function Navbar() {
   const isNavClickRef = useRef(false);
   const navClickTimeoutRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
+  const { t } = useTranslation();
   const themeIcon = theme === "light" ? sun : moon;
+
+  const navItems = useMemo(
+    () => [
+      { id: "hero", label: t.nav.home },
+      { id: "projects", label: t.nav.projects },
+      { id: "skills", label: t.nav.skills },
+      { id: "contact", label: t.nav.contact },
+    ],
+    [t]
+  );
 
   // Show navbar when scrolling, hide when scrolling stops after delay
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
       setIsVisible(true);
 
@@ -32,47 +42,52 @@ function Navbar() {
         clearTimeout(hideTimerRef.current);
       }
 
-      // Hide after 1.6s of no scrolling (unless hovered or mobile menu open)
+      // Hide after 1.8s of no scrolling (unless hovered or mobile menu open)
       hideTimerRef.current = setTimeout(() => {
         if (!isHovered && !isMenuOpen) {
           setIsVisible(false);
         }
-      }, 1600);
+      }, 1800);
 
       setIsScrolled(window.scrollY > 30);
 
-      // If user clicked a navigation item and page is smooth-scrolling to it, don't jitter
-      if (isNavClickRef.current) {
-        return;
-      }
+      if (isNavClickRef.current) return;
 
-      // Top of the page
-      if (window.scrollY < 100) {
-        setActiveSection("hero");
-        return;
-      }
-
-      // Bottom of the page (ensure contact lights up)
-      if (
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 60
-      ) {
-        setActiveSection("contact");
-        return;
-      }
-
-      // Robust viewport threshold detection (active when section is in top 35% of viewport)
-      const viewportThreshold = window.innerHeight * 0.35;
-      for (let i = NAV_ITEMS.length - 1; i >= 0; i--) {
-        const item = NAV_ITEMS[i];
-        const el = document.getElementById(item.id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= viewportThreshold && rect.bottom > 0) {
-            setActiveSection(item.id);
-            break;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // Top of the page
+          if (window.scrollY < 100) {
+            setActiveSection((prev) => (prev !== "hero" ? "hero" : prev));
+            ticking = false;
+            return;
           }
-        }
+
+          // Bottom of the page (ensure contact lights up)
+          if (
+            window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 60
+          ) {
+            setActiveSection((prev) => (prev !== "contact" ? "contact" : prev));
+            ticking = false;
+            return;
+          }
+
+          // Robust viewport threshold detection (active when section is in top 35% of viewport)
+          const viewportThreshold = window.innerHeight * 0.35;
+          for (let i = SECTION_IDS.length - 1; i >= 0; i--) {
+            const id = SECTION_IDS[i];
+            const el = document.getElementById(id);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              if (rect.top <= viewportThreshold && rect.bottom > 0) {
+                setActiveSection((prev) => (prev !== id ? id : prev));
+                break;
+              }
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -184,7 +199,7 @@ function Navbar() {
       >
         {/* Desktop Floating Navigation Dock */}
         <div className={styles.desktopNav}>
-          {NAV_ITEMS.map(({ id, label }) => {
+          {navItems.map(({ id, label }) => {
             const isActive = activeSection === id;
             return (
               <a
@@ -202,12 +217,14 @@ function Navbar() {
 
           <div className={styles.navDivider} aria-hidden="true" />
 
+          <LanguageToggle variant="desktop" />
+
           <button
             type="button"
             className={styles.themeButton}
             onClick={toggleTheme}
-            aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-            title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+            aria-label={theme === "light" ? t.nav.themeDark : t.nav.themeLight}
+            title={theme === "light" ? t.nav.themeDark : t.nav.themeLight}
           >
             <img src={themeIcon} alt="" width="16" height="16" />
           </button>
@@ -219,17 +236,19 @@ function Navbar() {
             href="#hero"
             className={styles.mobileBrand}
             onClick={() => handleNavClick("hero")}
-            aria-label="Achraf Malki - Home"
+            aria-label={t.nav.homeAria}
           >
             AM
           </a>
 
           <div className={styles.mobileRightControls}>
+            <LanguageToggle variant="mobile" />
+
             <button
               type="button"
               className={styles.mobileQuickTheme}
               onClick={toggleTheme}
-              aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+              aria-label={theme === "light" ? t.nav.themeDark : t.nav.themeLight}
             >
               <img src={themeIcon} alt="" width="16" height="16" />
             </button>
@@ -239,9 +258,7 @@ function Navbar() {
               onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-expanded={isMenuOpen}
               aria-controls="primary-navigation"
-              aria-label={
-                isMenuOpen ? "Close navigation menu" : "Open navigation menu"
-              }
+              aria-label={isMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
               type="button"
             >
               <span
@@ -281,11 +298,13 @@ function Navbar() {
             <span className={styles.mobileBrand}>AM</span>
 
             <div className={styles.mobileRightControls}>
+              <LanguageToggle variant="mobile" />
+
               <button
                 type="button"
                 className={styles.mobileQuickTheme}
                 onClick={toggleTheme}
-                aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+                aria-label={theme === "light" ? t.nav.themeDark : t.nav.themeLight}
               >
                 <img src={themeIcon} alt="" width="16" height="16" />
               </button>
@@ -294,7 +313,7 @@ function Navbar() {
                 type="button"
                 className={styles.mobileCloseBtn}
                 onClick={() => setIsMenuOpen(false)}
-                aria-label="Close navigation menu"
+                aria-label={t.nav.closeMenu}
               >
                 <svg
                   width="18"
@@ -315,7 +334,7 @@ function Navbar() {
           </div>
 
           <div className={styles.mobileDrawerContent}>
-            {NAV_ITEMS.map(({ id, label }) => {
+            {navItems.map(({ id, label }) => {
               const isActive = activeSection === id;
               return (
                 <a

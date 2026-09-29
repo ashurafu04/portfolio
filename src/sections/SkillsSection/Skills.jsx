@@ -4,16 +4,18 @@ import checkMarkIconLight from "../../assets/checkmark-light.svg";
 import SkillList from "../../common/SkillList";
 import { useTheme } from "../../common/ThemeContext";
 import { useReveal } from "../../hooks/useReveal";
+import { useTranslation } from "../../i18n";
 
 function Skills() {
   const { theme } = useTheme();
+  const { t } = useTranslation();
   const ref = useReveal();
   const checkMarkIcon =
     theme === "dark" ? checkMarkIconDark : checkMarkIconLight;
 
   const skillPillars = [
     {
-      title: "Backend",
+      title: t.skills.pillars.backend,
       items: [
         "Microservices",
         "Java (Spring, JEE)",
@@ -24,11 +26,11 @@ function Skills() {
       ],
     },
     {
-      title: "Frontend",
+      title: t.skills.pillars.frontend,
       items: ["Angular", "React / Next.js", "TypeScript", "React Native (Expo)"],
     },
     {
-      title: "Data & ERP",
+      title: t.skills.pillars.data,
       items: [
         "Odoo (Tech & Functional)",
         "PostgreSQL (RLS, Tuning)",
@@ -39,7 +41,7 @@ function Skills() {
       ],
     },
     {
-      title: "Cloud & AI",
+      title: t.skills.pillars.cloud,
       items: [
         "AWS (Certified)",
         "CI/CD (GitHub Actions)",
@@ -58,7 +60,7 @@ function Skills() {
         data-reveal-item
         style={{ "--reveal-delay": "0ms" }}
       >
-        Skills
+        {t.skills.sectionTitle}
       </h2>
       <div className={styles.pillarGrid}>
         {skillPillars.map((pillar, index) => (

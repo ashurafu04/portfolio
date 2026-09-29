@@ -4,13 +4,27 @@ import styles from "./ScrollToTopStyles.module.css";
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
+  useEffect(() => {
+    let ticking = false;
+
+    const toggleVisibility = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const shouldShow = window.scrollY > 300;
+          setIsVisible((prev) => (prev !== shouldShow ? shouldShow : prev));
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
+    toggleVisibility();
+
+    return () => {
+      window.removeEventListener("scroll", toggleVisibility);
+    };
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -18,13 +32,6 @@ const ScrollToTop = () => {
       behavior: "smooth",
     });
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", toggleVisibility);
-    return () => {
-      window.removeEventListener("scroll", toggleVisibility);
-    };
-  }, []);
 
   return (
     <button
@@ -49,4 +56,4 @@ const ScrollToTop = () => {
   );
 };
 
-export default ScrollToTop; 
+export default ScrollToTop;

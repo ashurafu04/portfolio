@@ -8,9 +8,11 @@ import linkedinLight from "../../assets/linkedin-light.svg";
 import linkedinDark from "../../assets/linkedin-dark.svg";
 import CV from "../../assets/cv.pdf";
 import { useTheme } from "../../common/ThemeContext";
+import { useTranslation } from "../../i18n";
 
 function Hero() {
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const xIcon = theme === "light" ? xLight : xDark;
   const githubIcon = theme === "light" ? githubLight : githubDark;
@@ -22,7 +24,7 @@ function Hero() {
         <img
           className={styles.hero}
           src={heroImg}
-          alt="Portrait of Achraf Malki"
+          alt={t.hero.portraitAlt}
           width="500"
           height="500"
           fetchPriority="high"
@@ -30,17 +32,15 @@ function Hero() {
         />
       </div>
       <div className={styles.info}>
-        <h1>ACHRAF MALKI</h1>
-        <p className={styles.role}>Software Engineer & IT Consultant</p>
-        <p className={styles.tagline}>
-          Enterprise AI | Headless Commerce | Cloud Infrastructure
-        </p>
+        <h1>{t.hero.name}</h1>
+        <p className={styles.role}>{t.hero.role}</p>
+        <p className={styles.tagline}>{t.hero.tagline}</p>
         <span>
           <a
             href="https://x.com/AchrafMalkiEng"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Achraf Malki on X"
+            aria-label={t.hero.xAria}
           >
             <img src={xIcon} alt="" />
           </a>
@@ -48,7 +48,7 @@ function Hero() {
             href="https://github.com/ashurafu04"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Achraf Malki on GitHub"
+            aria-label={t.hero.githubAria}
           >
             <img src={githubIcon} alt="" />
           </a>
@@ -56,23 +56,18 @@ function Hero() {
             href="https://www.linkedin.com/in/achraf-malki/"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Achraf Malki on LinkedIn"
+            aria-label={t.hero.linkedinAria}
           >
             <img src={linkedinIcon} alt="" />
           </a>
         </span>
-        <p className={styles.description}>
-          I engineer backend systems that don't break under pressure, and
-          architectures that drive tangible business autonomy. Specialized in
-          multi-tenant AI orchestration, Hybrid Headless architectures, and
-          secure B2B integrations.
-        </p>
+        <p className={styles.description}>{t.hero.description}</p>
         <div className={styles.cvButtons}>
           <a className="hover" href={CV} target="_blank" rel="noopener noreferrer">
-            View Resume
+            {t.hero.viewResume}
           </a>
           <a className={`hover ${styles.downloadBtn}`} href={CV} download>
-            Download Resume
+            {t.hero.downloadResume}
           </a>
         </div>
       </div>

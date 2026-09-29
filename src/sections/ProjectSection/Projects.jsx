@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import styles from "./ProjectsStyles.module.css";
 import magmaLogo from "../../assets/nortis_logo.jpg";
 import chamiongLogo from "../../assets/logo-chamiong-500.png";
@@ -8,91 +8,96 @@ import dxcLogo from "../../assets/dxc_logo.svg";
 import sggLogo from "../../assets/sgg-logo.png";
 import ProjectCard from "../../common/ProjectCard";
 import { useReveal } from "../../hooks/useReveal";
+import { useTranslation } from "../../i18n";
 
 function Projects() {
   const ref = useReveal();
+  const { t } = useTranslation();
   const trackRef = useRef(null);
   const slideRefs = useRef([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const engineeringCases = [
-    {
-      src: magmaLogo,
-      alt: "Nortis Studio logo for the MAGMA enterprise AI case study",
-      width: 200,
-      height: 200,
-      h3: "MAGMA (Nortis Studio)",
-      subtitle: "Enterprise AI Orchestration & Anti-Hallucination Engine",
-      description:
-        "Architected the Portier/Worker orchestration model, strict idempotence rules, PostgreSQL RLS, and Zero PII lifecycle. Integrated structural validation and anti-hallucination controls for dependable B2B intelligence.",
-      logoType: "square",
-    },
-    {
-      src: chamiongLogo,
-      alt: "CHAMIONG logo for the hybrid headless commerce case study",
-      width: 500,
-      height: 500,
-      h3: "CHAMIONG",
-      subtitle: "Headless ERP Decoupling & B2B Commerce",
-      description:
-        "Led the digital decoupling of an industrial leader from its core Odoo ERP. Engineered a decoupled Next.js + Sanity presentation layer via resilient JSON-RPC connectors with trilingual RTL catalog management.",
-      logoType: "square",
-    },
-    {
-      src: qodeepLogo,
-      alt: "QODEEP IT Engineering and Architecture Consulting logo",
-      width: 500,
-      height: 500,
-      h3: "QODEEP",
-      subtitle: "Independent Architecture Consultancy & Digital Products",
-      description:
-        "Delivering resilient B2B architectures, contextual AI workflows, and digital transformations. Directing technical audits, enterprise migrations, and end-to-end client handovers.",
-      logoType: "circle",
-    },
-    {
-      src: previzmaLogo,
-      alt: "Previzma Java Spring Boot microservices platform logo",
-      width: 500,
-      height: 500,
-      h3: "PREVIZMA",
-      subtitle: "Decoupled B2B Sales Intelligence Platform & ML Engine",
-      description:
-        "Engineered an open-architecture sales intelligence platform with Java 21, Spring Boot, and PostgreSQL. Decoupled predictive ML forecasting via a dedicated FastAPI microservice and Angular frontend.",
-      logoType: "prism",
-    },
-    {
-      src: dxcLogo,
-      alt: "DXC Technology enterprise systems and BI engineering logo",
-      width: 860,
-      height: 240,
-      h3: "DXC Technology",
-      subtitle: "Business Intelligence & Business Applications — RUN Teams",
-      description:
-        "Engineered a competency coverage management platform for production RUN teams across the Insurance Service Line. Built the data pipeline, Dataverse application layer, and executive Power BI dashboards.",
-      logoType: "dxc",
-    },
-    {
-      src: sggLogo,
-      alt: "Secrétariat Général du Gouvernement (SGG) ERP architecture logo",
-      width: 425,
-      height: 84,
-      h3: "Secrétariat Général du Gouvernement (SGG)",
-      subtitle: "Public Sector Enterprise ERP & Process Automation",
-      description:
-        "Contributed to an end-to-end Odoo implementation for the Direction of the Official Printing Office. Engineered custom Python modules, BPMN approval workflows, and strict RBAC across core operations.",
-      logoType: "sgg",
-    },
-  ];
+  const engineeringCases = useMemo(
+    () => [
+      {
+        id: "magma",
+        src: magmaLogo,
+        alt: t.projects.cases.magma.alt,
+        width: 200,
+        height: 200,
+        h3: t.projects.cases.magma.h3,
+        subtitle: t.projects.cases.magma.subtitle,
+        description: t.projects.cases.magma.description,
+        logoType: "square",
+      },
+      {
+        id: "chamiong",
+        src: chamiongLogo,
+        alt: t.projects.cases.chamiong.alt,
+        width: 500,
+        height: 500,
+        h3: t.projects.cases.chamiong.h3,
+        subtitle: t.projects.cases.chamiong.subtitle,
+        description: t.projects.cases.chamiong.description,
+        logoType: "square",
+      },
+      {
+        id: "qodeep",
+        src: qodeepLogo,
+        alt: t.projects.cases.qodeep.alt,
+        width: 500,
+        height: 500,
+        h3: t.projects.cases.qodeep.h3,
+        subtitle: t.projects.cases.qodeep.subtitle,
+        description: t.projects.cases.qodeep.description,
+        logoType: "circle",
+      },
+      {
+        id: "previzma",
+        src: previzmaLogo,
+        alt: t.projects.cases.previzma.alt,
+        width: 500,
+        height: 500,
+        h3: t.projects.cases.previzma.h3,
+        subtitle: t.projects.cases.previzma.subtitle,
+        description: t.projects.cases.previzma.description,
+        logoType: "prism",
+      },
+      {
+        id: "dxc",
+        src: dxcLogo,
+        alt: t.projects.cases.dxc.alt,
+        width: 860,
+        height: 240,
+        h3: t.projects.cases.dxc.h3,
+        subtitle: t.projects.cases.dxc.subtitle,
+        description: t.projects.cases.dxc.description,
+        logoType: "dxc",
+      },
+      {
+        id: "sgg",
+        src: sggLogo,
+        alt: t.projects.cases.sgg.alt,
+        width: 425,
+        height: 84,
+        h3: t.projects.cases.sgg.h3,
+        subtitle: t.projects.cases.sgg.subtitle,
+        description: t.projects.cases.sgg.description,
+        logoType: "sgg",
+      },
+    ],
+    [t]
+  );
 
   const isNavigatingRef = useRef(false);
   const scrollTimeoutRef = useRef(null);
+  const rafRef = useRef(null);
 
   const scrollToSlide = useCallback((index) => {
     const track = trackRef.current;
     const targetSlide = slideRefs.current[index];
     if (!track || !targetSlide) return;
 
-    // Lock programmatic navigation so intermediate scroll events don't fight the target index
     isNavigatingRef.current = true;
     setActiveIndex(index);
 
@@ -106,41 +111,60 @@ function Projects() {
       behavior: "smooth",
     });
 
-    // Release lock when smooth scrolling settles
     scrollTimeoutRef.current = setTimeout(() => {
       isNavigatingRef.current = false;
     }, 450);
   }, []);
 
+  // Throttled scroll listener using RAF to prevent layout thrashing
   const handleScroll = useCallback(() => {
-    // Ignore intermediate scroll events during animated navigation to avoid indicator stutter
     if (isNavigatingRef.current) return;
 
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+    }
+
+    rafRef.current = requestAnimationFrame(() => {
+      const track = trackRef.current;
+      if (!track) return;
+
+      const scrollCenter = track.scrollLeft + track.clientWidth / 2;
+      let closestIndex = 0;
+      let minDistance = Infinity;
+
+      slideRefs.current.forEach((slide, idx) => {
+        if (!slide) return;
+        const slideCenter = slide.offsetLeft - track.offsetLeft + slide.offsetWidth / 2;
+        const distance = Math.abs(scrollCenter - slideCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIndex = idx;
+        }
+      });
+
+      setActiveIndex((prev) => (prev !== closestIndex ? closestIndex : prev));
+    });
+  }, []);
+
+  // Free wheel vertical scrolling pass-through
+  useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
-    const scrollCenter = track.scrollLeft + track.clientWidth / 2;
-    let closestIndex = 0;
-    let minDistance = Infinity;
-
-    slideRefs.current.forEach((slide, idx) => {
-      if (!slide) return;
-      const slideCenter = slide.offsetLeft - track.offsetLeft + slide.offsetWidth / 2;
-      const distance = Math.abs(scrollCenter - slideCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = idx;
+    // Passive wheel handler ensures vertical delta is never blocked
+    const handleWheel = (e) => {
+      // If user scrolls predominantly vertically, let the page scroll naturally
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        // Do nothing to let browser scroll window naturally
+        return;
       }
-    });
+    };
 
-    setActiveIndex((prev) => (prev !== closestIndex ? closestIndex : prev));
-  }, []);
-
-  useEffect(() => {
+    track.addEventListener("wheel", handleWheel, { passive: true });
     return () => {
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
+      track.removeEventListener("wheel", handleWheel);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
   }, []);
 
@@ -182,7 +206,7 @@ function Projects() {
         data-reveal-item
         style={{ "--reveal-delay": "0ms" }}
       >
-        Engineering Cases
+        {t.projects.sectionTitle}
       </h2>
 
       <div
@@ -193,7 +217,7 @@ function Projects() {
         tabIndex={0}
         role="region"
         aria-roledescription="carousel"
-        aria-label="Engineering Cases Carousel"
+        aria-label={t.projects.carouselAria}
       >
         <div
           ref={trackRef}
@@ -202,12 +226,12 @@ function Projects() {
         >
           {engineeringCases.map((item, index) => (
             <div
-              key={item.h3}
+              key={item.id}
               ref={(el) => (slideRefs.current[index] = el)}
               className={styles.slide}
               role="group"
               aria-roledescription="slide"
-              aria-label={`${index + 1} of ${engineeringCases.length}: ${item.h3}`}
+              aria-label={`${index + 1} ${t.projects.of} ${engineeringCases.length}: ${item.h3}`}
             >
               <ProjectCard
                 src={item.src}
@@ -230,7 +254,7 @@ function Projects() {
             className={styles.navBtn}
             onClick={() => scrollToSlide(activeIndex - 1)}
             disabled={activeIndex === 0}
-            aria-label="Previous engineering case"
+            aria-label={t.projects.prevSlide}
           >
             <svg
               width="20"
@@ -247,30 +271,24 @@ function Projects() {
             </svg>
           </button>
 
-          <div className={styles.pagination}>
-            <span className={styles.counter} aria-live="polite">
-              {String(activeIndex + 1).padStart(2, "0")} /{" "}
-              {String(engineeringCases.length).padStart(2, "0")}
-            </span>
-            <div
-              className={styles.dots}
-              role="tablist"
-              aria-label="Engineering cases selector"
-            >
-              {engineeringCases.map((item, index) => (
-                <button
-                  key={item.h3}
-                  type="button"
-                  role="tab"
-                  aria-selected={index === activeIndex}
-                  className={`${styles.dot} ${
-                    index === activeIndex ? styles.activeDot : ""
-                  }`}
-                  onClick={() => scrollToSlide(index)}
-                  aria-label={`Go to ${item.h3}`}
-                />
-              ))}
-            </div>
+          <div
+            className={styles.indicatorsGroup}
+            role="tablist"
+            aria-label={t.projects.carouselAria}
+          >
+            {engineeringCases.map((item, index) => (
+              <button
+                key={item.id}
+                type="button"
+                role="tab"
+                aria-selected={index === activeIndex}
+                className={`${styles.indicatorDot} ${
+                  index === activeIndex ? styles.indicatorDotActive : ""
+                }`}
+                onClick={() => scrollToSlide(index)}
+                aria-label={`${t.projects.goToSlide} ${index + 1}: ${item.h3}`}
+              />
+            ))}
           </div>
 
           <button
@@ -278,7 +296,7 @@ function Projects() {
             className={styles.navBtn}
             onClick={() => scrollToSlide(activeIndex + 1)}
             disabled={activeIndex === engineeringCases.length - 1}
-            aria-label="Next engineering case"
+            aria-label={t.projects.nextSlide}
           >
             <svg
               width="20"
