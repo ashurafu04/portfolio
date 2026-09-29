@@ -110,7 +110,7 @@
           "@type": "CreativeWork",
           "@id": "https://achrafmalki.dev/#magma",
           "name": "MAGMA — Enterprise AI Orchestration & Anti-Hallucination Engine",
-          "description": "Architected the core AI engine for a B2B intelligence Business Unit at Nortis Studio. Designed a highly concurrent Portier/Worker architecture with strict idempotence guarantees and Zero-PII data compliance.",
+          "description": "Architected the Portier/Worker orchestration model, strict idempotence rules, PostgreSQL RLS, and Zero PII lifecycle at Nortis Studio. Integrated structural validation and anti-hallucination controls.",
           "creator": { "@id": "https://achrafmalki.dev/#person" },
           "keywords": "Enterprise AI, B2B Intelligence, Anti-Hallucination Engine, Zero-PII, Multi-tenant Architecture, AI Orchestration",
           "url": "https://achrafmalki.dev/#projects"
@@ -118,10 +118,46 @@
         {
           "@type": "CreativeWork",
           "@id": "https://achrafmalki.dev/#chamiong",
-          "name": "CHAMIONG — Hybrid Headless B2B E-commerce & ERP Decoupling",
-          "description": "Led the digital transformation for an industrial leader. Engineered a decoupled Next.js + Odoo architecture via resilient JSON-RPC connectors, delivering 95% operational autonomy to the client.",
+          "name": "CHAMIONG — Headless ERP Decoupling & B2B Commerce",
+          "description": "Led the digital decoupling of an industrial leader from its core Odoo ERP. Engineered a decoupled Next.js + Sanity presentation layer via resilient JSON-RPC connectors with trilingual RTL catalog management.",
           "creator": { "@id": "https://achrafmalki.dev/#person" },
-          "keywords": "Headless Commerce, ERP Decoupling, Odoo, Next.js, B2B E-commerce, JSON-RPC, Digital Transformation",
+          "keywords": "Headless Commerce, ERP Decoupling, Odoo, Next.js, Sanity, B2B E-commerce, JSON-RPC",
+          "url": "https://achrafmalki.dev/#projects"
+        },
+        {
+          "@type": "CreativeWork",
+          "@id": "https://achrafmalki.dev/#qodeep",
+          "name": "QODEEP — Independent Architecture Consultancy & Digital Products",
+          "description": "Delivering resilient B2B architectures, contextual AI workflows, and digital transformations. Directing technical audits, enterprise migrations, and end-to-end client handovers.",
+          "creator": { "@id": "https://achrafmalki.dev/#person" },
+          "keywords": "Architecture Audit, B2B Systems, AI Orchestration, Technical Governance, Digital Products",
+          "url": "https://achrafmalki.dev/#projects"
+        },
+        {
+          "@type": "CreativeWork",
+          "@id": "https://achrafmalki.dev/#previzma",
+          "name": "PREVIZMA — Decoupled B2B Sales Intelligence Platform & ML Engine",
+          "description": "Engineered an open-architecture sales intelligence platform with Java 21, Spring Boot, and PostgreSQL. Decoupled predictive ML forecasting via a dedicated FastAPI microservice and Angular frontend.",
+          "creator": { "@id": "https://achrafmalki.dev/#person" },
+          "keywords": "Java 21, Spring Boot, Microservices, PostgreSQL, FastAPI, LightGBM, Angular",
+          "url": "https://achrafmalki.dev/#projects"
+        },
+        {
+          "@type": "CreativeWork",
+          "@id": "https://achrafmalki.dev/#dxc",
+          "name": "DXC Technology — Business Intelligence & Business Applications",
+          "description": "Engineered a competency coverage management platform for production RUN teams across the Insurance Service Line at DXC Technology. Built data pipeline, Dataverse application layer, and Power BI dashboards.",
+          "creator": { "@id": "https://achrafmalki.dev/#person" },
+          "keywords": "Enterprise Systems, BI Engineering, Power BI, Dataverse, Power Apps, DAX, Run Teams",
+          "url": "https://achrafmalki.dev/#projects"
+        },
+        {
+          "@type": "CreativeWork",
+          "@id": "https://achrafmalki.dev/#sgg",
+          "name": "Secrétariat Général du Gouvernement (SGG) — Enterprise ERP & Automation",
+          "description": "Contributed to an end-to-end Odoo implementation for the Direction of the Official Printing Office. Engineered custom Python modules, BPMN approval workflows, and strict RBAC across core operations.",
+          "creator": { "@id": "https://achrafmalki.dev/#person" },
+          "keywords": "Odoo, Python, Public Sector ERP, Workflow Automation, BPMN, RBAC Security",
           "url": "https://achrafmalki.dev/#projects"
         },
         {
@@ -129,7 +165,7 @@
           "@id": "https://achrafmalki.dev/#projects",
           "name": "Engineering Cases",
           "description": "Key engineering projects delivered by Achraf Malki",
-          "numberOfItems": 2,
+          "numberOfItems": 6,
           "itemListElement": [
             {
               "@type": "ListItem",
@@ -140,6 +176,26 @@
               "@type": "ListItem",
               "position": 2,
               "item": { "@id": "https://achrafmalki.dev/#chamiong" }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": { "@id": "https://achrafmalki.dev/#qodeep" }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": { "@id": "https://achrafmalki.dev/#previzma" }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": { "@id": "https://achrafmalki.dev/#dxc" }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "item": { "@id": "https://achrafmalki.dev/#sgg" }
             }
           ]
         }
@@ -223,15 +279,39 @@
           <article>
             <h3>MAGMA — Enterprise AI Orchestration &amp; Anti-Hallucination Engine</h3>
             <p>
-              A highly concurrent Portier/Worker architecture with strict
-              idempotence guarantees and Zero-PII data compliance.
+              Portier/Worker orchestration model, strict idempotence rules, PostgreSQL RLS,
+              and Zero PII lifecycle with anti-hallucination controls.
             </p>
           </article>
           <article>
-            <h3>CHAMIONG — Hybrid Headless B2B E-commerce &amp; ERP Decoupling</h3>
+            <h3>CHAMIONG — Headless ERP Decoupling &amp; B2B Commerce</h3>
             <p>
-              A resilient Next.js and Odoo architecture delivering 95%
-              operational autonomy through secure JSON-RPC connectors.
+              Digital decoupling of industrial operations from Odoo ERP via Next.js,
+              Sanity, and resilient JSON-RPC connectors with trilingual RTL support.
+            </p>
+          </article>
+          <article>
+            <h3>QODEEP — Independent Architecture Consultancy &amp; Digital Products</h3>
+            <p>
+              Resilient B2B architectures, contextual AI workflows, and digital transformations.
+            </p>
+          </article>
+          <article>
+            <h3>PREVIZMA — Decoupled B2B Sales Intelligence Platform &amp; ML Engine</h3>
+            <p>
+              Java 21 and Spring Boot microservices backend, PostgreSQL, and decoupled predictive ML service.
+            </p>
+          </article>
+          <article>
+            <h3>DXC Technology — Business Intelligence &amp; Business Applications</h3>
+            <p>
+              Competency coverage management platform, Dataverse application layer, and Power BI dashboards for RUN teams.
+            </p>
+          </article>
+          <article>
+            <h3>Secrétariat Général du Gouvernement (SGG) — Enterprise ERP &amp; Automation</h3>
+            <p>
+              Odoo implementation for Direction of the Official Printing Office with custom Python modules and BPMN approval workflows.
             </p>
           </article>
         </section>

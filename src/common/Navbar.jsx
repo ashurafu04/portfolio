@@ -18,6 +18,8 @@ function Navbar() {
   const [isVisible, setIsVisible] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const hideTimerRef = useRef(null);
+  const isNavClickRef = useRef(false);
+  const navClickTimeoutRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
   const themeIcon = theme === "light" ? sun : moon;
 
@@ -39,8 +41,13 @@ function Navbar() {
 
       setIsScrolled(window.scrollY > 30);
 
+      // If user clicked a navigation item and page is smooth-scrolling to it, don't jitter
+      if (isNavClickRef.current) {
+        return;
+      }
+
       // Top of the page
-      if (window.scrollY < 120) {
+      if (window.scrollY < 100) {
         setActiveSection("hero");
         return;
       }
@@ -48,20 +55,23 @@ function Navbar() {
       // Bottom of the page (ensure contact lights up)
       if (
         window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 70
+        document.documentElement.scrollHeight - 60
       ) {
         setActiveSection("contact");
         return;
       }
 
-      // Check section offsets
-      const scrollPosition = window.scrollY + 180;
+      // Robust viewport threshold detection (active when section is in top 35% of viewport)
+      const viewportThreshold = window.innerHeight * 0.35;
       for (let i = NAV_ITEMS.length - 1; i >= 0; i--) {
         const item = NAV_ITEMS[i];
         const el = document.getElementById(item.id);
-        if (el && el.offsetTop <= scrollPosition) {
-          setActiveSection(item.id);
-          break;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= viewportThreshold && rect.bottom > 0) {
+            setActiveSection(item.id);
+            break;
+          }
         }
       }
     };
@@ -71,6 +81,7 @@ function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      if (navClickTimeoutRef.current) clearTimeout(navClickTimeoutRef.current);
     };
   }, [isHovered, isMenuOpen]);
 
@@ -128,8 +139,17 @@ function Navbar() {
   }, [isMenuOpen]);
 
   const handleNavClick = (id) => {
+    isNavClickRef.current = true;
     setActiveSection(id);
     setIsMenuOpen(false);
+
+    if (navClickTimeoutRef.current) {
+      clearTimeout(navClickTimeoutRef.current);
+    }
+    // Lock scrollspy from overriding during the smooth scroll animation
+    navClickTimeoutRef.current = setTimeout(() => {
+      isNavClickRef.current = false;
+    }, 850);
   };
 
   const isBarShown = isVisible || isHovered || isMenuOpen;
@@ -256,6 +276,44 @@ function Navbar() {
           }}
           aria-hidden={!isMenuOpen}
         >
+          {/* Mobile Drawer Header with Exit/Close button */}
+          <div className={styles.mobileDrawerHeader}>
+            <span className={styles.mobileBrand}>AM</span>
+
+            <div className={styles.mobileRightControls}>
+              <button
+                type="button"
+                className={styles.mobileQuickTheme}
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+              >
+                <img src={themeIcon} alt="" width="16" height="16" />
+              </button>
+
+              <button
+                type="button"
+                className={styles.mobileCloseBtn}
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Close navigation menu"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
           <div className={styles.mobileDrawerContent}>
             {NAV_ITEMS.map(({ id, label }) => {
               const isActive = activeSection === id;
