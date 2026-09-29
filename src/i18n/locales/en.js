@@ -26,7 +26,7 @@ export const en = {
   },
   projects: {
     sectionTitle: "Engineering Cases",
-    carouselAria: "Featured engineering cases carousel",
+    carouselAria: "Engineering Cases Carousel",
     prevSlide: "Previous engineering case",
     nextSlide: "Next engineering case",
     goToSlide: "Go to case",
@@ -35,38 +35,38 @@ export const en = {
     cases: {
       magma: {
         h3: "MAGMA (Nortis Studio)",
-        subtitle: "Enterprise B2B E-Commerce & Hybrid Headless Architecture",
+        subtitle: "Enterprise AI Orchestration & Anti-Hallucination Engine",
         description:
-          "Engineered an enterprise-grade B2B e-commerce infrastructure supporting over 10,000 distinct product variants. Decoupled catalog state synchronization from checkout transaction flows to ensure resilience during peak operational traffic.",
-        alt: "MAGMA B2B E-Commerce Architecture Logo",
+          "Architected the Portier/Worker orchestration model, strict idempotence rules, PostgreSQL RLS, and Zero PII lifecycle. Integrated structural validation and anti-hallucination controls for dependable B2B intelligence.",
+        alt: "Nortis Studio logo for the MAGMA enterprise AI case study",
       },
       chamiong: {
         h3: "CHAMIONG",
-        subtitle: "Multi-Tenant AI Agent & Workflow Orchestration",
+        subtitle: "Headless ERP Decoupling & B2B Commerce",
         description:
-          "Architected an autonomous customer interaction agent system handling 5,000+ daily conversational operations. Integrated LLM tool-calling with deterministic business rules, strict context isolation, and automated audit logging.",
-        alt: "CHAMIONG multi-tenant conversational AI agent architecture logo",
+          "Led the digital decoupling of an industrial leader from its core Odoo ERP. Engineered a decoupled Next.js + Sanity presentation layer via resilient JSON-RPC connectors with trilingual RTL catalog management.",
+        alt: "CHAMIONG logo for the hybrid headless commerce case study",
       },
       qodeep: {
         h3: "QODEEP",
-        subtitle: "Full-Stack Web Application & Developer Ecosystem",
+        subtitle: "Independent Architecture Consultancy & Digital Products",
         description:
-          "Designed a developer ecosystem web application with optimized content delivery, intuitive navigation patterns, and a maintainable modular architecture built for team scalability.",
-        alt: "QODEEP Developer ecosystem web application architecture logo",
+          "Delivering resilient B2B architectures, contextual AI workflows, and digital transformations. Directing technical audits, enterprise migrations, and end-to-end client handovers.",
+        alt: "QODEEP IT Engineering and Architecture Consulting logo",
       },
       previzma: {
         h3: "PREVIZMA",
-        subtitle: "Predictive Analytics & Industrial Decision Support",
+        subtitle: "Decoupled B2B Sales Intelligence Platform & ML Engine",
         description:
-          "Designed an industrial monitoring architecture for predictive maintenance workflows. Ingested time-series telemetry into automated health scoring pipelines, reducing alert fatigue across engineering teams.",
-        alt: "PREVIZMA industrial monitoring and predictive analytics logo",
+          "Engineered an open-architecture sales intelligence platform with Java 21, Spring Boot, and PostgreSQL. Decoupled predictive ML forecasting via a dedicated FastAPI microservice and Angular frontend.",
+        alt: "Previzma Java Spring Boot microservices platform logo",
       },
       dxc: {
         h3: "DXC Technology",
-        subtitle: "Modernization & Secure Enterprise Integrations",
+        subtitle: "Business Intelligence & Business Applications — RUN Teams",
         description:
-          "Led backend modernization initiatives and secure API integration layers across mission-critical enterprise systems. Enforced robust data validation, enterprise auth protocols, and microservice decoupling.",
-        alt: "DXC Technology enterprise software modernization logo",
+          "Engineered a competency coverage management platform for production RUN teams across the Insurance Service Line. Built the data pipeline, Dataverse application layer, and executive Power BI dashboards.",
+        alt: "DXC Technology enterprise systems and BI engineering logo",
       },
       sgg: {
         h3: "Secrétariat Général du Gouvernement (SGG)",

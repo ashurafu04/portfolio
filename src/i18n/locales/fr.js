@@ -35,38 +35,38 @@ export const fr = {
     cases: {
       magma: {
         h3: "MAGMA (Nortis Studio)",
-        subtitle: "E-Commerce B2B d'Entreprise & Architecture Headless Hybride",
+        subtitle: "Orchestration IA d'Entreprise & Moteur Anti-Hallucination",
         description:
-          "Conception d'une infrastructure e-commerce B2B supportant plus de 10 000 variantes produits. Découplage de la synchronisation catalogue et des flux transactionnels pour garantir la résilience lors des pics de charge opérationnels.",
-        alt: "Logo architecture e-commerce B2B MAGMA",
+          "Architecture du modèle d'orchestration Portier/Worker, règles strictes d'idempotence, PostgreSQL RLS et cycle de vie Zero PII. Intégration de validation structurelle et de contrôles anti-hallucination pour une intelligence B2B fiable.",
+        alt: "Logo Nortis Studio pour l'étude de cas d'IA d'entreprise MAGMA",
       },
       chamiong: {
         h3: "CHAMIONG",
-        subtitle: "Agent IA Multi-Tenant & Orchestration de Flux Métier",
+        subtitle: "Découplage ERP Headless & Commerce B2B",
         description:
-          "Architecture d'un système d'agents conversationnels autonomes traitant plus de 5 000 interactions par jour. Intégration d'outils LLM avec règles métier déterministes, isolation stricte du contexte et traçabilité d'audit.",
-        alt: "Logo architecture agent conversationnel IA CHAMIONG",
+          "Direction du découplage digital d'un leader industriel de son ERP Odoo central. Conception d'une couche de présentation Next.js + Sanity découplée via connecteurs JSON-RPC résilients avec gestion de catalogue trilingue RTL.",
+        alt: "Logo CHAMIONG pour l'étude de cas de commerce headless hybride",
       },
       qodeep: {
         h3: "QODEEP",
-        subtitle: "Application Web Full-Stack & Écosystème Développeur",
+        subtitle: "Conseil en Architecture Indépendante & Produits Digitaux",
         description:
-          "Conception d'une plateforme web pour écosystème développeur, optimisée pour la distribution de contenu, une navigation intuitive et une architecture modulaire pérenne.",
-        alt: "Logo architecture application web QODEEP",
+          "Conception d'architectures B2B résilientes, workflows d'IA contextuelle et transformations digitales. Conduite d'audits techniques, migrations d'entreprise et transferts clients de bout en bout.",
+        alt: "Logo QODEEP Conseil en ingénierie et architecture IT",
       },
       previzma: {
         h3: "PREVIZMA",
-        subtitle: "Analytique Prédictive & Aide à la Décision Industrielle",
+        subtitle: "Plateforme d'Intelligence Commerciale B2B Découplée & Moteur ML",
         description:
-          "Architecture de supervision industrielle pour la maintenance prédictive. Ingestion de télémétrie chronologique dans des pipelines de scoring automatisés, réduisant la fatigue des alertes chez les ingénieurs.",
-        alt: "Logo supervision industrielle et analytique prédictive PREVIZMA",
+          "Conception d'une plateforme d'intelligence commerciale à architecture ouverte avec Java 21, Spring Boot et PostgreSQL. Découplage de prévisions prédictives ML via un microservice dédié FastAPI et frontend Angular.",
+        alt: "Logo de la plateforme de microservices Java Spring Boot Previzma",
       },
       dxc: {
         h3: "DXC Technology",
-        subtitle: "Modernisation & Intégrations d'Entreprise Sécurisées",
+        subtitle: "Business Intelligence & Applications Métier — Équipes RUN",
         description:
-          "Pilotage d'initiatives de modernisation backend et de couches d'API sécurisées pour des systèmes d'entreprise critiques. Validation stricte des données, protocoles d'authentification et découplage microservices.",
-        alt: "Logo modernisation logicielle d'entreprise DXC Technology",
+          "Conception d'une plateforme de gestion de couverture des compétences pour les équipes de production RUN sur la ligne de service Assurance. Pipeline de données, couche Dataverse et tableaux de bord Power BI de direction.",
+        alt: "Logo ingénierie BI et systèmes d'entreprise DXC Technology",
       },
       sgg: {
         h3: "Secrétariat Général du Gouvernement (SGG)",
