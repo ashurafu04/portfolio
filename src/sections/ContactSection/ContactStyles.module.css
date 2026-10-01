@@ -50,33 +50,197 @@ textarea:focus-visible {
     color: var(--form-text-color);
 }
 
-input[type='submit'] {
+/* ── Submit Button & States ──────────────────────────────────────────────── */
+.submitBtn {
     background-color: var(--btn-color);
     color: var(--btn-text-color);
     border: none;
     border-radius: 20px;
-    min-width: 160px;
+    width: fit-content;
+    min-width: 200px;
+    padding: 0 32px;
     height: 50px;
     font-size: 18px;
     font-weight: 600;
     font-family: 'Roboto Mono', monospace;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+    transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out, opacity 200ms ease;
     margin: auto;
     cursor: pointer;
     touch-action: manipulation;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    white-space: nowrap;
+    box-sizing: border-box;
 }
 
 @media (hover: hover) {
-    input[type='submit']:hover {
+    .submitBtn:hover:not(:disabled) {
         transform: translateY(-2px);
         box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     }
 }
 
-input[type='submit']:active {
+.submitBtn:active:not(:disabled) {
     transform: translateY(2px);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+.submitBtn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ── Loading Animation (Subtle Dot Pulse matching Portfolio Identity) ─── */
+.submittingState {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pulseDots {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 12px;
+}
+
+.pulseDot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: currentColor;
+    opacity: 0.3;
+    animation: dotPulse 1.2s infinite ease-in-out both;
+}
+
+.pulseDot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.pulseDot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.pulseDot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+    0%, 80%, 100% {
+        opacity: 0.25;
+        transform: scale(0.85);
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
+}
+
+/* ── Invisible Honeypots (Multi-Layer Spam Trap) ─────────────────────────── */
+.honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+/* ── Success & Error Cards ───────────────────────────────────────────────── */
+.successCard {
+    border: 1px solid rgba(9, 135, 242, 0.35);
+    background: rgba(9, 135, 242, 0.04);
+    border-radius: 24px;
+    padding: 44px 28px;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    animation: fadeIn 300ms ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.successIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(9, 135, 242, 0.12);
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.successIcon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.successTitle {
+    font-family: 'Rubik', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.successText {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-color);
+    opacity: 0.8;
+    max-width: 480px;
+}
+
+.resetBtn {
+    margin-top: 8px;
+    padding: 10px 24px;
+    border-radius: 20px;
+    border: 1px solid rgba(var(--text-rgb), 0.2);
+    background: transparent;
+    color: var(--text-color);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 200ms ease;
+    touch-action: manipulation;
+}
+
+.resetBtn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: rgba(var(--text-rgb), 0.05);
+}
+
+.errorBanner {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #ef4444;
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 @media (width >= 800px) {

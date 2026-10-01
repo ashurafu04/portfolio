@@ -6,7 +6,7 @@ import { useTranslation } from "../i18n";
 import LanguageToggle from "./LanguageToggle";
 import styles from "./NavbarStyles.module.css";
 
-const SECTION_IDS = ["hero", "projects", "skills", "contact"];
+const SECTION_IDS = ["hero", "projects", "certifications", "skills", "contact"];
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -25,6 +25,7 @@ function Navbar() {
     () => [
       { id: "hero", label: t.nav.home },
       { id: "projects", label: t.nav.projects },
+      { id: "certifications", label: t.nav.certifications },
       { id: "skills", label: t.nav.skills },
       { id: "contact", label: t.nav.contact },
     ],

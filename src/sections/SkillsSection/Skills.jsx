@@ -16,40 +16,19 @@ function Skills() {
   const skillPillars = [
     {
       title: t.skills.pillars.backend,
-      items: [
-        "Microservices",
-        "Java (Spring, JEE)",
-        "C# (ASP.NET Core)",
-        "Node.js",
-        "Python (FastAPI, Django)",
-        "Laravel",
-      ],
+      items: t.skills.items.backend,
+    },
+    {
+      title: t.skills.pillars.erp,
+      items: t.skills.items.erp,
     },
     {
       title: t.skills.pillars.frontend,
-      items: ["Angular", "React / Next.js", "TypeScript", "React Native (Expo)"],
+      items: t.skills.items.frontend,
     },
     {
-      title: t.skills.pillars.data,
-      items: [
-        "Odoo (Tech & Functional)",
-        "PostgreSQL (RLS, Tuning)",
-        "SQL Server",
-        "Oracle",
-        "Redis",
-        "MongoDB",
-      ],
-    },
-    {
-      title: t.skills.pillars.cloud,
-      items: [
-        "AWS (Certified)",
-        "CI/CD (GitHub Actions)",
-        "Docker",
-        "LLM/RAG Pipelines",
-        "n8n",
-        "k6",
-      ],
+      title: t.skills.pillars.platform,
+      items: t.skills.items.platform,
     },
   ];
 
