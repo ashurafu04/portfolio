@@ -5,7 +5,6 @@ import { useTranslation } from "../../i18n";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const SUBMISSION_COOLDOWN_MS = 45000; // 45s between submissions per session
-const BOT_MIN_TIME_MS = 2500; // Human typing threshold
 
 function Contact() {
   const ref = useReveal({ threshold: 0.08 });
@@ -16,13 +15,11 @@ function Contact() {
     email: "",
     message: "",
     _gotcha: "",
-    _trap_city: "",
   });
 
   const [status, setStatus] = useState("idle"); // 'idle' | 'submitting' | 'success' | 'error'
   const [errorMessage, setErrorMessage] = useState("");
 
-  const mountTimeRef = useRef(Date.now());
   const abortControllerRef = useRef(null);
 
   const handleChange = (e) => {
@@ -36,32 +33,13 @@ function Contact() {
       email: "",
       message: "",
       _gotcha: "",
-      _trap_city: "",
     });
     setStatus("idle");
     setErrorMessage("");
-    mountTimeRef.current = Date.now();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // ── Layer 1: Anti-Bot Honeypots ─────────────────────────────────────────
-    // If hidden trap fields contain any content, silently fake success
-    if (formData._gotcha || formData._trap_city) {
-      console.warn("Honeypot triggered. Request dropped.");
-      setStatus("success");
-      return;
-    }
-
-    // ── Layer 2: Behavioral Time-Trap ───────────────────────────────────────
-    // Humans take at least 2.5s to fill a 3-field form; automated bots submit instantly
-    const elapsed = Date.now() - mountTimeRef.current;
-    if (elapsed < BOT_MIN_TIME_MS) {
-      console.warn("Rapid submission threshold triggered. Request dropped.");
-      setStatus("success");
-      return;
-    }
 
     // ── Layer 3: Session-Based Rate Limiting ─────────────────────────────────
     const lastSubmitTime = sessionStorage.getItem("last_contact_ts");
@@ -115,7 +93,7 @@ function Contact() {
           name,
           email,
           message,
-          _gotcha: "",
+          _gotcha: formData._gotcha || "",
         }),
         signal: abortControllerRef.current.signal,
       });
@@ -194,24 +172,13 @@ function Contact() {
             </div>
           )}
 
-          {/* ── Multi-Layer Honeypots (Traps Bots Silently) ────────────────── */}
+          {/* ── Formspree Native Bot Trap ──────────────────────────────────── */}
           <div className={styles.honeypot} aria-hidden="true">
-            <label htmlFor="_gotcha">Leave this field blank</label>
             <input
               type="text"
               name="_gotcha"
               id="_gotcha"
               value={formData._gotcha}
-              onChange={handleChange}
-              tabIndex={-1}
-              autoComplete="off"
-            />
-            <label htmlFor="_trap_city">City</label>
-            <input
-              type="text"
-              name="_trap_city"
-              id="_trap_city"
-              value={formData._trap_city}
               onChange={handleChange}
               tabIndex={-1}
               autoComplete="off"
