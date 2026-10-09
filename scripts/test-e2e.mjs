@@ -55,6 +55,11 @@ async function checkStaticHtml(baseUrl) {
     );
     check(html.includes(dict.hero.role.replace("&", "&amp;")), `${tag} hero copy is in the page language`);
     check((html.match(/<h1[\s>]/g) || []).length === 1, `${tag} exactly one <h1>`);
+    check(
+      /<picture><source type="image\/webp" srcSet="[^"]*portrait-400[^"]*400w[^"]*portrait-800[^"]*800w"/.test(html),
+      `${tag} portrait <picture> offers 400w/800w WebP sources`
+    );
+    check(!/<link rel="preload"[^>]*achraf-malki\.png/.test(html), `${tag} no preload of the full-size canonical PNG`);
     check(!/<!--app-(html|head)-->/.test(html), `${tag} prerender placeholders were replaced`);
     check(html.includes(`<link rel="canonical" href="${pageUrl}" />`), `${tag} self-referencing canonical`);
     for (const alt of PAGES) {
@@ -91,6 +96,11 @@ async function checkHydration(browser, baseUrl, { name, path = "/", storage = {}
   }, storage);
   const page = await context.newPage();
   const errors = trackErrors(page, baseUrl);
+  const portraitRequests = [];
+  page.on("request", (request) => {
+    const { pathname } = new URL(request.url());
+    if (pathname === PORTRAIT || /\/portrait-\d+.*\.webp$/.test(pathname)) portraitRequests.push(pathname);
+  });
 
   // Hold the app bundle so the prerendered DOM can be captured before React runs.
   let releaseBundle;
@@ -135,9 +145,50 @@ async function checkHydration(browser, baseUrl, { name, path = "/", storage = {}
     await page.getAttribute("nav [class*='themeButton']", "aria-label") === themeLabel,
     `[${name}] theme toggle label matches the ${expect.theme} theme`
   );
+  check(
+    portraitRequests.length > 0 && portraitRequests.every((pathname) => pathname.endsWith(".webp")),
+    `[${name}] browser loads the WebP portrait, not the canonical PNG (${portraitRequests.join(", ")})`
+  );
   check(errors.length === 0, `[${name}] no console errors${errors.length ? `:\n      ${errors.join("\n      ")}` : ""}`);
 
   await context.close();
+}
+
+// The whole hero (portrait to resume buttons) must fit a 375x667 phone in
+// both languages, starting below the fixed nav island rather than under it.
+async function checkMobileHero(browser, baseUrl) {
+  for (const { path } of PAGES) {
+    const context = await browser.newContext({
+      viewport: { width: 375, height: 667 },
+      deviceScaleFactor: 2,
+      isMobile: true,
+      hasTouch: true,
+    });
+    const page = await context.newPage();
+    await page.goto(new URL(path, baseUrl).href, { waitUntil: "networkidle" });
+    await page.waitForTimeout(900); // hero entrance animation
+
+    const layout = await page.evaluate(() => {
+      const island = document.querySelector('[class*="mobileNavIsland"]');
+      const wrapper = island.closest("header");
+      const buttons = [...document.querySelectorAll('#hero [class*="cvButtons"] a')].map((a) => a.getBoundingClientRect());
+      return {
+        // Resting position: the bar auto-hides on idle, so measure from its CSS offset
+        navBottom: parseFloat(getComputedStyle(wrapper).top) + island.offsetHeight,
+        photoTop: document.querySelector("#hero img").getBoundingClientRect().top,
+        buttonsBottom: Math.max(...buttons.map((b) => b.bottom)),
+        buttonRows: new Set(buttons.map((b) => Math.round(b.top))).size,
+        overflowX: document.documentElement.scrollWidth > window.innerWidth,
+      };
+    });
+
+    const air = Math.round(layout.photoTop - layout.navBottom);
+    check(air >= 12, `[mobile ${path}] portrait starts ${air}px below the nav (>= 12px)`);
+    check(layout.buttonsBottom <= 667, `[mobile ${path}] full hero fits a 375x667 viewport (ends at ${Math.round(layout.buttonsBottom)}px)`);
+    check(layout.buttonRows === 1, `[mobile ${path}] resume buttons share one row`);
+    check(!layout.overflowX, `[mobile ${path}] no horizontal overflow`);
+    await context.close();
+  }
 }
 
 async function checkLanguageSwitch(browser, baseUrl) {
@@ -257,6 +308,7 @@ try {
   await checkHydration(browser, baseUrl, { name: "en/dark", storage: { theme: "dark" }, expect: { theme: "dark", lang: "en" } });
   await checkHydration(browser, baseUrl, { name: "fr/light", path: "/fr/", expect: { theme: "light", lang: "fr" } });
   await checkHydration(browser, baseUrl, { name: "fr/dark", path: "/fr/", storage: { theme: "dark" }, expect: { theme: "dark", lang: "fr" } });
+  await checkMobileHero(browser, baseUrl);
   await checkLanguageSwitch(browser, baseUrl);
   await checkContrast(browser, baseUrl);
   await checkSections(browser, baseUrl);

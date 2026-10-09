@@ -2,7 +2,7 @@ export const SITE_URL = "https://achrafmalki.dev";
 
 // Canonical portrait: served from public/ at a stable, non-fingerprinted URL
 // and referenced by the hero image, Person.image and the sitemap.
-export const PORTRAIT = { path: "/achraf-malki.png", width: 500, height: 500 };
+export const PORTRAIT = { path: "/achraf-malki.png", width: 1080, height: 1080 };
 
 export const OG_IMAGE = { path: "/og.png", width: 1200, height: 630 };
 

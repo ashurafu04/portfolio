@@ -6,6 +6,8 @@ import githubDark from "../../assets/github-dark.svg";
 import linkedinLight from "../../assets/linkedin-light.svg";
 import linkedinDark from "../../assets/linkedin-dark.svg";
 import CV from "../../assets/cv.pdf";
+import portrait400 from "../../assets/portrait-400.webp";
+import portrait800 from "../../assets/portrait-800.webp";
 import ThemedImage from "../../common/ThemedImage";
 import { PORTRAIT, PROFILES } from "../../seo/site";
 import { useTranslation } from "../../i18n";
@@ -16,17 +18,26 @@ function Hero() {
   return (
     <section id="hero" className={styles.container}>
       <div className={styles.colorModeContainer}>
-        {/* Stable public/ URL shared with Person.image and the sitemap (see
-            seo/site.js). Never import it through Vite: that fingerprints it. */}
-        <img
-          className={styles.hero}
-          src={PORTRAIT.path}
-          alt={t.hero.portraitAlt}
-          width={PORTRAIT.width}
-          height={PORTRAIT.height}
-          fetchPriority="high"
-          decoding="async"
-        />
+        {/* <img src> is the canonical portrait Google indexes (stable public/
+            URL shared with Person.image and the sitemap; never import it
+            through Vite, which fingerprints it). Browsers download the small
+            WebP sources instead. Regenerate both: scripts/generate-portrait.py */}
+        <picture>
+          <source
+            type="image/webp"
+            srcSet={`${portrait400} 400w, ${portrait800} 800w`}
+            sizes="(min-width: 1400px) 400px, (min-width: 800px) 350px, (min-width: 769px) 200px, 140px"
+          />
+          <img
+            className={styles.hero}
+            src={PORTRAIT.path}
+            alt={t.hero.portraitAlt}
+            width={PORTRAIT.width}
+            height={PORTRAIT.height}
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
       </div>
       <div className={styles.info}>
         <h1>{t.hero.name}</h1>

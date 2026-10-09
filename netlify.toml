@@ -27,6 +27,11 @@
   to = "/achraf-malki.png"
   status = 301
 
+[[redirects]]
+  from = "/h04.ico"
+  to = "/favicon.ico"
+  status = 301
+
 # Security & trust headers (also influence SEO scores)
 [[headers]]
   for = "/*"

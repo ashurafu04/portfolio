@@ -64,7 +64,7 @@ npm run preview    # serve dist/ locally
 - **Engineering cases:** add the entry to `src/sections/ProjectSection/casesData.js` and its copy under `projects.cases` in both locales. It appears in the UI and the structured data.
 - **Certifications:** `src/sections/CertificationsSection/certificationsData.js`. `kind` must match how the issuer classifies the credential.
 - **Content date:** bump `CONTENT_UPDATED` in `src/seo/site.js` when page content changes (drives `dateModified` and sitemap `lastmod`).
-- **Portrait:** replace `public/achraf-malki.png` in place (keep the URL), then run `scripts/generate-og.ps1`.
+- **Portrait:** run `python scripts/generate-portrait.py path/to/photo.png` (square photo, subject inside an inscribed circle; needs Pillow). It rewrites the canonical `public/achraf-malki.png` at the same URL and the WebP sizes browsers load. Then update `PORTRAIT` in `src/seo/site.js` if the size changed, and run `scripts/generate-og.ps1`.
 
 ## Contact
 

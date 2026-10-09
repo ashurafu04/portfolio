@@ -9,9 +9,11 @@
   padding-bottom: 20px;
 
   .hero {
+    display: block;
     max-width: 200px;
     width: 100%;
     height: auto;
+    margin-inline: auto;
     object-fit: contain;
   }
 
@@ -137,31 +139,52 @@
   .info > *:nth-child(6) { animation-delay: 620ms; }
 }
 
+/* Phones: the whole hero (portrait to resume buttons) fits the first
+   viewport down to 375x667, and clears the fixed nav island (~65px). */
 @media (max-width: 768px) {
   .container {
-    padding-top: 60px;
-    min-height: auto;
-    height: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: 84px;
+    padding-bottom: 20px;
+    gap: 14px;
     margin-bottom: 40px;
+
+    .hero {
+      max-width: 140px;
+    }
+  }
+
+  .role {
+    font-size: 15px;
+  }
+
+  .tagline {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  .description {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.55;
   }
 
   .cvButtons {
-    flex-direction: column;
-    gap: 0.8rem;
-    align-items: stretch;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
   }
 
+  /* Size to the label and never break it; on screens too narrow for both,
+     flex-wrap stacks them instead. */
   .cvButtons a {
-    display: flex;
-    width: 100%;
-  }
-
-  .cvButtons a {
-    width: 100%;
-    min-width: unset;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 44px;
+    padding: 0 16px;
+    font-size: 14px;
+    white-space: nowrap;
   }
 }
 
