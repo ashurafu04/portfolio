@@ -1,6 +1,6 @@
-"""Generate the portrait assets from a source photo.
+"""Generate the portrait assets from the original source photo.
 
-    python scripts/generate-portrait.py path/to/photo.png
+    python scripts/generate-portrait.py path/to/original-photo.png
 
 Writes:
   public/achraf-malki.png            canonical image (Person.image, sitemap, the
@@ -9,15 +9,18 @@ Writes:
   src/assets/portrait-{400,800}.webp  what browsers actually download, via the
                                      hero <picture> sources
 
-The source must be a square photo with the subject framed inside an inscribed
-circle (anything outside the circle becomes transparent, so the portrait works
-on both themes). Re-running on the canonical PNG is safe.
+The source must be a square photo of a circular cut-out on a pure-white
+(#ffffff) canvas. Hand-cut circles are rarely perfect, so the script measures
+where the cut-out actually is and masks just inside its tightest point;
+everything outside becomes transparent, so the portrait works on both themes.
+Always run it on the original photo, not on public/achraf-malki.png.
 
 After running: update PORTRAIT width/height in src/seo/site.js if the size
 changed, then run scripts/generate-og.ps1.
 
 Requires Pillow (pip install pillow).
 """
+import math
 import sys
 from pathlib import Path
 
@@ -27,15 +30,41 @@ ROOT = Path(__file__).resolve().parent.parent
 CANONICAL = ROOT / "public" / "achraf-malki.png"
 VARIANTS = {400: ROOT / "src" / "assets" / "portrait-400.webp",
             800: ROOT / "src" / "assets" / "portrait-800.webp"}
-EDGE_INSET = 3  # px trimmed inside the circle to drop the anti-aliased white rim
+EDGE_INSET = 3  # px kept clear of the cut-out's anti-aliased white rim
 SUPERSAMPLE = 4
+WHITE = (255, 255, 255)
 
 
-def circular_mask(size):
+def cutout_radius(photo):
+    """Smallest distance from the centre to the cut-out's edge, over all angles.
+
+    Marches inward along each ray until it leaves the pure-white canvas. Using
+    the minimum means a mask of this radius never includes canvas white, even
+    where the cut-out is dented or off-centre.
+    """
+    rgb = photo.convert("RGB")
+    px = rgb.load()
+    size = rgb.width
+    centre = (size - 1) / 2
+    radii = []
+    for degree in range(360):
+        dx, dy = math.cos(math.radians(degree)), math.sin(math.radians(degree))
+        for r in range(int(size * 0.75), size // 4, -1):
+            x, y = round(centre + dx * r), round(centre + dy * r)
+            if 0 <= x < size and 0 <= y < size and px[x, y] != WHITE:
+                radii.append(r)
+                break
+    if len(radii) < 360:
+        sys.exit("could not find the cut-out edge on every ray: expected a circle on a pure-white canvas")
+    return min(radii)
+
+
+def circular_mask(size, radius):
     big = size * SUPERSAMPLE
+    centre = (big - 1) / 2
+    r = radius * SUPERSAMPLE
     mask = Image.new("L", (big, big), 0)
-    inset = EDGE_INSET * SUPERSAMPLE
-    ImageDraw.Draw(mask).ellipse((inset, inset, big - inset - 1, big - inset - 1), fill=255)
+    ImageDraw.Draw(mask).ellipse((centre - r, centre - r, centre + r, centre + r), fill=255)
     return mask.resize((size, size), Image.LANCZOS)
 
 
@@ -44,7 +73,11 @@ def main(source):
     if photo.width != photo.height:
         sys.exit(f"source must be square, got {photo.width}x{photo.height}")
 
-    photo.putalpha(circular_mask(photo.width))
+    edge = cutout_radius(photo)
+    radius = edge - EDGE_INSET
+    print(f"cut-out edge at r>={edge}px; masking at r={radius}px")
+
+    photo.putalpha(circular_mask(photo.width, radius))
     photo.save(CANONICAL, optimize=True)
     print(f"{CANONICAL.relative_to(ROOT)}  {photo.width}x{photo.height}  {CANONICAL.stat().st_size / 1024:.0f} KB")
 
