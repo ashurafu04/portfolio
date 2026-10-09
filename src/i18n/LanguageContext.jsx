@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
+import { createContext, useContext, useEffect, useCallback, useMemo, useSyncExternalStore } from "react";
 import en from "./locales/en";
 import fr from "./locales/fr";
 
@@ -25,29 +25,41 @@ function getInitialLanguage() {
   return "en";
 }
 
+// Module-level store so the client preference can differ from the prerendered
+// HTML (always English) without a hydration mismatch: hydration runs with the
+// server snapshot, then React re-renders with the visitor's language.
+let currentLanguage = null;
+const listeners = new Set();
+
+const subscribe = (listener) => {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+};
+
+const getSnapshot = () => (currentLanguage ??= getInitialLanguage());
+
+const getServerSnapshot = () => "en";
+
+function writeLanguage(newLang) {
+  currentLanguage = newLang;
+  try {
+    localStorage.setItem(STORAGE_KEY, newLang);
+  } catch {
+    // Ignore write errors
+  }
+  listeners.forEach((listener) => listener());
+}
+
 export function LanguageProvider({ children }) {
-  const [language, setLanguageState] = useState(getInitialLanguage);
+  const language = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const setLanguage = useCallback((newLang) => {
     if (newLang !== "en" && newLang !== "fr") return;
-    setLanguageState(newLang);
-    try {
-      localStorage.setItem(STORAGE_KEY, newLang);
-    } catch {
-      // Ignore write errors
-    }
+    writeLanguage(newLang);
   }, []);
 
   const toggleLanguage = useCallback(() => {
-    setLanguageState((prev) => {
-      const next = prev === "en" ? "fr" : "en";
-      try {
-        localStorage.setItem(STORAGE_KEY, next);
-      } catch {
-        // Ignore write errors
-      }
-      return next;
-    });
+    writeLanguage(getSnapshot() === "en" ? "fr" : "en");
   }, []);
 
   // Sync document element attributes and meta tags on language change

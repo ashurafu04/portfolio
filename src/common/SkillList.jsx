@@ -1,7 +1,9 @@
-function SkillList({ src, skill }) {
+import ThemedImage from "./ThemedImage";
+
+function SkillList({ lightIcon, darkIcon, skill }) {
   return (
     <span>
-      <img src={src} alt="" />
+      <ThemedImage light={lightIcon} dark={darkIcon} />
       <p>{skill}</p>
     </span>
   );

@@ -114,7 +114,7 @@ function Contact() {
           setErrorMessage(t.contact.errorMessage);
         }
       }
-    } catch (err) {
+    } catch {
       setStatus("error");
       setErrorMessage(t.contact.errorMessage);
     }

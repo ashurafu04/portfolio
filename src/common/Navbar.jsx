@@ -4,6 +4,7 @@ import sun from "../assets/sun.svg";
 import { useTheme } from "./ThemeContext";
 import { useTranslation } from "../i18n";
 import LanguageToggle from "./LanguageToggle";
+import ThemedImage from "./ThemedImage";
 import styles from "./NavbarStyles.module.css";
 
 const SECTION_IDS = ["hero", "projects", "certifications", "skills", "contact"];
@@ -19,7 +20,6 @@ function Navbar() {
   const navClickTimeoutRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
   const { t } = useTranslation();
-  const themeIcon = theme === "light" ? sun : moon;
 
   const navItems = useMemo(
     () => [
@@ -227,7 +227,7 @@ function Navbar() {
             aria-label={theme === "light" ? t.nav.themeDark : t.nav.themeLight}
             title={theme === "light" ? t.nav.themeDark : t.nav.themeLight}
           >
-            <img src={themeIcon} alt="" width="16" height="16" />
+            <ThemedImage light={sun} dark={moon} width="16" height="16" />
           </button>
         </div>
 
@@ -251,7 +251,7 @@ function Navbar() {
               onClick={toggleTheme}
               aria-label={theme === "light" ? t.nav.themeDark : t.nav.themeLight}
             >
-              <img src={themeIcon} alt="" width="16" height="16" />
+              <ThemedImage light={sun} dark={moon} width="16" height="16" />
             </button>
 
             <button
@@ -307,7 +307,7 @@ function Navbar() {
                 onClick={toggleTheme}
                 aria-label={theme === "light" ? t.nav.themeDark : t.nav.themeLight}
               >
-                <img src={themeIcon} alt="" width="16" height="16" />
+                <ThemedImage light={sun} dark={moon} width="16" height="16" />
               </button>
 
               <button

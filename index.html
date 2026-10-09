@@ -47,9 +47,12 @@
           "url": "https://achrafmalki.dev/",
           "image": {
             "@type": "ImageObject",
-            "url": "https://achrafmalki.dev/profile.png",
+            "@id": "https://achrafmalki.dev/#portrait",
+            "url": "https://achrafmalki.dev/achraf-malki.png",
+            "contentUrl": "https://achrafmalki.dev/achraf-malki.png",
             "width": 500,
-            "height": 500
+            "height": 500,
+            "caption": "Achraf Malki"
           },
           "jobTitle": "Software Engineer & IT Consultant",
           "description": "I engineer backend systems that don't break under pressure, and architectures that drive tangible business autonomy. Specialized in multi-tenant AI orchestration, Hybrid Headless architectures, and secure B2B integrations.",
@@ -92,7 +95,8 @@
           "isPartOf": { "@id": "https://achrafmalki.dev/#website" },
           "about": { "@id": "https://achrafmalki.dev/#person" },
           "mainEntity": { "@id": "https://achrafmalki.dev/#person" },
-          "dateModified": "2026-08-09",
+          "primaryImageOfPage": { "@id": "https://achrafmalki.dev/#portrait" },
+          "dateModified": "2026-10-09",
           "inLanguage": "en-US",
           "breadcrumb": {
             "@type": "BreadcrumbList",
@@ -224,7 +228,6 @@
           var theme = saved ? saved : (systemDark ? 'dark' : 'light');
           document.documentElement.setAttribute('data-theme', theme);
           document.documentElement.setAttribute('data-animate-ready', '');
-          document.documentElement.classList.add('js-ready');
         } catch (e) {
           document.documentElement.setAttribute('data-theme', 'light');
         }
@@ -245,90 +248,10 @@
         background-color: var(--background-color);
         color: var(--text-color);
       }
-      .js-ready .seo-shell {
-        display: none !important;
-      }
     </style>
   </head>
   <body>
-    <div id="root">
-      <!--
-        Crawlable first response for search engines and no-JavaScript visitors.
-        React replaces this shell with the interactive portfolio at startup.
-      -->
-      <noscript>
-        <main class="seo-shell">
-        <section aria-labelledby="profile-name">
-          <h1 id="profile-name">Achraf Malki</h1>
-          <h2>Software Engineer &amp; IT Consultant</h2>
-          <p>Enterprise AI · Headless Commerce · Cloud Infrastructure</p>
-          <p>
-            Achraf Malki engineers backend systems that hold up under pressure
-            and architectures that create tangible business autonomy. His work
-            focuses on multi-tenant AI orchestration, hybrid headless
-            architectures, and secure B2B integrations.
-          </p>
-          <p>
-            <a href="https://github.com/ashurafu04">GitHub</a>
-            <a href="https://www.linkedin.com/in/achraf-malki/">LinkedIn</a>
-            <a href="https://x.com/AchrafMalkiEng">X</a>
-          </p>
-        </section>
-        <section aria-labelledby="engineering-cases">
-          <h2 id="engineering-cases">Engineering Cases</h2>
-          <article>
-            <h3>MAGMA — Enterprise AI Orchestration &amp; Anti-Hallucination Engine</h3>
-            <p>
-              Portier/Worker orchestration model, strict idempotence rules, PostgreSQL RLS,
-              and Zero PII lifecycle with anti-hallucination controls.
-            </p>
-          </article>
-          <article>
-            <h3>CHAMIONG — Headless ERP Decoupling &amp; B2B Commerce</h3>
-            <p>
-              Digital decoupling of industrial operations from Odoo ERP via Next.js,
-              Sanity, and resilient JSON-RPC connectors with trilingual RTL support.
-            </p>
-          </article>
-          <article>
-            <h3>QODEEP — Independent Architecture Consultancy &amp; Digital Products</h3>
-            <p>
-              Resilient B2B architectures, contextual AI workflows, and digital transformations.
-            </p>
-          </article>
-          <article>
-            <h3>PREVIZMA — Decoupled B2B Sales Intelligence Platform &amp; ML Engine</h3>
-            <p>
-              Java 21 and Spring Boot microservices backend, PostgreSQL, and decoupled predictive ML service.
-            </p>
-          </article>
-          <article>
-            <h3>DXC Technology — Business Intelligence &amp; Business Applications</h3>
-            <p>
-              Competency coverage management platform, Dataverse application layer, and Power BI dashboards for RUN teams.
-            </p>
-          </article>
-          <article>
-            <h3>Secrétariat Général du Gouvernement (SGG) — Enterprise ERP &amp; Automation</h3>
-            <p>
-              Odoo implementation for Direction of the Official Printing Office with custom Python modules and BPMN approval workflows.
-            </p>
-          </article>
-        </section>
-        <section aria-labelledby="technical-skills">
-          <h2 id="technical-skills">Technical Skills</h2>
-          <p>
-            Java, C#, Node.js, Python, Laravel, React, Next.js, TypeScript,
-            Odoo, PostgreSQL, AWS, Docker, CI/CD, LLM and RAG pipelines.
-          </p>
-        </section>
-        <section aria-labelledby="contact-achraf">
-          <h2 id="contact-achraf">Contact Achraf Malki</h2>
-          <p>Use the contact form to discuss enterprise engineering work.</p>
-        </section>
-      </main>
-      </noscript>
-    </div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

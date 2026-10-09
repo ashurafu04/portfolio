@@ -7,12 +7,14 @@ export default [
   {
     ignores: [
       "dist/**",
+      "dist-ssr/**",
       ".agents/**",
       ".claude/**",
       ".codex/**",
       ".cursor/**",
       ".gemini/**",
       ".impeccable/**",
+      ".kilo/**",
     ],
   },
   {

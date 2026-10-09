@@ -1,5 +1,4 @@
 import styles from "./HeroStyles.module.css";
-import heroImg from "../../assets/hero-img.png";
 import xLight from "../../assets/twitter-light.svg";
 import xDark from "../../assets/twitter-dark.svg";
 import githubLight from "../../assets/github-light.svg";
@@ -7,23 +6,21 @@ import githubDark from "../../assets/github-dark.svg";
 import linkedinLight from "../../assets/linkedin-light.svg";
 import linkedinDark from "../../assets/linkedin-dark.svg";
 import CV from "../../assets/cv.pdf";
-import { useTheme } from "../../common/ThemeContext";
+import ThemedImage from "../../common/ThemedImage";
 import { useTranslation } from "../../i18n";
 
 function Hero() {
-  const { theme } = useTheme();
   const { t } = useTranslation();
-
-  const xIcon = theme === "light" ? xLight : xDark;
-  const githubIcon = theme === "light" ? githubLight : githubDark;
-  const linkedinIcon = theme === "light" ? linkedinLight : linkedinDark;
 
   return (
     <section id="hero" className={styles.container}>
       <div className={styles.colorModeContainer}>
+        {/* Served from public/ at a stable URL: the same URL is declared as
+            Person.image in index.html and in sitemap.xml. Do not import it
+            through Vite, which would fingerprint the filename. */}
         <img
           className={styles.hero}
-          src={heroImg}
+          src="/achraf-malki.png"
           alt={t.hero.portraitAlt}
           width="500"
           height="500"
@@ -42,7 +39,7 @@ function Hero() {
             rel="noopener noreferrer"
             aria-label={t.hero.xAria}
           >
-            <img src={xIcon} alt="" />
+            <ThemedImage light={xLight} dark={xDark} />
           </a>
           <a
             href="https://github.com/ashurafu04"
@@ -50,7 +47,7 @@ function Hero() {
             rel="noopener noreferrer"
             aria-label={t.hero.githubAria}
           >
-            <img src={githubIcon} alt="" />
+            <ThemedImage light={githubLight} dark={githubDark} />
           </a>
           <a
             href="https://www.linkedin.com/in/achraf-malki/"
@@ -58,7 +55,7 @@ function Hero() {
             rel="noopener noreferrer"
             aria-label={t.hero.linkedinAria}
           >
-            <img src={linkedinIcon} alt="" />
+            <ThemedImage light={linkedinLight} dark={linkedinDark} />
           </a>
         </span>
         <p className={styles.description}>{t.hero.description}</p>

@@ -15,6 +15,18 @@
   status = 301
   force = true
 
+# Consolidate earlier portrait URLs onto the canonical one so any image-index
+# signals they collected transfer instead of resolving to 404.
+[[redirects]]
+  from = "/profile.png"
+  to = "/achraf-malki.png"
+  status = 301
+
+[[redirects]]
+  from = "/assets/hero-img-CbMfrsF-.png"
+  to = "/achraf-malki.png"
+  status = 301
+
 # Security & trust headers (also influence SEO scores)
 [[headers]]
   for = "/*"
@@ -58,8 +70,10 @@
     Content-Type = "image/png"
     Cache-Control = "public, max-age=604800"
 
+# Canonical portrait (Person.image). Stable, non-fingerprinted URL, so keep the
+# browser cache short enough that a replaced photo propagates within a day.
 [[headers]]
-  for = "/profile.png"
+  for = "/achraf-malki.png"
   [headers.values]
     Content-Type = "image/png"
-    Cache-Control = "public, max-age=604800"
+    Cache-Control = "public, max-age=86400"

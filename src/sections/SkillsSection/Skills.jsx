@@ -2,16 +2,12 @@ import styles from "./SkillsStyles.module.css";
 import checkMarkIconDark from "../../assets/checkmark-dark.svg";
 import checkMarkIconLight from "../../assets/checkmark-light.svg";
 import SkillList from "../../common/SkillList";
-import { useTheme } from "../../common/ThemeContext";
 import { useReveal } from "../../hooks/useReveal";
 import { useTranslation } from "../../i18n";
 
 function Skills() {
-  const { theme } = useTheme();
   const { t } = useTranslation();
   const ref = useReveal();
-  const checkMarkIcon =
-    theme === "dark" ? checkMarkIconDark : checkMarkIconLight;
 
   const skillPillars = [
     {
@@ -52,7 +48,12 @@ function Skills() {
             <h3 className={styles.pillarTitle}>{pillar.title}</h3>
             <div className={styles.skillList}>
               {pillar.items.map((skill) => (
-                <SkillList key={skill} src={checkMarkIcon} skill={skill} />
+                <SkillList
+                  key={skill}
+                  lightIcon={checkMarkIconLight}
+                  darkIcon={checkMarkIconDark}
+                  skill={skill}
+                />
               ))}
             </div>
           </article>

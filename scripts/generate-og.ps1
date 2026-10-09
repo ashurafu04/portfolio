@@ -1,7 +1,8 @@
+$ErrorActionPreference = "Stop"
 Add-Type -AssemblyName System.Drawing
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$portraitPath = Join-Path $projectRoot "public\profile.png"
+$portraitPath = Join-Path $projectRoot "public\achraf-malki.png"
 $outputPath = Join-Path $projectRoot "public\og.png"
 
 $canvas = New-Object System.Drawing.Bitmap 1200, 630

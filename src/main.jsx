@@ -1,16 +1,13 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import "./index.css";
-import App from "./App.jsx";
-import { ThemeProvider } from "./common/ThemeContext.jsx";
-import { LanguageProvider } from "./i18n";
+import Root from "./Root.jsx";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <ThemeProvider>
-      <LanguageProvider>
-        <App />
-      </LanguageProvider>
-    </ThemeProvider>
-  </StrictMode>
-);
+const container = document.getElementById("root");
+
+// Production HTML is prerendered at build time (scripts/prerender.mjs), so
+// attach to the existing markup. The dev server serves the bare template.
+if (container.firstElementChild) {
+  hydrateRoot(container, <Root />);
+} else {
+  createRoot(container).render(<Root />);
+}

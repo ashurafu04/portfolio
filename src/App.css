@@ -27,6 +27,12 @@
   --footer-text-color: #bbb;
 }
 
+/* ThemedImage renders both variants; hide the one not matching the theme. */
+:root:not([data-theme="dark"]) [data-theme-only="dark"],
+:root[data-theme="dark"] [data-theme-only="light"] {
+  display: none !important;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -116,32 +122,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 60px;
-}
-
-/* Initial crawl/no-JS shell; React replaces this with the interactive app. */
-.seo-shell {
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  padding-top: 100px;
-}
-
-.seo-shell section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 70ch;
-}
-
-.seo-shell article {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.seo-shell a {
-  color: var(--accent-color);
-  margin-right: 20px;
 }
 
 h1,
