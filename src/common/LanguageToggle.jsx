@@ -1,54 +1,62 @@
 import { useTranslation } from "../i18n";
+import { LOCALES } from "../i18n/config";
 import styles from "./LanguageToggleStyles.module.css";
 
+// Real links between the prerendered language pages, so crawlers can follow
+// them. Plain clicks switch in place; modified clicks (new tab, etc.) and
+// no-JS visits fall back to normal navigation.
+function LanguageLink({ lang, className, children, ...props }) {
+  const { language, setLanguage } = useTranslation();
+
+  const handleClick = (event) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+    event.preventDefault();
+    setLanguage(lang);
+  };
+
+  return (
+    <a
+      href={LOCALES[lang].path}
+      hrefLang={LOCALES[lang].htmlLang}
+      lang={LOCALES[lang].htmlLang}
+      className={className}
+      aria-current={lang === language ? "true" : undefined}
+      onClick={handleClick}
+      {...props}
+    >
+      {children}
+    </a>
+  );
+}
+
 export function LanguageToggle({ variant = "desktop" }) {
-  const { language, setLanguage, toggleLanguage, t } = useTranslation();
+  const { language, t } = useTranslation();
 
   if (variant === "mobile") {
     const targetLang = language === "en" ? "fr" : "en";
-    const label = targetLang.toUpperCase();
     return (
-      <button
-        type="button"
-        className={styles.mobileBtn}
-        onClick={toggleLanguage}
-        aria-label={t.nav?.langToggleAria || `Switch to ${targetLang === "fr" ? "French" : "English"}`}
-        title={`Switch to ${targetLang === "fr" ? "French" : "English"}`}
-      >
-        {label}
-      </button>
+      <LanguageLink lang={targetLang} className={styles.mobileBtn} aria-label={t.nav.langToggleAria}>
+        {targetLang.toUpperCase()}
+      </LanguageLink>
     );
   }
 
-  // Desktop segmented dual pill (clean, elegant, matches portfolio aesthetic)
   return (
-    <div
-      className={styles.desktopPill}
-      role="group"
-      aria-label="Language selection"
-    >
-      <button
-        type="button"
-        className={`${styles.pillSegment} ${
-          language === "en" ? styles.pillSegmentActive : ""
-        }`}
-        onClick={() => setLanguage("en")}
-        aria-pressed={language === "en"}
-        aria-label="English"
-      >
-        EN
-      </button>
-      <button
-        type="button"
-        className={`${styles.pillSegment} ${
-          language === "fr" ? styles.pillSegmentActive : ""
-        }`}
-        onClick={() => setLanguage("fr")}
-        aria-pressed={language === "fr"}
-        aria-label="Français"
-      >
-        FR
-      </button>
+    <div className={styles.desktopPill} role="group" aria-label={t.nav.languageGroupAria}>
+      {Object.keys(LOCALES).map((lang) => (
+        <LanguageLink
+          key={lang}
+          lang={lang}
+          className={`${styles.pillSegment} ${
+            lang === language ? styles.pillSegmentActive : ""
+          }`}
+          aria-label={lang === "en" ? "English" : "Français"}
+        >
+          {lang.toUpperCase()}
+        </LanguageLink>
+      ))}
     </div>
   );
 }

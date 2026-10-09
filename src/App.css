@@ -2,8 +2,14 @@
   --background-color: #f3fffe;
   --background-rgb: 243, 255, 254;
   --text-rgb: 34, 34, 34;
-  --btn-color: #0987f2;
+  /* Command Blue (#0987f2) is 3.6:1 on both canvases: enough for borders,
+     indicators and icons (WCAG 1.4.11), not for text (1.4.3 needs 4.5:1).
+     Text and white-on-blue fills use the AA-safe shades below. */
   --accent-color: #0987f2;
+  --accent-rgb: 9, 135, 242;
+  --accent-text: #0770ca;
+  --accent-fill: #0770ca;
+  --btn-color: var(--accent-fill);
   --btn-text-color: #fff;
   --project-card-bg: #ffffff00;
   --text-color: #222;
@@ -19,7 +25,7 @@
   --background-rgb: 49, 49, 49;
   --text-rgb: 255, 255, 255;
   --btn-color: #fff;
-  --accent-color: #0987f2;
+  --accent-text: #3fa3f8;
   --btn-text-color: #222;
   --project-card-bg: #fff;
   --text-color: #fff;

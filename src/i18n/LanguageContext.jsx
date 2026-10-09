@@ -1,97 +1,50 @@
 import { createContext, useContext, useEffect, useCallback, useMemo, useSyncExternalStore } from "react";
-import en from "./locales/en";
-import fr from "./locales/fr";
+import { DICTIONARIES, LOCALES, languageFromPath } from "./config";
 
-const dictionaries = { en, fr };
+const LanguageContext = createContext();
 
-export const LanguageContext = createContext();
-
-const STORAGE_KEY = "portfolio_lang";
-
-function getInitialLanguage() {
-  if (typeof window === "undefined") return "en";
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved && (saved === "en" || saved === "fr")) {
-      return saved;
-    }
-    const browserLang = navigator.language || navigator.userLanguage || "";
-    if (browserLang.toLowerCase().startsWith("fr")) {
-      return "fr";
-    }
-  } catch {
-    // Fallback if localStorage is inaccessible
-  }
-  return "en";
-}
-
-// Module-level store so the client preference can differ from the prerendered
-// HTML (always English) without a hydration mismatch: hydration runs with the
-// server snapshot, then React re-renders with the visitor's language.
-let currentLanguage = null;
+// The URL is the store: /fr/ is French, everything else English. Switching
+// language pushes the other locale's URL (keeping the #section) so the
+// address always matches the prerendered page for that language.
 const listeners = new Set();
+const notify = () => listeners.forEach((listener) => listener());
 
 const subscribe = (listener) => {
   listeners.add(listener);
-  return () => listeners.delete(listener);
+  window.addEventListener("popstate", listener);
+  return () => {
+    listeners.delete(listener);
+    window.removeEventListener("popstate", listener);
+  };
 };
 
-const getSnapshot = () => (currentLanguage ??= getInitialLanguage());
+const getSnapshot = () => languageFromPath(window.location.pathname);
 
-const getServerSnapshot = () => "en";
-
-function writeLanguage(newLang) {
-  currentLanguage = newLang;
-  try {
-    localStorage.setItem(STORAGE_KEY, newLang);
-  } catch {
-    // Ignore write errors
-  }
-  listeners.forEach((listener) => listener());
+function navigateToLanguage(language) {
+  if (!LOCALES[language] || language === getSnapshot()) return;
+  window.history.pushState(null, "", LOCALES[language].path + window.location.hash);
+  notify();
 }
 
-export function LanguageProvider({ children }) {
+// `language` is the page being rendered: required for the build-time
+// prerender (no window), and must match the URL when hydrating.
+export function LanguageProvider({ language: pageLanguage, children }) {
+  const getServerSnapshot = useCallback(() => pageLanguage, [pageLanguage]);
   const language = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  const setLanguage = useCallback((newLang) => {
-    if (newLang !== "en" && newLang !== "fr") return;
-    writeLanguage(newLang);
-  }, []);
+  const setLanguage = useCallback((newLang) => navigateToLanguage(newLang), []);
 
-  const toggleLanguage = useCallback(() => {
-    writeLanguage(getSnapshot() === "en" ? "fr" : "en");
-  }, []);
-
-  // Sync document element attributes and meta tags on language change
+  // Keep document metadata in sync after client-side language switches
   useEffect(() => {
-    document.documentElement.lang = language;
-
-    const currentDict = dictionaries[language];
-    if (currentDict?.meta) {
-      if (currentDict.meta.title) {
-        document.title = currentDict.meta.title;
-      }
-      if (currentDict.meta.description) {
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) {
-          metaDesc.setAttribute("content", currentDict.meta.description);
-        }
-      }
-    }
+    const { meta } = DICTIONARIES[language];
+    document.documentElement.lang = LOCALES[language].htmlLang;
+    document.title = meta.title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", meta.description);
   }, [language]);
 
-  const t = useMemo(() => dictionaries[language] || dictionaries.en, [language]);
-
   const value = useMemo(
-    () => ({
-      language,
-      setLanguage,
-      toggleLanguage,
-      t,
-      isFrench: language === "fr",
-      isEnglish: language === "en",
-    }),
-    [language, setLanguage, toggleLanguage, t]
+    () => ({ language, setLanguage, t: DICTIONARIES[language] }),
+    [language, setLanguage]
   );
 
   return (
@@ -108,5 +61,3 @@ export function useTranslation() {
   }
   return context;
 }
-
-export default LanguageContext;

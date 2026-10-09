@@ -1,10 +1,31 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import styles from "./ContactStyles.module.css";
 import { useReveal } from "../../hooks/useReveal";
 import { useTranslation } from "../../i18n";
 
+const FORM_ENDPOINT = "https://formspree.io/f/mwplkrol";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const SUBMISSION_COOLDOWN_MS = 45000; // 45s between submissions per session
+const REQUEST_TIMEOUT_MS = 12000;
+const COOLDOWN_MS = 45000;
+const COOLDOWN_KEY = "last_contact_ts";
+
+// Per-tab cooldown after a successful send, to stop accidental double submits.
+function isInCooldown() {
+  try {
+    const last = Number(sessionStorage.getItem(COOLDOWN_KEY));
+    return Date.now() - last < COOLDOWN_MS;
+  } catch {
+    return false;
+  }
+}
+
+function startCooldown() {
+  try {
+    sessionStorage.setItem(COOLDOWN_KEY, String(Date.now()));
+  } catch {
+    // Storage unavailable: no cooldown
+  }
+}
 
 function Contact() {
   const ref = useReveal({ threshold: 0.08 });
@@ -19,8 +40,6 @@ function Contact() {
 
   const [status, setStatus] = useState("idle"); // 'idle' | 'submitting' | 'success' | 'error'
   const [errorMessage, setErrorMessage] = useState("");
-
-  const abortControllerRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,83 +57,65 @@ function Contact() {
     setErrorMessage("");
   };
 
+  // Client-side checks are UX only (fast feedback, fewer wasted requests);
+  // they are bypassable. Spam filtering and rate limiting are enforced by
+  // Formspree, which also honours the _gotcha honeypot below.
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ── Layer 3: Session-Based Rate Limiting ─────────────────────────────────
-    const lastSubmitTime = sessionStorage.getItem("last_contact_ts");
-    if (lastSubmitTime && Date.now() - Number(lastSubmitTime) < SUBMISSION_COOLDOWN_MS) {
+    if (isInCooldown()) {
       setStatus("error");
       setErrorMessage(t.contact.rateLimitMessage);
       return;
     }
 
-    // ── Layer 4: Input Sanitization & Boundary Constraints ─────────────────
     const name = formData.name.trim().slice(0, 100);
     const email = formData.email.trim().slice(0, 120);
     const message = formData.message.trim().slice(0, 3000);
 
-    // Prevent Header Injection (newlines in single-line headers)
-    if (/[\r\n]/.test(name) || /[\r\n]/.test(email)) {
+    if (/[\r\n]/.test(name) || !EMAIL_REGEX.test(email)) {
       setStatus("error");
       setErrorMessage(t.contact.invalidEmail);
       return;
     }
 
-    // Strict Email Format Validation
-    if (!EMAIL_REGEX.test(email)) {
-      setStatus("error");
-      setErrorMessage(t.contact.invalidEmail);
-      return;
-    }
-
-    // Minimum Content Depth Check
     if (message.length < 10) {
       setStatus("error");
       setErrorMessage(t.contact.tooShortMessage);
       return;
     }
 
-    // ── Layer 5: Secure Asynchronous JSON Request ───────────────────────────
     setStatus("submitting");
     setErrorMessage("");
 
     try {
-      abortControllerRef.current = new AbortController();
-      const timeoutId = setTimeout(() => abortControllerRef.current?.abort(), 12000);
-
-      const response = await fetch("https://formspree.io/f/mwplkrol", {
+      const response = await fetch(FORM_ENDPOINT, {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name,
-          email,
-          message,
-          _gotcha: formData._gotcha || "",
-        }),
-        signal: abortControllerRef.current.signal,
+        body: JSON.stringify({ name, email, message, _gotcha: formData._gotcha }),
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       });
 
-      clearTimeout(timeoutId);
-
       if (response.ok) {
-        sessionStorage.setItem("last_contact_ts", String(Date.now()));
+        startCooldown();
         setStatus("success");
+        return;
+      }
+
+      const data = await response.json().catch(() => ({}));
+      setStatus("error");
+      if (response.status === 429) {
+        setErrorMessage(t.contact.rateLimitMessage);
+      } else if (data.errors?.length > 0) {
+        setErrorMessage(data.errors.map((err) => err.message).join(", "));
       } else {
-        const data = await response.json().catch(() => ({}));
-        setStatus("error");
-        if (response.status === 429) {
-          setErrorMessage(t.contact.rateLimitMessage);
-        } else if (data.errors && data.errors.length > 0) {
-          setErrorMessage(data.errors.map((err) => err.message).join(", "));
-        } else {
-          setErrorMessage(t.contact.errorMessage);
-        }
+        setErrorMessage(t.contact.errorMessage);
       }
     } catch {
+      // Network failure or timeout
       setStatus("error");
       setErrorMessage(t.contact.errorMessage);
     }
@@ -172,7 +173,7 @@ function Contact() {
             </div>
           )}
 
-          {/* ── Formspree Native Bot Trap ──────────────────────────────────── */}
+          {/* Honeypot: hidden from people, filled by naive bots; Formspree drops those submissions */}
           <div className={styles.honeypot} aria-hidden="true">
             <input
               type="text"

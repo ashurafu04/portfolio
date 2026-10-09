@@ -8,7 +8,7 @@
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:prerender": "node scripts/test-prerender.mjs"
+    "test": "node scripts/test-e2e.mjs"
   },
   "dependencies": {
     "react": "^19.0.0",

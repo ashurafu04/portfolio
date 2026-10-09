@@ -14,18 +14,20 @@
   outline: none;
 }
 
-/* ── Seamless Horizontal Track (Zero Vertical Scroll Interference) ────────── */
+/* ── Horizontal scroll-snap track ─────────────────────────────────────────
+   The track only overflows on x, so vertical wheel and touch gestures fall
+   through to the page (covered by scripts/test-e2e.mjs). */
 .carouselTrack {
   display: flex;
   align-items: stretch;
   width: 100%;
   overflow-x: auto;
-  overflow-y: hidden; /* Strictly prevent capturing vertical wheel/scroll delta */
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
-  overscroll-behavior-y: auto; /* Allow vertical scroll to pass through seamlessly */
-  touch-action: pan-x pan-y; /* Allow natural two-axis gesture disambiguation */
+  overscroll-behavior-y: auto;
+  touch-action: pan-x pan-y;
   scrollbar-width: none;
   padding: 12px 0 20px;
   gap: 24px;
@@ -39,7 +41,7 @@
   flex: 0 0 100%;
   min-width: 100%;
   scroll-snap-align: center;
-  scroll-snap-stop: normal; /* Do not abruptly stop momentum when scrolling past */
+  scroll-snap-stop: normal; /* let a fast swipe skip past slides */
   display: flex;
   height: auto;
   align-items: stretch;
@@ -103,11 +105,6 @@
 .navBtn:focus-visible {
   outline: 2px solid var(--accent-color);
   outline-offset: 3px;
-}
-
-.navIcon {
-  width: 20px;
-  height: 20px;
 }
 
 .indicatorsGroup {

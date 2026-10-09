@@ -3,6 +3,8 @@ name: Achraf Malki Portfolio
 description: Precision-engineered personal portfolio for an enterprise AI and systems consultant.
 colors:
   command-blue: "#0987f2"
+  command-blue-deep: "#0770ca"
+  command-blue-bright: "#3fa3f8"
   arctic-canvas: "#f3fffe"
   deep-charcoal: "#313131"
   ink: "#222222"
@@ -43,7 +45,7 @@ spacing:
   xl: "200px"
 components:
   button-primary:
-    backgroundColor: "{colors.command-blue}"
+    backgroundColor: "{colors.command-blue-deep}"
     textColor: "#ffffff"
     rounded: "{rounded.pill}"
     padding: "0 1.5rem"
@@ -58,7 +60,7 @@ components:
     padding: "0 1.5rem"
     height: "50px"
   button-ghost-hover:
-    backgroundColor: "{colors.command-blue}"
+    backgroundColor: "{colors.command-blue-deep}"
     textColor: "#ffffff"
 ---
 
@@ -88,7 +90,10 @@ What this system explicitly rejects: warm-neutral AI portfolio aesthetics (cream
 One accent, two surfaces, one ink, two muted greys. Every color has one job.
 
 ### Primary
-- **Command Blue** (`#0987f2`): The sole chromatic signal. Used on interactive elements (primary button background), emphasis text (hero tagline, card subtitles), and the nav hover underline. Forbidden as a decorative fill or background tint.
+- **Command Blue** (`#0987f2`): The sole chromatic signal. Used for borders, indicators, focus rings and icons (the nav underline, carousel dots, input focus). Forbidden as a decorative fill or background tint.
+- **Command Blue Deep** (`#0770ca`, `--accent-text` light / `--accent-fill`) and **Command Blue Bright** (`#3fa3f8`, `--accent-text` dark): the same hue at AA-safe lightness. Command Blue itself is 3.6:1 on both canvases, which passes for non-text UI (WCAG 1.4.11) but fails for text (1.4.3). Accent *text* uses `--accent-text` (4.9:1 light, 4.8:1 dark); white text sits on `--accent-fill` (5.0:1).
+
+**The Contrast Rule.** Never set `color: var(--accent-color)` on text or put white text on `--accent-color`. `npm test` measures these pairings in both themes and fails the build below 4.5:1.
 
 ### Neutral
 - **Arctic Canvas** (`#f3fffe`): Light theme body background. Near-white with the faintest cool trace — the color of clean technical environments, not warm hospitality. All light-theme surfaces descend from this.
@@ -136,7 +141,7 @@ The light theme background (`#f3fffe`) is a single layer. Project cards use a th
 ### Buttons
 Clean pill-shaped CTAs. No icon dependency; text and weight do the work.
 - **Shape:** Full pill (20px radius)
-- **Primary:** Command Blue fill (`#0987f2`), white text (`#fff`), min-width 160px, height 50px, `font-size 18px`, `font-weight 600`. Shadow at rest: `0 4px 4px rgba(0,0,0,0.25)`. Hover: `translateY(-2px)` + deeper shadow. Active: `translateY(1px)` + reduced shadow.
+- **Primary:** Command Blue Deep fill (`--accent-fill`, `#0770ca`), white text (`#fff`), min-width 160px, height 50px, `font-size 18px`, `font-weight 600`. Shadow at rest: `0 4px 4px rgba(0,0,0,0.25)`. Hover: `translateY(-2px)` + deeper shadow. Active: `translateY(1px)` + reduced shadow.
 - **Ghost (Download variant):** Transparent background, 2px solid Command Blue border, ink-colored text. Hover fills with Command Blue and shifts text to white. Same shape and dimensions as Primary. Dark mode: border stays Command Blue; text shifts to white at rest.
 - **Transition:** `all 0.3s ease` — covers shadow, transform, and background in one declaration.
 
@@ -147,9 +152,17 @@ Engineering case studies. Not decorative cards — structural cases.
 - **Border:** `1px solid rgba(text, 0.2)` — structural definition, not decoration
 - **Padding:** 24px (mobile) → 30px (desktop)
 - **Image container:** 16px inner radius, `rgba(text, 0.04)` background, `padding: 14–18px`; images use `object-fit: contain` so logos render correctly
-- **Subtitle:** Command Blue, `font-weight 500`, Roboto Mono — the one place blue appears inside a card
+- **Subtitle:** `--accent-text`, `font-weight 500`, Roboto Mono — the one place blue appears inside a card
 - **Hover:** `translateY(-4px)` + `0 10px 24px rgba(0,0,0,0.15)` — the only non-button elevation in the system
 - **Transition:** `200ms ease-in-out` on transform and box-shadow
+
+### Credential Cards
+Static, verifiable evidence — never animated or auto-scrolling.
+- **Layout:** `auto-fill` grid, `minmax(250px, 1fr)`, max-width 1100px; order is proctored certification first, then coursework
+- **Shape:** 16px radius; logo plate 12px (white plate in dark mode so issuer marks stay legible)
+- **Kind badge:** pill, labelled exactly as the issuer classifies the credential (professional certification / specialization / course certificate); only the professional certification uses the accent
+- **Secondary text:** 13px minimum at 0.78 opacity (≥ 7:1 effective contrast)
+- **Whole card is the link** to the issuer's verification page
 
 ### Navigation
 Flat, centered, monospace. The navbar disappears into the background at rest and activates on scroll and hover.
@@ -175,7 +188,7 @@ Form inputs follow the same pill language as buttons.
 - **Do** use Roboto Mono for all subheadings, body copy, labels, and navigation. Rubik is for h1 display and section titles only.
 - **Do** keep all interactive elements at 20px pill radius. Card containers at 24px. Inner image containers at 16px. These three radii are the entire radius vocabulary.
 - **Do** apply `text-transform: uppercase` only to h1 (Display) and h2/h3 (Headline). Not labels, not nav text, not body.
-- **Do** prefix all WCAG AA color combinations: body text (`#222` on `#f3fffe`) meets 4.5:1 minimum; verify any new color pairing before shipping.
+- **Do** verify every new text/background pairing against WCAG AA (4.5:1 body, 3:1 large text and UI) in both themes, and add it to the contrast checks in `scripts/test-e2e.mjs`.
 - **Do** pair every animation with a `@media (prefers-reduced-motion: reduce)` fallback that collapses to an instant state change or crossfade.
 - **Do** ensure shadows only appear on interactive elements in hover/active state. No ambient decorative shadows.
 

@@ -1,11 +1,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import styles from "./ProjectsStyles.module.css";
-import magmaLogo from "../../assets/nortis_logo.jpg";
-import chamiongLogo from "../../assets/logo-chamiong-500.png";
-import qodeepLogo from "../../assets/qodeep_logo.png";
-import previzmaLogo from "../../assets/previzma_logo.png";
-import dxcLogo from "../../assets/dxc_logo.svg";
-import sggLogo from "../../assets/sgg-logo.png";
+import { cases } from "./casesData";
 import ProjectCard from "../../common/ProjectCard";
 import { useReveal } from "../../hooks/useReveal";
 import { useTranslation } from "../../i18n";
@@ -18,74 +13,7 @@ function Projects() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const engineeringCases = useMemo(
-    () => [
-      {
-        id: "magma",
-        src: magmaLogo,
-        alt: t.projects.cases.magma.alt,
-        width: 200,
-        height: 200,
-        h3: t.projects.cases.magma.h3,
-        subtitle: t.projects.cases.magma.subtitle,
-        description: t.projects.cases.magma.description,
-        logoType: "square",
-      },
-      {
-        id: "chamiong",
-        src: chamiongLogo,
-        alt: t.projects.cases.chamiong.alt,
-        width: 500,
-        height: 500,
-        h3: t.projects.cases.chamiong.h3,
-        subtitle: t.projects.cases.chamiong.subtitle,
-        description: t.projects.cases.chamiong.description,
-        logoType: "square",
-      },
-      {
-        id: "dxc",
-        src: dxcLogo,
-        alt: t.projects.cases.dxc.alt,
-        width: 860,
-        height: 240,
-        h3: t.projects.cases.dxc.h3,
-        subtitle: t.projects.cases.dxc.subtitle,
-        description: t.projects.cases.dxc.description,
-        logoType: "dxc",
-      },
-      {
-        id: "qodeep",
-        src: qodeepLogo,
-        alt: t.projects.cases.qodeep.alt,
-        width: 500,
-        height: 500,
-        h3: t.projects.cases.qodeep.h3,
-        subtitle: t.projects.cases.qodeep.subtitle,
-        description: t.projects.cases.qodeep.description,
-        logoType: "circle",
-      },
-      {
-        id: "previzma",
-        src: previzmaLogo,
-        alt: t.projects.cases.previzma.alt,
-        width: 500,
-        height: 500,
-        h3: t.projects.cases.previzma.h3,
-        subtitle: t.projects.cases.previzma.subtitle,
-        description: t.projects.cases.previzma.description,
-        logoType: "prism",
-      },
-      {
-        id: "sgg",
-        src: sggLogo,
-        alt: t.projects.cases.sgg.alt,
-        width: 425,
-        height: 84,
-        h3: t.projects.cases.sgg.h3,
-        subtitle: t.projects.cases.sgg.subtitle,
-        description: t.projects.cases.sgg.description,
-        logoType: "sgg",
-      },
-    ],
+    () => cases.map((item) => ({ ...item, ...t.projects.cases[item.id] })),
     [t]
   );
 
@@ -146,27 +74,14 @@ function Projects() {
     });
   }, []);
 
-  // Free wheel vertical scrolling pass-through
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    // Passive wheel handler ensures vertical delta is never blocked
-    const handleWheel = (e) => {
-      // If user scrolls predominantly vertically, let the page scroll naturally
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        // Do nothing to let browser scroll window naturally
-        return;
-      }
-    };
-
-    track.addEventListener("wheel", handleWheel, { passive: true });
-    return () => {
-      track.removeEventListener("wheel", handleWheel);
+  // Cancel pending frame/timer work on unmount
+  useEffect(
+    () => () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    };
-  }, []);
+    },
+    []
+  );
 
   // Keep track aligned on window resize
   useEffect(() => {
@@ -227,14 +142,16 @@ function Projects() {
           {engineeringCases.map((item, index) => (
             <div
               key={item.id}
-              ref={(el) => (slideRefs.current[index] = el)}
+              ref={(el) => {
+                slideRefs.current[index] = el;
+              }}
               className={styles.slide}
               role="group"
               aria-roledescription="slide"
               aria-label={`${index + 1} ${t.projects.of} ${engineeringCases.length}: ${item.h3}`}
             >
               <ProjectCard
-                src={item.src}
+                src={item.logo}
                 alt={item.alt}
                 width={item.width}
                 height={item.height}
@@ -273,15 +190,14 @@ function Projects() {
 
           <div
             className={styles.indicatorsGroup}
-            role="tablist"
+            role="group"
             aria-label={t.projects.carouselAria}
           >
             {engineeringCases.map((item, index) => (
               <button
                 key={item.id}
                 type="button"
-                role="tab"
-                aria-selected={index === activeIndex}
+                aria-current={index === activeIndex ? "true" : undefined}
                 className={`${styles.indicatorDot} ${
                   index === activeIndex ? styles.indicatorDotActive : ""
                 }`}

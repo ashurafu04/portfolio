@@ -11,6 +11,7 @@ export const fr = {
     themeLight: "Passer en mode clair",
     themeDark: "Passer en mode sombre",
     langToggleAria: "Changer de langue vers l'anglais (actuel : français)",
+    languageGroupAria: "Langue",
   },
   hero: {
     name: "ACHRAF MALKI",
@@ -31,7 +32,6 @@ export const fr = {
     prevSlide: "Cas d'ingénierie précédent",
     nextSlide: "Cas d'ingénierie suivant",
     goToSlide: "Aller au cas",
-    currentSlideAria: "Cas actif actuel",
     of: "sur",
     cases: {
       magma: {
@@ -80,12 +80,15 @@ export const fr = {
   },
   certifications: {
     sectionTitle: "Certifications",
-    evidenceBadge: "Accréditations Vérifiées",
     subtitle:
-      "Titres d'ingénierie et d'entreprise accrédités par Oracle, AWS, Google, Meta, IBM & Harvard University.",
+      "Certification professionnelle Oracle et formation continue auprès d'AWS, Harvard CS50, IBM, Meta, Google & HKUST — chaque titre est vérifiable à la source.",
     verifyCredential: "Vérifier",
     credentialId: "ID",
-    issued: "Délivré en",
+    kinds: {
+      professional: "Certification",
+      specialization: "Spécialisation",
+      course: "Certificat de cours",
+    },
   },
   skills: {
     sectionTitle: "Compétences",
@@ -157,7 +160,9 @@ export const fr = {
   meta: {
     title: "Achraf Malki | Ingénieur Logiciel & Consultant IT",
     description:
-      "Portfolio d'Achraf Malki — Ingénieur Logiciel & Consultant IT spécialisé en IA d'entreprise, commerce headless et infrastructure cloud.",
+      "Achraf Malki est ingénieur logiciel et consultant IT, spécialisé en orchestration d'IA d'entreprise, commerce headless hybride et intégrations B2B sécurisées.",
+    ogDescription:
+      "Achraf Malki conçoit des systèmes d'IA d'entreprise, de commerce headless et B2B sécurisés qui tiennent sous pression.",
   },
 };
 

@@ -5,11 +5,11 @@ import { LanguageProvider } from "./i18n";
 
 // Shared by the client (main.jsx) and the build-time prerender
 // (entry-server.jsx): both must render the exact same tree to hydrate.
-function Root() {
+function Root({ language }) {
   return (
     <StrictMode>
       <ThemeProvider>
-        <LanguageProvider>
+        <LanguageProvider language={language}>
           <App />
         </LanguageProvider>
       </ThemeProvider>

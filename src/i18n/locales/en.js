@@ -11,6 +11,7 @@ export const en = {
     themeLight: "Switch to light mode",
     themeDark: "Switch to dark mode",
     langToggleAria: "Switch language to French (current: English)",
+    languageGroupAria: "Language",
   },
   hero: {
     name: "ACHRAF MALKI",
@@ -31,7 +32,6 @@ export const en = {
     prevSlide: "Previous engineering case",
     nextSlide: "Next engineering case",
     goToSlide: "Go to case",
-    currentSlideAria: "Current active case",
     of: "of",
     cases: {
       magma: {
@@ -80,12 +80,15 @@ export const en = {
   },
   certifications: {
     sectionTitle: "Certifications",
-    evidenceBadge: "Verified Industry Evidence",
     subtitle:
-      "Enterprise credentials accredited by Oracle, AWS, Google, Meta, IBM & Harvard University.",
+      "Oracle professional certification and continuous training from AWS, Harvard CS50, IBM, Meta, Google & HKUST — each verifiable at the source.",
     verifyCredential: "Verify",
     credentialId: "ID",
-    issued: "Issued",
+    kinds: {
+      professional: "Certification",
+      specialization: "Specialization",
+      course: "Course certificate",
+    },
   },
   skills: {
     sectionTitle: "Skills",
@@ -157,7 +160,9 @@ export const en = {
   meta: {
     title: "Achraf Malki | Software Engineer & IT Consultant",
     description:
-      "Portfolio of Achraf Malki — Software Engineer & IT Consultant specializing in Enterprise AI, Headless Commerce, and Cloud Infrastructure.",
+      "Achraf Malki is a Software Engineer and IT Consultant specializing in enterprise AI orchestration, hybrid headless commerce, and secure B2B integrations.",
+    ogDescription:
+      "Achraf Malki engineers enterprise AI, headless commerce, and secure B2B systems that hold up under pressure.",
   },
 };
 

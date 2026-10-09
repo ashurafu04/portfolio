@@ -7,6 +7,7 @@ import linkedinLight from "../../assets/linkedin-light.svg";
 import linkedinDark from "../../assets/linkedin-dark.svg";
 import CV from "../../assets/cv.pdf";
 import ThemedImage from "../../common/ThemedImage";
+import { PORTRAIT, PROFILES } from "../../seo/site";
 import { useTranslation } from "../../i18n";
 
 function Hero() {
@@ -15,15 +16,14 @@ function Hero() {
   return (
     <section id="hero" className={styles.container}>
       <div className={styles.colorModeContainer}>
-        {/* Served from public/ at a stable URL: the same URL is declared as
-            Person.image in index.html and in sitemap.xml. Do not import it
-            through Vite, which would fingerprint the filename. */}
+        {/* Stable public/ URL shared with Person.image and the sitemap (see
+            seo/site.js). Never import it through Vite: that fingerprints it. */}
         <img
           className={styles.hero}
-          src="/achraf-malki.png"
+          src={PORTRAIT.path}
           alt={t.hero.portraitAlt}
-          width="500"
-          height="500"
+          width={PORTRAIT.width}
+          height={PORTRAIT.height}
           fetchPriority="high"
           decoding="async"
         />
@@ -34,7 +34,7 @@ function Hero() {
         <p className={styles.tagline}>{t.hero.tagline}</p>
         <span>
           <a
-            href="https://x.com/AchrafMalkiEng"
+            href={PROFILES.x}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t.hero.xAria}
@@ -42,7 +42,7 @@ function Hero() {
             <ThemedImage light={xLight} dark={xDark} />
           </a>
           <a
-            href="https://github.com/ashurafu04"
+            href={PROFILES.github}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t.hero.githubAria}
@@ -50,7 +50,7 @@ function Hero() {
             <ThemedImage light={githubLight} dark={githubDark} />
           </a>
           <a
-            href="https://www.linkedin.com/in/achraf-malki/"
+            href={PROFILES.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t.hero.linkedinAria}

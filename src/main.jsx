@@ -1,13 +1,14 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
-import "./index.css";
 import Root from "./Root.jsx";
+import { languageFromPath } from "./i18n/config";
 
 const container = document.getElementById("root");
+const root = <Root language={languageFromPath(window.location.pathname)} />;
 
 // Production HTML is prerendered at build time (scripts/prerender.mjs), so
 // attach to the existing markup. The dev server serves the bare template.
 if (container.firstElementChild) {
-  hydrateRoot(container, <Root />);
+  hydrateRoot(container, root);
 } else {
-  createRoot(container).render(<Root />);
+  createRoot(container).render(root);
 }

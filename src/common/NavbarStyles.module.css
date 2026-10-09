@@ -355,8 +355,8 @@
 
   .mobileActive {
     border-color: var(--accent-color);
-    color: var(--accent-color);
-    background-color: rgba(9, 135, 242, 0.08);
+    color: var(--accent-text);
+    background-color: rgba(var(--accent-rgb), 0.08);
     font-weight: 600;
   }
 }

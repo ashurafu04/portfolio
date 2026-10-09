@@ -38,8 +38,19 @@ export default [
       "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
       "react-refresh/only-export-components": [
         "warn",
-        { allowConstantExport: true, allowExportNames: ["useTheme"] },
+        { allowConstantExport: true, allowExportNames: ["useTheme", "useTranslation"] },
       ],
     },
+  },
+  {
+    // Build and test scripts run in Node; Playwright page.evaluate()
+    // callbacks inside them run in the browser.
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: { ...globals.node, ...globals.browser },
+    },
+    rules: js.configs.recommended.rules,
   },
 ];

@@ -16,6 +16,7 @@
 }
 
 .pillSegment {
+  text-decoration: none;
   font-family: "Roboto Mono", monospace;
   font-size: 11px;
   font-weight: 600;
@@ -47,13 +48,14 @@
 }
 
 .pillSegmentActive {
-  background: var(--accent-color) !important;
+  background: var(--accent-fill) !important;
   color: #ffffff !important;
   opacity: 1 !important;
 }
 
 /* ── Mobile Compact Button ─────────────────────────────────────────────── */
 .mobileBtn {
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +81,7 @@
 
 .mobileBtn:hover {
   border-color: var(--accent-color);
-  color: var(--accent-color);
+  color: var(--accent-text);
   background: rgba(var(--text-rgb), 0.08);
 }
 

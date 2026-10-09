@@ -1,45 +1,65 @@
-// Build step 3/3: inject the server-rendered app into dist/index.html.
+// Build step 3/3: write one prerendered HTML file per page, plus sitemap.xml.
 //
-//   vite build                                         -> dist/ (client)
+//   vite build                                               -> dist/ (client)
 //   vite build --ssr src/entry-server.jsx --outDir dist-ssr  -> render()
-//   node scripts/prerender.mjs                         -> dist/index.html
+//   node scripts/prerender.mjs                               -> dist/**/index.html
 //
-// The portrait <img> must be in the HTML the server sends (not only in the
-// JS-rendered DOM) so crawlers discover it on first fetch. This script fails
-// the build if that invariant breaks.
-import { readFile, writeFile } from "node:fs/promises";
+// Crawlers must find the portrait and the page copy in the HTML the server
+// sends, not only in the JS-rendered DOM. The build fails if any page breaks
+// that invariant.
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const templatePath = path.join(root, "dist", "index.html");
+const distDir = path.join(root, "dist");
 const serverEntry = path.join(root, "dist-ssr", "entry-server.js");
 
-const PLACEHOLDER = "<!--app-html-->";
-const REQUIRED_MARKUP = [
-  { label: "portrait <img>", pattern: /<img[^>]+src="\/achraf-malki\.png"/ },
-  { label: "hero <h1>", pattern: /<h1[^>]*>ACHRAF MALKI<\/h1>/ },
-  { label: "#projects section", pattern: /<section[^>]+id="projects"/ },
-  { label: "#contact section", pattern: /<section[^>]+id="contact"/ },
-];
+const HEAD_PLACEHOLDER = "<!--app-head-->";
+const APP_PLACEHOLDER = "<!--app-html-->";
+const HTML_LANG = '<html lang="en">';
 
 function fail(message) {
   console.error(`[prerender] ${message}`);
   process.exit(1);
 }
 
-const template = await readFile(templatePath, "utf8");
-const occurrences = template.split(PLACEHOLDER).length - 1;
-if (occurrences !== 1) {
-  fail(`expected exactly one ${PLACEHOLDER} in dist/index.html, found ${occurrences}`);
+function expectOnce(template, token) {
+  const count = template.split(token).length - 1;
+  if (count !== 1) fail(`expected exactly one ${token} in dist/index.html, found ${count}`);
 }
 
-const { render } = await import(pathToFileURL(serverEntry).href);
-const appHtml = await render();
+const template = await readFile(path.join(distDir, "index.html"), "utf8");
+[HEAD_PLACEHOLDER, APP_PLACEHOLDER, HTML_LANG].forEach((token) => expectOnce(template, token));
 
-for (const { label, pattern } of REQUIRED_MARKUP) {
-  if (!pattern.test(appHtml)) fail(`prerendered HTML is missing the ${label}`);
+const { pages, render, renderSitemap } = await import(pathToFileURL(serverEntry).href);
+
+for (const page of pages) {
+  const { appHtml, headHtml } = await render(page.language);
+
+  const required = [
+    ["portrait <img>", /<img[^>]+src="\/achraf-malki\.png"/, appHtml],
+    ["hero <h1>", /<h1[^>]*>[^<]+<\/h1>/, appHtml],
+    ["#projects section", /<section[^>]+id="projects"/, appHtml],
+    ["#contact section", /<section[^>]+id="contact"/, appHtml],
+    ["<title>", /<title>[^<]+<\/title>/, headHtml],
+    ["canonical link", /<link rel="canonical"/, headHtml],
+    ["JSON-LD", /<script type="application\/ld\+json">/, headHtml],
+  ];
+  for (const [label, pattern, html] of required) {
+    if (!pattern.test(html)) fail(`${page.path}: prerendered HTML is missing the ${label}`);
+  }
+
+  const html = template
+    .replace(HTML_LANG, `<html lang="${page.htmlLang}">`)
+    .replace(HEAD_PLACEHOLDER, () => headHtml)
+    .replace(APP_PLACEHOLDER, () => appHtml);
+
+  const outDir = path.join(distDir, page.path);
+  await mkdir(outDir, { recursive: true });
+  await writeFile(path.join(outDir, "index.html"), html);
+  console.log(`[prerender] ${page.path} -> ${path.relative(root, path.join(outDir, "index.html"))} (${(html.length / 1024).toFixed(1)} KiB)`);
 }
 
-await writeFile(templatePath, template.replace(PLACEHOLDER, () => appHtml));
-console.log(`[prerender] dist/index.html written (${(appHtml.length / 1024).toFixed(1)} KiB of app markup)`);
+await writeFile(path.join(distDir, "sitemap.xml"), renderSitemap());
+console.log("[prerender] sitemap.xml written");

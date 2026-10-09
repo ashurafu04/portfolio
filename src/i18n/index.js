@@ -1,1 +1,1 @@
-export { LanguageProvider, useTranslation, LanguageContext } from "./LanguageContext";
+export { LanguageProvider, useTranslation } from "./LanguageContext";

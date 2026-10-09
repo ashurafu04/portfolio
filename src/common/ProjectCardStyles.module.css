@@ -144,7 +144,7 @@
 .subtitle {
   margin-bottom: 12px;
   font-weight: 500;
-  color: var(--accent-color);
+  color: var(--accent-text);
 }
 
 .description {
