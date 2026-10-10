@@ -81,7 +81,8 @@ export const en = {
   certifications: {
     sectionTitle: "Certifications",
     subtitle:
-      "Oracle professional certification and continuous training from AWS, Harvard CS50, IBM, Meta, Google & HKUST — each verifiable at the source.",
+      "Oracle professional certification and continuous training from AWS, Harvard CS50, IBM, Meta, Google & HKUST.",
+    learningTitle: "Continuous learning",
     verifyCredential: "Verify",
     credentialId: "ID",
     kinds: {

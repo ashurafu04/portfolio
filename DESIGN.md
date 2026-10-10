@@ -157,8 +157,9 @@ Engineering case studies. Not decorative cards — structural cases.
 - **Transition:** `200ms ease-in-out` on transform and box-shadow
 
 ### Credential Cards
-Static, verifiable evidence — never animated or auto-scrolling.
-- **Layout:** `auto-fill` grid, `minmax(250px, 1fr)`, max-width 1100px; order is proctored certification first, then coursework
+Two tiers, so motion never carries the evidence that matters.
+- **Featured row (static):** the strongest credentials, ordered professional > specialization > course; `auto-fill` grid, `minmax(250px, 1fr)`, max-width 1100px
+- **Continuous learning (moving):** secondary coursework in a CSS marquee under a small sentence-case label. Pauses on hover and keyboard focus; edges fade with `mask-image`; the duplicated loop copy is `aria-hidden` and out of the tab order; reduced motion turns it into a static scrollable row. Beginner platform certificates stay off the page entirely
 - **Shape:** 16px radius; logo plate 12px (white plate in dark mode so issuer marks stay legible)
 - **Kind badge:** pill, labelled exactly as the issuer classifies the credential (professional certification / specialization / course certificate); only the professional certification uses the accent
 - **Secondary text:** 13px minimum at 0.78 opacity (≥ 7:1 effective contrast)

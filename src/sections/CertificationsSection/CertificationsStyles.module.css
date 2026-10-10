@@ -173,9 +173,81 @@
   transition: transform 150ms ease;
 }
 
+/* ── Continuous learning: secondary, moving row ───────────────────────── */
+.learning {
+  width: 100%;
+  max-width: 1100px;
+  margin-top: 2.75rem;
+  text-align: left;
+}
+
+.learningTitle {
+  margin-bottom: 0.75rem;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  opacity: 0.78;
+}
+
+.marquee {
+  overflow: hidden;
+  /* Room for the card hover lift, which overflow would otherwise clip */
+  padding-block: 6px 14px;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+/* Two identical halves; the trailing padding equals the gap, so -50% is
+   exactly one half and the loop is seamless. */
+.marqueeTrack {
+  list-style: none;
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding-inline-end: 16px;
+  animation: marquee var(--marquee-duration, 75s) linear infinite;
+}
+
+.marqueeTrack > li {
+  display: flex;
+  flex-shrink: 0;
+  width: 270px;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (hover: hover) {
+  .marquee:hover .marqueeTrack {
+    animation-play-state: paused;
+  }
+}
+
+/* Keyboard focus only: a mouse click on a card must not freeze the row */
+.marquee:has(:focus-visible) .marqueeTrack {
+  animation-play-state: paused;
+}
+
+.compact {
+  padding: 1rem;
+}
+
+.compact .certTitle {
+  font-size: 15px;
+}
+
 @media (width >= 800px) {
   .grid {
     gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .marqueeTrack > li {
+    width: 240px;
   }
 }
 
@@ -183,5 +255,20 @@
   .card,
   .verifyLink svg {
     transition: none;
+  }
+
+  .marquee {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .marqueeTrack {
+    animation: none;
+  }
+
+  /* Must out-rank `.marqueeTrack > li { display: flex }` */
+  .marqueeTrack > .loopCopy {
+    display: none;
   }
 }

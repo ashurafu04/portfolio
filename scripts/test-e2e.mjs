@@ -264,8 +264,35 @@ async function checkSections(browser, baseUrl) {
   const page = await context.newPage();
   await page.goto(baseUrl, { waitUntil: "networkidle" });
 
-  const certLinks = await page.$$eval("#certifications a", (links) => links.map((link) => link.href));
-  check(certLinks.length === 8 && new Set(certLinks).size === 8, "[certifications] 8 credentials, each linked once");
+  const certs = await page.$$eval("#certifications a", (links) =>
+    links.map((link) => ({
+      href: link.href,
+      focusable: link.tabIndex >= 0,
+      hidden: Boolean(link.closest('[aria-hidden="true"]')),
+    }))
+  );
+  const reachable = certs.filter((cert) => cert.focusable && !cert.hidden).map((cert) => cert.href);
+  check(reachable.length === 15 && new Set(reachable).size === 15, `[certifications] 15 credentials, each focusable and announced once (${reachable.length})`);
+  check(
+    certs.filter((cert) => cert.hidden).every((cert) => !cert.focusable),
+    "[certifications] marquee loop copy is hidden from assistive tech and the tab order"
+  );
+  const featuredMoves = await page.$eval('#certifications ul[class*="grid"]', (grid) => getComputedStyle(grid).animationName !== "none");
+  check(!featuredMoves, "[certifications] featured row is static");
+  check(
+    await page.$eval('[class*="marqueeTrack"]', (track) => getComputedStyle(track).animationName !== "none"),
+    "[certifications] continuous-learning row is animated"
+  );
+
+  const reducedContext = await browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: "reduce" });
+  const reduced = await reducedContext.newPage();
+  await reduced.goto(baseUrl, { waitUntil: "networkidle" });
+  const reducedState = await reduced.$eval('[class*="marqueeTrack"]', (track) => ({
+    animated: getComputedStyle(track).animationName !== "none",
+    loopCopiesShown: [...track.querySelectorAll(':scope > li[aria-hidden="true"]')].some((li) => getComputedStyle(li).display !== "none"),
+  }));
+  check(!reducedState.animated && !reducedState.loopCopiesShown, "[certifications] reduced motion: row is static with no duplicate cards");
+  await reducedContext.close();
 
   await page.locator("#projects").scrollIntoViewIfNeeded();
   const box = await page.locator('[class*="carouselTrack"]').boundingBox();

@@ -1,9 +1,9 @@
 import styles from "./CertificationsStyles.module.css";
-import { certifications } from "./certificationsData";
+import { featuredCertifications, learningCertifications } from "./certificationsData";
 import { useReveal } from "../../hooks/useReveal";
 import { useTranslation } from "../../i18n";
 
-function CertificationCard({ cert, t }) {
+function CertificationCard({ cert, t, compact = false, tabIndex }) {
   const meta = [cert.issuer, cert.platform, cert.date].filter(Boolean);
 
   return (
@@ -11,8 +11,9 @@ function CertificationCard({ cert, t }) {
       href={cert.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={styles.card}
+      className={`${styles.card} ${compact ? styles.compact : ""}`}
       aria-label={`${cert.title} — ${meta.join(", ")}. ${t.certifications.verifyCredential}`}
+      tabIndex={tabIndex}
     >
       <div className={styles.cardTop}>
         <div className={styles.logoBadge}>
@@ -90,7 +91,7 @@ function Certifications() {
       </p>
 
       <ul className={styles.grid}>
-        {certifications.map((cert, index) => (
+        {featuredCertifications.map((cert, index) => (
           <li
             key={cert.id}
             data-reveal-item
@@ -100,6 +101,37 @@ function Certifications() {
           </li>
         ))}
       </ul>
+
+      {/* CSS-only marquee: the list is rendered twice for a seamless loop.
+          The second copy is hidden from assistive tech and the tab order, so
+          each credential is announced and focusable once. Pauses on hover and
+          keyboard focus; reduced motion turns it into a scrollable row. */}
+      <div
+        className={styles.learning}
+        data-reveal-item
+        style={{ "--reveal-delay": "400ms" }}
+      >
+        <h3 id="certifications-learning" className={styles.learningTitle}>
+          {t.certifications.learningTitle}
+        </h3>
+        <div className={styles.marquee} role="region" aria-labelledby="certifications-learning">
+          <ul
+            className={styles.marqueeTrack}
+            style={{ "--marquee-duration": `${learningCertifications.length * 7}s` }}
+          >
+            {learningCertifications.map((cert) => (
+              <li key={cert.id}>
+                <CertificationCard cert={cert} t={t} compact />
+              </li>
+            ))}
+            {learningCertifications.map((cert) => (
+              <li key={`${cert.id}-loop`} className={styles.loopCopy} aria-hidden="true">
+                <CertificationCard cert={cert} t={t} compact tabIndex={-1} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </section>
   );
 }

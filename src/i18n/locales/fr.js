@@ -81,7 +81,8 @@ export const fr = {
   certifications: {
     sectionTitle: "Certifications",
     subtitle:
-      "Certification professionnelle Oracle et formation continue auprès d'AWS, Harvard CS50, IBM, Meta, Google & HKUST — chaque titre est vérifiable à la source.",
+      "Certification professionnelle Oracle et formation continue auprès d'AWS, Harvard CS50, IBM, Meta, Google & HKUST.",
+    learningTitle: "Formation continue",
     verifyCredential: "Vérifier",
     credentialId: "ID",
     kinds: {
