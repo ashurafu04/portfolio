@@ -73,7 +73,7 @@ function Navbar() {
             return;
           }
 
-          // Robust viewport threshold detection (active when section is in top 35% of viewport)
+          // Active section: the last one whose top has crossed 35% of the viewport
           const viewportThreshold = window.innerHeight * 0.35;
           for (let i = SECTION_IDS.length - 1; i >= 0; i--) {
             const id = SECTION_IDS[i];

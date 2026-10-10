@@ -186,7 +186,7 @@ function Contact() {
             />
           </div>
 
-          <div className="formGroup">
+          <div>
             <label htmlFor="name" className="sr-only">
               {t.contact.nameLabel}
             </label>
@@ -203,7 +203,7 @@ function Contact() {
             />
           </div>
 
-          <div className="formGroup">
+          <div>
             <label htmlFor="email" className="sr-only">
               {t.contact.emailLabel}
             </label>
@@ -220,7 +220,7 @@ function Contact() {
             />
           </div>
 
-          <div className="formGroup">
+          <div>
             <label htmlFor="message" className="sr-only">
               {t.contact.messageLabel}
             </label>
@@ -238,7 +238,7 @@ function Contact() {
 
           <button
             type="submit"
-            className={`${styles.submitBtn} hover`}
+            className={styles.submitBtn}
             disabled={status === "submitting"}
           >
             {status === "submitting" ? (

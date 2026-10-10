@@ -1,3 +1,11 @@
+# Regenerate public/og.png (1200x630 social card) from the canonical portrait.
+#
+#   ./scripts/generate-og.ps1
+#
+# Run after replacing the portrait (scripts/generate-portrait.py) or changing
+# the name/role copy below. Windows only: uses System.Drawing with the Segoe UI
+# and Consolas system fonts.
+
 $ErrorActionPreference = "Stop"
 Add-Type -AssemblyName System.Drawing
 

@@ -2,6 +2,13 @@
   "name": "portfolio",
   "private": true,
   "version": "0.0.0",
+  "description": "Source for achrafmalki.dev: prerendered React site of Achraf Malki, Software Engineer & IT Consultant.",
+  "author": "Achraf Malki (https://achrafmalki.dev)",
+  "homepage": "https://achrafmalki.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashurafu04/portfolio.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

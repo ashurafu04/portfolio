@@ -1,6 +1,7 @@
-"""Generate the portrait assets from the original source photo.
+"""Generate the portrait assets.
 
-    python scripts/generate-portrait.py path/to/original-photo.png
+    python scripts/generate-portrait.py path/to/new-photo.png   replace the portrait
+    python scripts/generate-portrait.py                         rebuild WebP sizes only
 
 Writes:
   public/achraf-malki.png            canonical image (Person.image, sitemap, the
@@ -9,14 +10,14 @@ Writes:
   src/assets/portrait-{400,800}.webp  what browsers actually download, via the
                                      hero <picture> sources
 
-The source must be a square photo of a circular cut-out on a pure-white
-(#ffffff) canvas. Hand-cut circles are rarely perfect, so the script measures
-where the cut-out actually is and masks just inside its tightest point;
-everything outside becomes transparent, so the portrait works on both themes.
-Always run it on the original photo, not on public/achraf-malki.png.
+A new photo must be square: a circular cut-out on a pure-white (#ffffff)
+canvas. Hand-cut circles are rarely perfect, so the script measures where the
+cut-out actually is and masks just inside its tightest point; everything
+outside becomes transparent, so the portrait works on both themes. The
+canonical PNG is the master afterwards: no other copy needs to be kept.
 
-After running: update PORTRAIT width/height in src/seo/site.js if the size
-changed, then run scripts/generate-og.ps1.
+After replacing the photo: update PORTRAIT width/height in src/seo/site.js if
+the size changed, then run scripts/generate-og.ps1.
 
 Requires Pillow (pip install pillow).
 """
@@ -68,7 +69,7 @@ def circular_mask(size, radius):
     return mask.resize((size, size), Image.LANCZOS)
 
 
-def main(source):
+def replace_canonical(source):
     photo = Image.open(source).convert("RGBA")
     if photo.width != photo.height:
         sys.exit(f"source must be square, got {photo.width}x{photo.height}")
@@ -81,12 +82,17 @@ def main(source):
     photo.save(CANONICAL, optimize=True)
     print(f"{CANONICAL.relative_to(ROOT)}  {photo.width}x{photo.height}  {CANONICAL.stat().st_size / 1024:.0f} KB")
 
+
+def write_variants():
+    photo = Image.open(CANONICAL).convert("RGBA")
     for width, path in VARIANTS.items():
         photo.resize((width, width), Image.LANCZOS).save(path, "WEBP", quality=82, method=6)
         print(f"{path.relative_to(ROOT)}  {width}x{width}  {path.stat().st_size / 1024:.0f} KB")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) > 2:
         sys.exit(__doc__)
-    main(sys.argv[1])
+    if len(sys.argv) == 2:
+        replace_canonical(sys.argv[1])
+    write_variants()

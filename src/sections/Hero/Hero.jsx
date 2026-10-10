@@ -17,7 +17,7 @@ function Hero() {
 
   return (
     <section id="hero" className={styles.container}>
-      <div className={styles.colorModeContainer}>
+      <div className={styles.portrait}>
         {/* <img src> is the canonical portrait Google indexes (stable public/
             URL shared with Person.image and the sitemap; never import it
             through Vite, which fingerprints it). Browsers download the small
@@ -71,10 +71,10 @@ function Hero() {
         </span>
         <p className={styles.description}>{t.hero.description}</p>
         <div className={styles.cvButtons}>
-          <a className="hover" href={CV} target="_blank" rel="noopener noreferrer">
+          <a href={CV} target="_blank" rel="noopener noreferrer">
             {t.hero.viewResume}
           </a>
-          <a className={`hover ${styles.downloadBtn}`} href={CV} download>
+          <a className={styles.downloadBtn} href={CV} download>
             {t.hero.downloadResume}
           </a>
         </div>

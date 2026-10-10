@@ -30,6 +30,7 @@ dist-ssr
 .cursor
 .gemini
 .impeccable
+.kilo
 CLAUDE.md
 *.png.tmp
 screenshot*.png
