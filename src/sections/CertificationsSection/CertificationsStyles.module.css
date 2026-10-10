@@ -239,6 +239,36 @@
   font-size: 15px;
 }
 
+/* Align card internals across a row: each card's five parts (top, title,
+   meta, skills, footer) share the row's tracks via subgrid, so titles,
+   metadata and footers line up even when content wraps differently.
+   Browsers without subgrid keep the flex layout above. */
+@supports (grid-template-rows: subgrid) {
+  .grid > li,
+  .marqueeTrack > li,
+  .card {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    /* Grid items default to min-width: auto and would grow to fit long
+       credential IDs; let the column width govern so text wraps/truncates. */
+    min-width: 0;
+  }
+
+  .card > * {
+    min-width: 0;
+  }
+
+  .marqueeTrack {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 270px;
+    grid-template-rows: repeat(5, auto);
+    row-gap: 0;
+  }
+}
+
 @media (width >= 800px) {
   .grid {
     gap: 24px;
@@ -246,6 +276,10 @@
 }
 
 @media (max-width: 480px) {
+  .marqueeTrack {
+    grid-auto-columns: 240px;
+  }
+
   .marqueeTrack > li {
     width: 240px;
   }

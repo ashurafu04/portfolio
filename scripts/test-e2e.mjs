@@ -277,6 +277,28 @@ async function checkSections(browser, baseUrl) {
     certs.filter((cert) => cert.hidden).every((cert) => !cert.focusable),
     "[certifications] marquee loop copy is hidden from assistive tech and the tab order"
   );
+  // Card internals line up across each row, whatever each card's text length
+  for (const [label, selector] of [["featured row", '#certifications ul[class*="grid"]'], ["continuous-learning row", '[class*="marqueeTrack"]']]) {
+    const misaligned = await page.$eval(selector, (list) => {
+      const cards = [...list.querySelectorAll(':scope > li:not([aria-hidden="true"]) a')].slice(0, 4);
+      const parts = ['[class*="certTitle"]', '[class*="certMeta"]', '[class*="certSkills"]', '[class*="cardFooter"]'];
+      return parts.filter((part) => {
+        const tops = cards.map((card) => Math.round(card.querySelector(part).getBoundingClientRect().top));
+        return Math.max(...tops) - Math.min(...tops) > 1;
+      });
+    });
+    check(misaligned.length === 0, `[certifications] ${label}: titles, meta, skills and footers align across cards${misaligned.length ? ` (misaligned: ${misaligned.join(", ")})` : ""}`);
+
+    const overflow = await page.$eval(selector, (list) => {
+      const items = [...list.querySelectorAll(":scope > li")];
+      return items.some((li) => {
+        const card = li.querySelector("a");
+        return card.getBoundingClientRect().width > li.getBoundingClientRect().width + 1 || card.scrollWidth > card.clientWidth + 1;
+      });
+    });
+    check(!overflow, `[certifications] ${label}: every card stays inside its column`);
+  }
+
   const featuredMoves = await page.$eval('#certifications ul[class*="grid"]', (grid) => getComputedStyle(grid).animationName !== "none");
   check(!featuredMoves, "[certifications] featured row is static");
   check(
