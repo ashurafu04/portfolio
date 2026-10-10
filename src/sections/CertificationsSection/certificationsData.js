@@ -17,7 +17,8 @@ import courseraLogo from "../../assets/coursera-org-logo.png";
 // LinkedIn: on this page they would undercut the senior positioning.
 
 // Static first row: the credentials a buyer is most likely to verify.
-// Ordered by weight: professional > specialization > course.
+// Ordered by weight for a consulting buyer: proctored certification, then the
+// strongest vendor names and delivery leadership.
 export const featuredCertifications = [
   {
     id: "oracle-java-17",
@@ -31,18 +32,6 @@ export const featuredCertifications = [
     kind: "professional",
   },
   {
-    id: "meta-react-native",
-    title: "React Native Specialization",
-    issuer: "Meta",
-    platform: "Coursera",
-    date: "Dec 2025",
-    credentialId: "5GA8FKZ470DV",
-    url: "https://www.coursera.org/account/accomplishments/verify/5GA8FKZ470DV",
-    logo: metaLogo,
-    skills: "React Native · Mobile Architecture · Cross-Platform",
-    kind: "specialization",
-  },
-  {
     id: "aws-cloud-essentials",
     title: "AWS Cloud Technical Essentials",
     issuer: "Amazon Web Services",
@@ -52,6 +41,18 @@ export const featuredCertifications = [
     url: "https://www.coursera.org/account/accomplishments/records/BZOJRUGYZI2Y",
     logo: awsLogo,
     skills: "AWS EC2 · S3 · IAM · Cloud Security",
+    kind: "course",
+  },
+  {
+    id: "google-agile-pm",
+    title: "Agile Project Management",
+    issuer: "Google",
+    platform: "Coursera",
+    date: "May 2026",
+    credentialId: "S7B9A8DACWSK",
+    url: "https://www.coursera.org/account/accomplishments/records/S7B9A8DACWSK",
+    logo: googleLogo,
+    skills: "Scrum · Agile Delivery · Sprint Planning",
     kind: "course",
   },
   {
@@ -70,6 +71,18 @@ export const featuredCertifications = [
 
 // Moving second row: continuous learning that shows breadth.
 export const learningCertifications = [
+  {
+    id: "meta-react-native",
+    title: "React Native Specialization",
+    issuer: "Meta",
+    platform: "Coursera",
+    date: "Dec 2025",
+    credentialId: "5GA8FKZ470DV",
+    url: "https://www.coursera.org/account/accomplishments/verify/5GA8FKZ470DV",
+    logo: metaLogo,
+    skills: "React Native · Mobile Architecture · Cross-Platform",
+    kind: "specialization",
+  },
   {
     id: "harvard-cs50-sql",
     title: "CS50: Introduction to Databases with SQL",
@@ -104,18 +117,6 @@ export const learningCertifications = [
     url: "https://www.coursera.org/account/accomplishments/verify/UZL6WXHFXHDT",
     logo: ibmLogo,
     skills: "Node.js · Express.js · RESTful Services",
-    kind: "course",
-  },
-  {
-    id: "google-agile-pm",
-    title: "Agile Project Management",
-    issuer: "Google",
-    platform: "Coursera",
-    date: "May 2026",
-    credentialId: "S7B9A8DACWSK",
-    url: "https://www.coursera.org/account/accomplishments/records/S7B9A8DACWSK",
-    logo: googleLogo,
-    skills: "Scrum · Agile Delivery · Sprint Planning",
     kind: "course",
   },
   {
