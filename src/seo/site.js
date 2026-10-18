@@ -22,6 +22,7 @@ export const KNOWS_ABOUT = [
   "Multi-tenant Architecture",
   "Zero-PII Data Compliance",
   "Odoo",
+  "SAP S/4HANA",
   "Next.js",
   "Python",
   "Node.js",
@@ -30,4 +31,4 @@ export const KNOWS_ABOUT = [
 // Bump when page content changes; drives ProfilePage.dateModified and
 // sitemap <lastmod>. Not derived from build time, which would claim a
 // content change on every deploy.
-export const CONTENT_UPDATED = "2026-10-09";
+export const CONTENT_UPDATED = "2026-10-18";

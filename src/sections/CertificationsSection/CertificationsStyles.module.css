@@ -71,12 +71,16 @@
   margin-bottom: 1rem;
 }
 
+/* Fixed plate size: wide wordmarks (e.g. SAP) scale inside it instead of
+   widening it and crowding the kind badge. */
 .logoBadge {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  width: 48px;
   height: 38px;
-  padding: 4px 10px;
+  padding: 4px 6px;
   border-radius: 12px;
   border: 1px solid rgba(var(--text-rgb), 0.08);
   background: rgba(var(--text-rgb), 0.04);
@@ -89,7 +93,7 @@
 
 .issuerLogo {
   display: block;
-  max-width: 80px;
+  max-width: 100%;
   max-height: 24px;
   object-fit: contain;
 }

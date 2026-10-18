@@ -81,7 +81,7 @@ export const en = {
   certifications: {
     sectionTitle: "Certifications",
     subtitle:
-      "Oracle professional certification and continuous training from AWS, Harvard CS50, IBM, Meta, Google & HKUST.",
+      "Oracle professional certification and continuous training from SAP, AWS, Google, Harvard CS50, IBM, Meta & HKUST.",
     learningTitle: "Continuous learning",
     verifyCredential: "Verify",
     credentialId: "ID",
@@ -110,6 +110,7 @@ export const en = {
       ],
       erp: [
         "Odoo · Technical & Functional",
+        "SAP S/4HANA · ERP Fundamentals",
         "Headless ERP Architecture",
         "REST / JSON-RPC Integration",
         "Business Process Analysis",

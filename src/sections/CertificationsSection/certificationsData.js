@@ -6,6 +6,7 @@ import metaLogo from "../../assets/meta-com-logo.png";
 import googleLogo from "../../assets/google-com-logo.png";
 import umichLogo from "../../assets/umich-edu-logo.png";
 import courseraLogo from "../../assets/coursera-org-logo.png";
+import sapLogo from "../../assets/sap-logo.svg";
 
 // `kind` must describe the credential exactly as the issuer does; labels
 // live in locales (certifications.kinds.*).
@@ -32,6 +33,18 @@ export const featuredCertifications = [
     kind: "professional",
   },
   {
+    id: "sap-professional-fundamentals",
+    title: "SAP Professional Fundamentals",
+    issuer: "SAP",
+    platform: "Coursera",
+    date: "Oct 2026",
+    credentialId: "OJK32PHNOJMD",
+    url: "https://www.coursera.org/account/accomplishments/verify/OJK32PHNOJMD",
+    logo: sapLogo,
+    skills: "SAP ERP · S/4HANA · Business Processes",
+    kind: "course",
+  },
+  {
     id: "aws-cloud-essentials",
     title: "AWS Cloud Technical Essentials",
     issuer: "Amazon Web Services",
@@ -55,6 +68,24 @@ export const featuredCertifications = [
     skills: "Scrum · Agile Delivery · Sprint Planning",
     kind: "course",
   },
+];
+
+// Moving second row: continuous learning that shows breadth. Slot 1 is often
+// scrolled past before it is read, so it holds a lighter course; the strongest
+// moving credential takes slot 2.
+export const learningCertifications = [
+  {
+    id: "umich-js-interactivity",
+    title: "Interactivity with JavaScript",
+    issuer: "University of Michigan",
+    platform: "Coursera",
+    date: "Nov 2024",
+    credentialId: "8ec75aaf19a413c1cd94882035d9b104",
+    url: "https://coursera.org/share/8ec75aaf19a413c1cd94882035d9b104",
+    logo: umichLogo,
+    skills: "JavaScript · DOM Manipulation · Events",
+    kind: "course",
+  },
   {
     id: "harvard-cs50x",
     title: "CS50x: Introduction to Computer Science",
@@ -67,10 +98,6 @@ export const featuredCertifications = [
     skills: "C · Python · Data Structures · Memory Management",
     kind: "course",
   },
-];
-
-// Moving second row: continuous learning that shows breadth.
-export const learningCertifications = [
   {
     id: "meta-react-native",
     title: "React Native Specialization",
@@ -165,18 +192,6 @@ export const learningCertifications = [
     url: "https://www.coursera.org/account/accomplishments/verify/KTS607O8Y4E5",
     logo: courseraLogo,
     skills: "Laravel · PHP 8 · Eloquent ORM · Blade",
-    kind: "course",
-  },
-  {
-    id: "umich-js-interactivity",
-    title: "Interactivity with JavaScript",
-    issuer: "University of Michigan",
-    platform: "Coursera",
-    date: "Nov 2024",
-    credentialId: "8ec75aaf19a413c1cd94882035d9b104",
-    url: "https://coursera.org/share/8ec75aaf19a413c1cd94882035d9b104",
-    logo: umichLogo,
-    skills: "JavaScript · DOM Manipulation · Events",
     kind: "course",
   },
   {
