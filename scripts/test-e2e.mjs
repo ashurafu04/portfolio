@@ -18,8 +18,8 @@ import fr from "../src/i18n/locales/fr.js";
 const SITE_URL = "https://achrafmalki.dev";
 const PORTRAIT = "/achraf-malki.png";
 const PAGES = [
-  { path: "/", lang: "en", dict: en },
-  { path: "/fr/", lang: "fr", dict: fr },
+  { path: "/", lang: "en", dict: en, cv: { file: "cv_eng", name: "Achraf-Malki-CV-EN.pdf" } },
+  { path: "/fr/", lang: "fr", dict: fr, cv: { file: "cv_fr", name: "Achraf-Malki-CV-FR.pdf" } },
 ];
 const failures = [];
 
@@ -43,7 +43,7 @@ function trackErrors(page, baseUrl) {
 }
 
 async function checkStaticHtml(baseUrl) {
-  for (const { path, lang, dict } of PAGES) {
+  for (const { path, lang, dict, cv } of PAGES) {
     const html = await (await fetch(new URL(path, baseUrl))).text();
     const tag = `[html ${path}]`;
     const pageUrl = `${SITE_URL}${path}`;
@@ -62,6 +62,12 @@ async function checkStaticHtml(baseUrl) {
     check(!/<link rel="preload"[^>]*achraf-malki\.png/.test(html), `${tag} no preload of the full-size canonical PNG`);
     check(!/<!--app-(html|head)-->/.test(html), `${tag} prerender placeholders were replaced`);
     check(html.includes(`<link rel="canonical" href="${pageUrl}" />`), `${tag} self-referencing canonical`);
+    const cvLinks = [...html.matchAll(/<a[^>]+href="(\/assets\/cv_[^"]+\.pdf)"[^>]*>/g)];
+    check(
+      cvLinks.length === 2 && cvLinks.every(([, href]) => href.startsWith(`/assets/${cv.file}-`)),
+      `${tag} both resume links point to ${cv.file}.pdf`
+    );
+    check(cvLinks.some(([tagHtml]) => tagHtml.includes(`download="${cv.name}"`)), `${tag} resume downloads as ${cv.name}`);
     for (const alt of PAGES) {
       check(
         html.includes(`<link rel="alternate" hreflang="${alt.lang}" href="${SITE_URL}${alt.path}" />`),
@@ -204,6 +210,10 @@ async function checkLanguageSwitch(browser, baseUrl) {
   check(await page.evaluate(() => window.__noReload === true), "[switch] language changes without a page reload");
   check(await page.title() === fr.meta.title, "[switch] document title is French");
   check((await page.textContent("#hero p")).trim() === fr.hero.role, "[switch] page copy is French");
+  check(
+    (await page.$$eval('#hero a[href$=".pdf"]', (links) => links.map((link) => link.getAttribute("href")))).every((href) => href.includes("/cv_fr-")),
+    "[switch] resume links switch to the French CV"
+  );
 
   await page.goBack();
   await page.waitForFunction(() => document.documentElement.lang === "en");
@@ -272,7 +282,7 @@ async function checkSections(browser, baseUrl) {
     }))
   );
   const reachable = certs.filter((cert) => cert.focusable && !cert.hidden).map((cert) => cert.href);
-  check(reachable.length === 15 && new Set(reachable).size === 15, `[certifications] 15 credentials, each focusable and announced once (${reachable.length})`);
+  check(reachable.length === 16 && new Set(reachable).size === 16, `[certifications] 16 credentials, each focusable and announced once (${reachable.length})`);
   check(
     certs.filter((cert) => cert.hidden).every((cert) => !cert.focusable),
     "[certifications] marquee loop copy is hidden from assistive tech and the tab order"
@@ -293,7 +303,12 @@ async function checkSections(browser, baseUrl) {
       const items = [...list.querySelectorAll(":scope > li")];
       return items.some((li) => {
         const card = li.querySelector("a");
-        return card.getBoundingClientRect().width > li.getBoundingClientRect().width + 1 || card.scrollWidth > card.clientWidth + 1;
+        const top = card.querySelector('[class*="cardTop"]');
+        return (
+          card.getBoundingClientRect().width > li.getBoundingClientRect().width + 1 ||
+          card.scrollWidth > card.clientWidth + 1 ||
+          top.scrollWidth > top.clientWidth + 1
+        );
       });
     });
     check(!overflow, `[certifications] ${label}: every card stays inside its column`);

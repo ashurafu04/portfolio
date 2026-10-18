@@ -5,15 +5,24 @@ import githubLight from "../../assets/github-light.svg";
 import githubDark from "../../assets/github-dark.svg";
 import linkedinLight from "../../assets/linkedin-light.svg";
 import linkedinDark from "../../assets/linkedin-dark.svg";
-import CV from "../../assets/cv.pdf";
+import cvEnglish from "../../assets/cv_eng.pdf";
+import cvFrench from "../../assets/cv_fr.pdf";
 import portrait400 from "../../assets/portrait-400.webp";
 import portrait800 from "../../assets/portrait-800.webp";
 import ThemedImage from "../../common/ThemedImage";
 import { PORTRAIT, PROFILES } from "../../seo/site";
 import { useTranslation } from "../../i18n";
 
+// The resume follows the page language: /fr/ serves the French CV. fileName
+// names the download (the served URL is fingerprinted by Vite).
+const RESUMES = {
+  en: { url: cvEnglish, fileName: "Achraf-Malki-CV-EN.pdf" },
+  fr: { url: cvFrench, fileName: "Achraf-Malki-CV-FR.pdf" },
+};
+
 function Hero() {
-  const { t } = useTranslation();
+  const { language, t } = useTranslation();
+  const cv = RESUMES[language];
 
   return (
     <section id="hero" className={styles.container}>
@@ -71,10 +80,10 @@ function Hero() {
         </span>
         <p className={styles.description}>{t.hero.description}</p>
         <div className={styles.cvButtons}>
-          <a href={CV} target="_blank" rel="noopener noreferrer">
+          <a href={cv.url} target="_blank" rel="noopener noreferrer">
             {t.hero.viewResume}
           </a>
-          <a className={styles.downloadBtn} href={CV} download>
+          <a className={styles.downloadBtn} href={cv.url} download={cv.fileName}>
             {t.hero.downloadResume}
           </a>
         </div>
