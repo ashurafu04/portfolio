@@ -16,9 +16,9 @@ export const en = {
   hero: {
     name: "ACHRAF MALKI",
     role: "Software Engineer & IT Consultant",
-    tagline: "Enterprise AI | Headless Commerce | Cloud Infrastructure",
+    tagline: "ERP & CRM · Business Process · Cloud & AI Integration",
     description:
-      "I engineer backend systems that don't break under pressure, and architectures that drive tangible business autonomy. Specialized in multi-tenant AI orchestration, Hybrid Headless architectures, and secure B2B integrations.",
+      "I turn business needs into working ERP and CRM solutions, working closely with management and operational teams, from process analysis through to delivery. Hands-on with Odoo, grounded in SAP S/4HANA end-to-end processes, with CRM work on Salesforce and HubSpot, backed by solid engineering in cloud and AI integration.",
     viewResume: "View Resume",
     downloadResume: "Download Resume",
     portraitAlt: "Portrait of Achraf Malki",

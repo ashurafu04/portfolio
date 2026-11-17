@@ -16,9 +16,9 @@ export const fr = {
   hero: {
     name: "ACHRAF MALKI",
     role: "Ingénieur Logiciel & Consultant IT",
-    tagline: "IA d'Entreprise | Commerce Headless | Infrastructure Cloud",
+    tagline: "ERP & CRM · Processus Métier · Intégration Cloud & IA",
     description:
-      "Je conçois des systèmes backend résilients sous forte charge et des architectures qui renforcent l'autonomie opérationnelle des entreprises. Spécialisé en orchestration d'IA multi-tenant, architectures headless hybrides et intégrations B2B sécurisées.",
+      "Je traduis les besoins métier en solutions ERP et CRM concrètes, en travaillant au plus près des directions et des équipes opérationnelles, de l'analyse des processus jusqu'à la livraison. Expérience opérationnelle sur Odoo, solide maîtrise des processus de bout en bout SAP S/4HANA, projets CRM sur Salesforce et HubSpot, le tout appuyé par un vrai socle technique en intégration cloud et IA.",
     viewResume: "Voir le CV",
     downloadResume: "Télécharger le CV",
     portraitAlt: "Portrait d'Achraf Malki",
